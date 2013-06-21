@@ -26,6 +26,7 @@ release.properties
 .idea
 *.iml
 classes
+gen-external-apklibs
 
 # Local configuration file (sdk path, etc)
 local.properties
