@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:id="@+id/iv_podcast_icon" android:layout_gravity="center"
+               android:src="@drawable/ic_contact_picture"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Startups For the Rest of Us" android:id="@+id/tv_podcast_title"
+              android:layout_gravity="center"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Mike Taber and Rob Walling come together to share their insights and experience from the perspective of developers who built their respective companies without Angel or Venture Capital funding. Together, they share the things they've learned and are still learning as independent developers."
+              android:id="@+id/tv_podcast_description" android:layout_gravity="center"/>
+    <ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/lv_episodes"
+              android:layout_gravity="center"/>
+</LinearLayout>

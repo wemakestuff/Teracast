@@ -40,5 +40,7 @@
     <string name="resume">Resume</string>
     <string name="timer">Timer</string>
 
+    <string name="no_podcasts">You have no Podcasts, sucka!</string>
+
 
 </resources>
