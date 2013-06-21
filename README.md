@@ -1,58 +1,17 @@
 # PodStuff App
 
-This repository contains the source code for the [PodStuff](http://www.androidbootstrap.com/)
-Android app available from [Google Play](https://play.google.com/store/apps/details?id=com.wemakestuff.podstuff).
+This repository contains the source code for the [PodStuff](https://github.com/wemakestuff/PodStuff)
 
-Please see the [issues](https://github.com.wemakestuff.podstuff/issues) section
+Please see the [issues](https://github.com/wemakestuff/PodStuff/issues) section
 to report any bugs or feature requests and to see the list of known issues.
 
-Have a questions about PodStuff? Ask away on the [com-wemakestuff-podstuff discussion forum](https://groups.google.com/forum/#!forum/com-wemakestuff-podstuff). 
+## About
 
-<a href="https://play.google.com/store/apps/details?id=com.wemakestuff.podstuff" alt="Download from Google Play">
-  <img src="http://f.cl.ly/items/000s3k2I2J1V281X2A1f/bootstrap-image.png">
-</a>
-
-## HOW TO
-Learn how to develop with IntelliJ and Maven. [Watch the how to video](http://www.youtube.com/watch?v=YbyzRNxcvZw&feature=youtube_gdata)
-
-## Authentication
-Log into this demo app with the following credentials:
-
-user: demo@androidbootstrap.com
-
-password: android
-
-
-## Generating your Bootstrap App
-Why generate? Simple ... renaming files, folders, copy and pasting is SUPER error prone and well... it sucks overall. This can easily take a few days with debugging if you run into issues and perform a lot of typo's. Using the generator on [AndroidBootstrap.com](http://www.androidbootstrap.com) you can generate your application with your application name as well as the package (and folder structure) that you want to work with. 
-
-As an example, you know that you want your app name and package to the following: 
-
-  - *App Name*: Notify
-  - *Package Name*: com.notify.app.mobile
-
-After generating the app on [AndroidBootstrap.com](http://www.androidbootstrap.com) the folder structure of the source code for the app will change:
-
-  - From: __com.wemakestuff.podstuff__ 
-  - To: __com/notify/app/mobile__
-
-At that point all the source files that were located in ____com.wemakestuff.podstuff__ will be moved to the new folder __com/notify/app/mobile__. 
-
-All import statments that reference the old resources (__R.com.wemakestuff.podstuff.R__) will now be renamed to the correct package. The artifact id's in the *pom.xml* (and various other places) will be replaced. The App Name will be replaced in the strings/etc. 
-
-The end result is that you will be given a zip file with the correct structure. Open the zip and then execute *mvn clean package* and your app should be ready for development. 
-
-Enjoy!
-
-The application 
+The PodStuff application is a Podcasting application for Android that doesn't suck.
 
 ## License
 
 * [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-
-
-Copyright 2013 Donn Felker
-
 
 Copyright 2013 GitHub Inc.
 
@@ -93,6 +52,9 @@ you will then be able to install your own built version.
 
 ## Acknowledgements
 
+PodStuff is the result of spending countless hours frustrated with sub-par Podcasting applications
+on Android.
+
 PodStuff is a result of a template project I've developed over the years as well as
 a combination of a lot of great work that the [GitHub Gaug.es](http://www.github.com/github/gauges-android)
 app and [GitHub Android](http://www.github.com/github/android) app showcased. Some fo the
@@ -101,6 +63,8 @@ code in this project is based on the GitHub Gaug.es and GitHub Android app.
 PodStuff is built on the awesome [Parse.com API](http://www.parse.com/)
 and uses many great open-source libraries from the Android dev community:
 
+* [android-bootstrap](https://github.com/donnfelker/android-bootstrap) for providing
+  a superb starting point and implementing the libraries below.
 * [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock) for a
   consistent, great looking header across all Android platforms,
   [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
@@ -123,10 +87,8 @@ and uses many great open-source libraries from the Android dev community:
 ## Contributing
 
 Please fork this repository and contribute back using
-[pull requests](https://github.com.wemakestuff.podstuff/pulls).
+[pull requests](https://github.com/wemakestuff/PodStuff/pulls).
 
 Any contributions, large or small, major features, bug fixes, additional
 language translations, unit/integration tests are welcomed and appreciated
 but will be thoroughly reviewed and discussed.
-
-I hope this helps you in building your next android app.
