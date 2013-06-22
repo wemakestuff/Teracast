@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import com.wemakestuff.podstuff.R;
 
 /** 
  * Main activity: shows media player buttons. This activity shows the media player buttons and
