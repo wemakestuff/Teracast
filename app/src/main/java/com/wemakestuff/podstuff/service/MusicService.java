@@ -39,6 +39,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
+import com.wemakestuff.podstuff.R;
 
 import java.io.IOException;
 
@@ -198,7 +199,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         else
             mAudioFocus = AudioFocus.Focused; // no focus feature, so we always "have" audio focus
 
-        mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_album_art);
+        mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.ic_contact_picture);
 
         mMediaButtonReceiverComponent = new ComponentName(this, MusicIntentReceiver.class);
     }
@@ -531,7 +532,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
                 PendingIntent.FLAG_UPDATE_CURRENT);
         mNotification = new Notification();
         mNotification.tickerText = text;
-        mNotification.icon = R.drawable.ic_stat_playing;
+        mNotification.icon = R.drawable.ic_media_play;
         mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
         mNotification.setLatestEventInfo(getApplicationContext(), "RandomMusicPlayer",
                 text, pi);
