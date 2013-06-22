@@ -56,6 +56,6 @@
         <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/sp_play_speed" android:spinnerMode="dropdown" android:entries="1x,1.5x,2x"/>
+                android:id="@+id/sp_play_speed" android:spinnerMode="dropdown" android:entries="@array/play_speed_list"/>
     </LinearLayout>
 </LinearLayout>
