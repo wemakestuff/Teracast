@@ -56,7 +56,11 @@
             <version>${abs.version}</version>
             <type>apklib</type>
         </dependency>
-
+        <dependency>
+            <groupId>com.squareup.picasso</groupId>
+            <artifactId>picasso</artifactId>
+            <version>1.1.1</version>
+        </dependency>
         <dependency>
             <groupId>com.github.kevinsawicki</groupId>
             <artifactId>http-request</artifactId>

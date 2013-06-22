@@ -67,10 +67,11 @@ and uses many great open-source libraries from the Android dev community:
   a superb starting point and implementing the libraries below.
 * [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock) for a
   consistent, great looking header across all Android platforms,
-  [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
+* [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
   for swiping between fragments and
-  [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for 
+* [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for
   view animations - all from [Jake Wharton](http://jakewharton.com/).
+* [Picasso](https://github.com/square/picasso) for image downloading and caching.
 * [Dagger](https://github.com/square/dagger) for dependency-injection.
 * [ButterKnife](https://github.com/JakeWharton/butterknife) for view injection
 * [Otto](https://github.com/square/otto) as the event bus
