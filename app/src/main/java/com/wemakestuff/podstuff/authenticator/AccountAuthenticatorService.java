@@ -1,26 +1,28 @@
 
 package com.wemakestuff.podstuff.authenticator;
 
-import static android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
+import static android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT;
 
 /**
  * Authenticator service that returns a subclass of AbstractAccountAuthenticator in onBind()
  */
 public class AccountAuthenticatorService extends Service {
 
-    private static BootstrapAccountAuthenticator AUTHENTICATOR = null;
+	private static BootstrapAccountAuthenticator AUTHENTICATOR = null;
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return intent.getAction().equals(ACTION_AUTHENTICATOR_INTENT) ? getAuthenticator().getIBinder() : null;
-    }
+	@Override
+	public IBinder onBind(Intent intent) {
+		return intent.getAction().equals(ACTION_AUTHENTICATOR_INTENT) ? getAuthenticator().getIBinder() : null;
+	}
 
-    private BootstrapAccountAuthenticator getAuthenticator() {
-        if (AUTHENTICATOR == null)
-            AUTHENTICATOR = new BootstrapAccountAuthenticator(this);
-        return AUTHENTICATOR;
-    }
+	private BootstrapAccountAuthenticator getAuthenticator() {
+		if (AUTHENTICATOR == null) {
+			AUTHENTICATOR = new BootstrapAccountAuthenticator(this);
+		}
+		return AUTHENTICATOR;
+	}
 }

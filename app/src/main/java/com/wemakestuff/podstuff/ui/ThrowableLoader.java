@@ -2,10 +2,7 @@
 package com.wemakestuff.podstuff.ui;
 
 import android.content.Context;
-import android.util.Log;
-
 import com.wemakestuff.podstuff.util.Ln;
-
 
 /**
  * Loader that support throwing an exception when loading in the background
@@ -14,58 +11,58 @@ import com.wemakestuff.podstuff.util.Ln;
  */
 public abstract class ThrowableLoader<D> extends AsyncLoader<D> {
 
+	private final D data;
 
-    private final D data;
+	private Exception exception;
 
-    private Exception exception;
+	/**
+	 * Create loader for context and seeded with initial data
+	 *
+	 * @param context
+	 * @param data
+	 */
+	public ThrowableLoader(Context context, D data) {
+		super(context);
 
-    /**
-     * Create loader for context and seeded with initial data
-     *
-     * @param context
-     * @param data
-     */
-    public ThrowableLoader(Context context, D data) {
-        super(context);
+		this.data = data;
+	}
 
-        this.data = data;
-    }
+	@Override
+	public D loadInBackground() {
+		exception = null;
+		try {
+			return loadData();
+		} catch (Exception e) {
+			Ln.d(e, "Exception loading data");
+			exception = e;
+			return data;
+		}
+	}
 
-    @Override
-    public D loadInBackground() {
-        exception = null;
-        try {
-            return loadData();
-        } catch (Exception e) {
-            Ln.d(e, "Exception loading data");
-            exception = e;
-            return data;
-        }
-    }
+	/**
+	 * @return exception
+	 */
+	public Exception getException() {
+		return exception;
+	}
 
-    /**
-     * @return exception
-     */
-    public Exception getException() {
-        return exception;
-    }
+	/**
+	 * Clear the stored exception and return it
+	 *
+	 * @return exception
+	 */
+	public Exception clearException() {
+		final Exception throwable = exception;
+		exception = null;
+		return throwable;
+	}
 
-    /**
-     * Clear the stored exception and return it
-     *
-     * @return exception
-     */
-    public Exception clearException() {
-        final Exception throwable = exception;
-        exception = null;
-        return throwable;
-    }
-
-    /**
-     * Load data
-     *
-     * @return data
-     * @throws Exception
-     */
-    public abstract D loadData() throws Exception;
+	/**
+	 * Load data
+	 *
+	 * @return data
+	 *
+	 * @throws Exception
+	 */
+	public abstract D loadData() throws Exception;
 }

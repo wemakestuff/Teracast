@@ -1,45 +1,45 @@
 package com.wemakestuff.podstuff.ui;
 
-import static com.wemakestuff.podstuff.core.Constants.Extra.USER;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.wemakestuff.podstuff.BootstrapApplication;
+import butterknife.InjectView;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.AvatarLoader;
 import com.wemakestuff.podstuff.core.User;
+
 import javax.inject.Inject;
 
-import butterknife.InjectView;
-import butterknife.Views;
+import static com.wemakestuff.podstuff.core.Constants.Extra.USER;
 
 public class UserActivity extends BootstrapActivity {
 
-    @InjectView(R.id.iv_avatar) protected ImageView avatar;
-    @InjectView(R.id.tv_name) protected TextView name;
+	@InjectView(R.id.iv_avatar)
+	protected ImageView avatar;
+	@InjectView(R.id.tv_name)
+	protected TextView  name;
 
-    @Inject protected AvatarLoader avatarLoader;
+	@Inject
+	protected AvatarLoader avatarLoader;
 
-    protected User user;
+	protected User user;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.user_view);
+		setContentView(R.layout.user_view);
 
-        if(getIntent() != null && getIntent().getExtras() != null) {
-            user = (User) getIntent().getExtras().getSerializable(USER);
-        }
+		if (getIntent() != null && getIntent().getExtras() != null) {
+			user = (User) getIntent().getExtras().getSerializable(USER);
+		}
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        avatarLoader.bind(avatar, user);
-        name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+		avatarLoader.bind(avatar, user);
+		name.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
 
-    }
-
+	}
 
 }

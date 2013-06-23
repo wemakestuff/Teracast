@@ -2,13 +2,13 @@ package com.wemakestuff.podstuff.core;
 
 public class TimerPausedEvent {
 
-    private boolean timerIsPaused;
+	private boolean timerIsPaused;
 
-    public TimerPausedEvent(boolean timerIsPaused) {
-        this.timerIsPaused = timerIsPaused;
-    }
+	public TimerPausedEvent(boolean timerIsPaused) {
+		this.timerIsPaused = timerIsPaused;
+	}
 
-    public boolean isTimerIsPaused() {
-        return timerIsPaused;
-    }
+	public boolean isTimerIsPaused() {
+		return timerIsPaused;
+	}
 }
