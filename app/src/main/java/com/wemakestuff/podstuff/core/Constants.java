@@ -32,6 +32,16 @@ public class Constants {
 		public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
 	}
 
+	public static class System {
+		private System() {
+		}
+
+		/**
+		 * Wifi Lock Tag
+		 */
+		public static final String WIFI_LOCK_TAG = "com.wemakestuff.podstuff.WIFI_LOCK";
+	}
+
 	/**
 	 * All HTTP is done through a REST style API built for demonstration purposes on Parse.com Thanks to the nice people
 	 * at Parse for creating such a nice system for us to use for bootstrap!

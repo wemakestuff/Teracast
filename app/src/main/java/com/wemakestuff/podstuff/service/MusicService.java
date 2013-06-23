@@ -1,19 +1,3 @@
-/*   
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.wemakestuff.podstuff.service;
 
 import android.app.Notification;
@@ -46,11 +30,13 @@ import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.event.*;
 import com.wemakestuff.podstuff.ui.PlayerActivity;
+import com.wemakestuff.podstuff.util.Ln;
 
 import javax.inject.Inject;
 import java.io.IOException;
 
 import static com.wemakestuff.podstuff.core.Constants.Notification.PLAYBACK_NOTIFICATION_ID;
+import static com.wemakestuff.podstuff.core.Constants.System.WIFI_LOCK_TAG;
 
 /**
  * Service that handles media playback. This is the Service through which we perform all the media handling in our
@@ -61,31 +47,11 @@ import static com.wemakestuff.podstuff.core.Constants.Notification.PLAYBACK_NOTI
 public class MusicService extends Service implements OnCompletionListener, OnPreparedListener,
                                                      OnErrorListener, MusicFocusable,
                                                      PrepareMusicRetrieverTask.MusicRetrieverPreparedListener {
-
-	// These are the Intent actions that we are prepared to handle. Notice that the fact these
-	// constants exist in our class is a mere convenience: what really defines the actions our
-	// service can handle are the <action> tags in the <intent-filters> tag for our service in
-	// AndroidManifest.xml.
-	public static final String ACTION_PREVIOUS           = "com.wemakestuff.podstuff.action.PREVIOUS";
-	public static final String ACTION_REWIND             = "com.wemakestuff.podstuff.action.REWIND";
-	public static final String ACTION_PLAY               = "com.wemakestuff.podstuff.action.PLAY";
-	public static final String ACTION_TOGGLE_PLAYBACK    = "com.wemakestuff.podstuff.action.TOGGLE_PLAYBACK";
-	public static final String ACTION_PAUSE              = "com.wemakestuff.podstuff.action.PAUSE";
-	public static final String ACTION_STOP               = "com.wemakestuff.podstuff.action.STOP";
-	public static final String ACTION_NEXT               = "com.wemakestuff.podstuff.action.NEXT";
-	public static final String ACTION_STREAM             = "com.wemakestuff.podstuff.action.STREAM";
-	public static final String ACTION_DOWNLOAD           = "com.wemakestuff.podstuff.action.DOWNLOAD";
-	public static final String ACTION_HEADSET_PLUGGED_IN = "com.wemakestuff.podstuff.action.HEADSET_PLUGGED_IN";
-	public static final String ACTION_HEADSET_UNPLUGGED  = "com.wemakestuff.podstuff.action.HEADSET_UNPLUGGED";
 	// The volume we set the media player to when we lose audio focus, but are allowed to reduce
 	// the volume instead of stopping playback.
-	public static final float  DUCK_VOLUME               = 0.1f;
+	public static final float  DUCK_VOLUME = 0.1f;
 	// The tag we put on debug messages
-	final static        String TAG                       = "RandomMusicPlayer";
-	// The ID we use for the notification (the onscreen alert that appears at the notification
-	// area at the top of the screen as an icon -- and as text as well if the user expands the
-	// notification area).
-	final               int    NOTIFICATION_ID           = 1;
+	final static        String TAG         = "RandomMusicPlayer";
 	@Inject
 	protected Bus BUS;
 	@Inject
@@ -136,9 +102,6 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
 			// Make sure the media player will acquire a wake-lock while playing. If we don't do
 			// that, the CPU might go to sleep while the song is playing, causing playback to stop.
-			//
-			// Remember that to use this, we have to declare the android.permission.WAKE_LOCK
-			// permission in AndroidManifest.xml.
 			mPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
 
 			// we want the media player to notify us when it's ready preparing, and when it's done
@@ -160,7 +123,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
 		// Create the Wifi lock (this does not acquire the lock, this just creates it)
 		mWifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))
-				            .createWifiLock(WifiManager.WIFI_MODE_FULL, "mylock");
+				            .createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
 
 		mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -188,29 +151,6 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		String action = intent.getAction();
-		if (action.equals(ACTION_PREVIOUS)) {
-			processPreviousRequest();
-		} else if (action.equals(ACTION_REWIND)) {
-			processRewindRequest();
-		} else if (action.equals(ACTION_PLAY)) {
-			processPlayRequest();
-		} else if (action.equals(ACTION_TOGGLE_PLAYBACK)) {
-			processTogglePlaybackRequest();
-		} else if (action.equals(ACTION_PAUSE)) {
-			processPauseRequest();
-		} else if (action.equals(ACTION_STOP)) {
-			processStopRequest();
-		} else if (action.equals(ACTION_NEXT)) {
-			processSkipRequest();
-		} else if (action.equals(ACTION_STREAM)) {
-			processAddRequest(intent);
-		} else if (action.equals(ACTION_DOWNLOAD)) {
-			processAddRequest(intent);
-		} else if (action.equals(ACTION_HEADSET_UNPLUGGED)) {
-			processPauseRequest();
-		}
-
 		return START_NOT_STICKY; // Means we started the service, but don't want it to
 		// restart in case it's killed.
 	}
@@ -242,7 +182,6 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 		tryToGetAudioFocus();
 
 		// actually play the song
-
 		if (mState == State.Stopped) {
 			// If we're stopped, just go ahead to the next song and start playing
 			playNextSong(null);
@@ -401,6 +340,21 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
 	void playPreviousSong(String manualUrl) {
 
+	}
+
+	protected void playMedia(String mediaUri) {
+		try {
+			if (mediaUri != null) {
+				createMediaPlayerIfNeeded();
+				mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+				mPlayer.setDataSource(mediaUri);
+				mIsStreaming = mediaUri.startsWith("http");
+			} else {
+
+			}
+		} catch (IOException e) {
+			Ln.e(e);
+		}
 	}
 
 	/**
@@ -597,8 +551,12 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 	public void onDestroy() {
 		// Service is being killed, so make sure we release our resources
 		mState = State.Stopped;
-		// Unregister bus, since its not longer needed as the service is shutting down
 		BUS.unregister(this);
+
+		mNotificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
+
+		Ln.d("Service has been destroyed");
+
 		relaxResources(true);
 		giveUpAudioFocus();
 	}
@@ -609,7 +567,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 	}
 
 	@Subscribe
-	public void onHeadsetPluggedInEvent(HeadsetPluggedInEvent headsetPluggedInEvent){
+	public void onHeadsetPluggedInEvent(HeadsetPluggedInEvent headsetPluggedInEvent) {
 
 	}
 
@@ -634,12 +592,12 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 	}
 
 	@Subscribe
-	public void onPreviousEvent(PreviousPlaybackEvent previousPlaybackEvent)  {
+	public void onPreviousEvent(PreviousPlaybackEvent previousPlaybackEvent) {
 
 	}
 
 	@Subscribe
-	public void  onResumeEvent(ResumePlaybackEvent resumePlaybackEvent) {
+	public void onResumeEvent(ResumePlaybackEvent resumePlaybackEvent) {
 
 	}
 
@@ -660,7 +618,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
 	@Subscribe
 	public void onToggleEvent(TogglePlaybackEvent togglePlaybackEvent) {
-
+		processTogglePlaybackRequest();
 	}
 
 	/**
