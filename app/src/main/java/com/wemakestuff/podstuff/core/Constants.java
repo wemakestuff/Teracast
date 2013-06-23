@@ -82,6 +82,8 @@ public class Constants {
 
 		public static final String NEWS_ITEM = "news_item";
 
+		public static final String MEDIA_ITEM = "com.wemakestuff.podstuff.extras.MEDIA_ITEM";
+
 		public static final String USER = "user";
 
 	}

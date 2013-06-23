@@ -2,13 +2,19 @@ package com.wemakestuff.podstuff.core;
 
 import java.io.Serializable;
 
-public class MEdia implements Serializable {
+public class Media implements Serializable {
 
 	private static final long serialVersionUID = -6641292855569752036L;
 
 	private String title;
 	private String content;
 	private String objectId;
+
+	public Media(String title, String content, String objectId) {
+		this.title = title;
+		this.content = content;
+		this.objectId = objectId;
+	}
 
 	public String getTitle() {
 		return title;

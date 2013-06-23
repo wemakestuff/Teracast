@@ -29,7 +29,8 @@ import javax.inject.Singleton;
 								  NewsListFragment.class,
 								  UserActivity.class,
 								  UserListFragment.class,
-								  TimerService.class
+								  TimerService.class,
+								  PlayerActivity.class
 				}
 
 		)
