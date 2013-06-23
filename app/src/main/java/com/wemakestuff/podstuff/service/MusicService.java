@@ -61,14 +61,18 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     // constants exist in our class is a mere convenience: what really defines the actions our
     // service can handle are the <action> tags in the <intent-filters> tag for our service in
     // AndroidManifest.xml.
-    public static final String ACTION_TOGGLE_PLAYBACK =
-            "com.example.android.musicplayer.action.TOGGLE_PLAYBACK";
-    public static final String ACTION_PLAY = "com.example.android.musicplayer.action.PLAY";
-    public static final String ACTION_PAUSE = "com.example.android.musicplayer.action.PAUSE";
-    public static final String ACTION_STOP = "com.example.android.musicplayer.action.STOP";
-    public static final String ACTION_SKIP = "com.example.android.musicplayer.action.SKIP";
-    public static final String ACTION_REWIND = "com.example.android.musicplayer.action.REWIND";
-    public static final String ACTION_URL = "com.example.android.musicplayer.action.URL";
+    public static final String ACTION_PREVIOUS = "com.wemakestuff.podstuff.action.PREVIOUS";
+    public static final String ACTION_REWIND = "com.wemakestuff.podstuff.action.REWIND";
+    public static final String ACTION_PLAY = "com.wemakestuff.podstuff.action.PLAY";
+    public static final String ACTION_TOGGLE_PLAYBACK = "com.wemakestuff.podstuff.action.TOGGLE_PLAYBACK";
+    public static final String ACTION_PAUSE = "com.wemakestuff.podstuff.action.PAUSE";
+    public static final String ACTION_STOP = "com.wemakestuff.podstuff.action.STOP";
+    public static final String ACTION_NEXT = "com.wemakestuff.podstuff.action.NEXT";
+    public static final String ACTION_STREAM = "com.wemakestuff.podstuff.action.STREAM";
+    public static final String ACTION_DOWNLOAD = "com.wemakestuff.podstuff.action.DOWNLOAD";
+
+    public static final String ACTION_HEADSET_PLUGGED_IN = "com.wemakestuff.podstuff.action.HEADSET_PLUGGED_IN";
+    public static final String ACTION_HEADSET_UNPLUGGED = "com.wemakestuff.podstuff.action.HEADSET_UNPLUGGED";
 
     // The volume we set the media player to when we lose audio focus, but are allowed to reduce
     // the volume instead of stopping playback.
@@ -212,13 +216,16 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
-        if (action.equals(ACTION_TOGGLE_PLAYBACK)) processTogglePlaybackRequest();
-        else if (action.equals(ACTION_PLAY)) processPlayRequest();
-        else if (action.equals(ACTION_PAUSE)) processPauseRequest();
-        else if (action.equals(ACTION_SKIP)) processSkipRequest();
-        else if (action.equals(ACTION_STOP)) processStopRequest();
+        if (action.equals(ACTION_PREVIOUS)) processPreviousRequest();
         else if (action.equals(ACTION_REWIND)) processRewindRequest();
-        else if (action.equals(ACTION_URL)) processAddRequest(intent);
+        else if (action.equals(ACTION_PLAY)) processPlayRequest();
+        else if (action.equals(ACTION_TOGGLE_PLAYBACK)) processTogglePlaybackRequest();
+        else if (action.equals(ACTION_PAUSE)) processPauseRequest();
+        else if (action.equals(ACTION_STOP)) processStopRequest();
+        else if (action.equals(ACTION_NEXT)) processSkipRequest();
+        else if (action.equals(ACTION_STREAM)) processAddRequest(intent);
+        else if (action.equals(ACTION_DOWNLOAD)) processAddRequest(intent);
+        else if (action.equals(ACTION_HEADSET_UNPLUGGED)) processPauseRequest();
 
         return START_NOT_STICKY; // Means we started the service, but don't want it to
                                  // restart in case it's killed.
@@ -229,6 +236,13 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             processPlayRequest();
         } else {
             processPauseRequest();
+        }
+    }
+
+    void processPreviousRequest() {
+        if (mState == State.Playing || mState == State.Paused) {
+            tryToGetAudioFocus();
+            playPreviousSong(null);
         }
     }
 
@@ -392,6 +406,10 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         if (mAudioFocus != AudioFocus.Focused && mAudioFocusHelper != null
                         && mAudioFocusHelper.requestFocus())
             mAudioFocus = AudioFocus.Focused;
+    }
+
+    void playPreviousSong(String manualUrl) {
+
     }
 
     /**

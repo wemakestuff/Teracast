@@ -19,7 +19,6 @@ package com.wemakestuff.podstuff.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -30,6 +29,10 @@ import android.widget.Toast;
  * declaring it in a &lt;receiver&gt; tag in AndroidManifest.xml.
  */
 public class MusicIntentReceiver extends BroadcastReceiver {
+    public static final String STATE = "state";
+    public static final String NAME = "name";
+    public static final String MICROPHONE = "microphone";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
@@ -37,6 +40,15 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 
             // send an intent to our MusicService to telling it to pause the audio
             context.startService(new Intent(MusicService.ACTION_PAUSE));
+        } else if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
+            int state = intent.getExtras().getInt(STATE, -1);
+            String name = intent.getExtras().getString(NAME);
+            int microphone = intent.getExtras().getInt(MICROPHONE, -1);
+
+            if (state == 0)
+                context.startService(new Intent(MusicService.ACTION_HEADSET_UNPLUGGED));
+            else if (state == 1)
+                context.startService(new Intent(MusicService.ACTION_HEADSET_PLUGGED_IN));
 
         } else if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)) {
             KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
@@ -58,12 +70,10 @@ public class MusicIntentReceiver extends BroadcastReceiver {
                     context.startService(new Intent(MusicService.ACTION_STOP));
                     break;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
-                    context.startService(new Intent(MusicService.ACTION_SKIP));
+                    context.startService(new Intent(MusicService.ACTION_NEXT));
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                    // TODO: ensure that doing this in rapid succession actually plays the
-                    // previous song
-                    context.startService(new Intent(MusicService.ACTION_REWIND));
+                    context.startService(new Intent(MusicService.ACTION_PREVIOUS));
                     break;
             }
         }
