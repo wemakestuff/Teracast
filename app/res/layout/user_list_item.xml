@@ -9,20 +9,20 @@
               android:paddingTop="5dp"
               style="@style/ListItem">
 
-    <ImageView
-            android:id="@+id/iv_avatar"
-            style="@style/AvatarLarge"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:contentDescription="@string/avatar"
-            />
+	<ImageView
+			android:id="@+id/iv_avatar"
+			style="@style/AvatarLarge"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:layout_marginRight="10dp"
+			android:contentDescription="@string/avatar"
+			/>
 
-    <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/table_text_selector" />
+	<TextView
+			android:id="@+id/tv_name"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/table_text_selector" />
 
 </LinearLayout>

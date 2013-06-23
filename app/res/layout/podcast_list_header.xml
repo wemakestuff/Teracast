@@ -5,11 +5,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Business and Finance"
-            android:id="@+id/tv_header" android:layout_gravity="left|center_vertical"
-            android:background="@drawable/textfield_default_holo_light" android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp" android:phoneNumber="false" android:password="false"/>
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Business and Finance"
+			android:id="@+id/tv_header"
+			android:layout_gravity="left|center_vertical"
+			android:background="@drawable/textfield_default_holo_light"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+			android:phoneNumber="false"
+			android:password="false" />
 </LinearLayout>

@@ -5,57 +5,80 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/iv_podcast_icon" android:layout_gravity="left|center_vertical"
-            android:src="@drawable/ic_contact_picture"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Startups For the Rest of Us"
-            android:id="@+id/tv_podcast_title" android:layout_gravity="right|center_vertical"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
-            android:id="@+id/tv_episode_title"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rob and Mike answer listener questions about startup feedback, finding better consulting gigs, and more."
-            android:id="@+id/tv_episode_description" android:longClickable="false"/>
-    <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sb_progress" android:progress="15"/>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ib_previous" android:src="@drawable/ic_media_previous"/>
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ib_rewind" android:src="@drawable/ic_media_rew"/>
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ib_play_pause" android:src="@drawable/ic_media_play"/>
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ib_forward" android:focusableInTouchMode="false" android:src="@drawable/ic_media_ff"/>
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ib_next" android:src="@drawable/ic_media_next"/>
-        <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sp_play_speed" android:spinnerMode="dropdown" android:entries="@array/play_speed_list"/>
-    </LinearLayout>
+	<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/iv_podcast_icon"
+			android:layout_gravity="left|center_vertical"
+			android:src="@drawable/ic_contact_picture" />
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Startups For the Rest of Us"
+			android:id="@+id/tv_podcast_title"
+			android:layout_gravity="right|center_vertical" />
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
+			android:id="@+id/tv_episode_title" />
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Rob and Mike answer listener questions about startup feedback, finding better consulting gigs, and more."
+			android:id="@+id/tv_episode_description"
+			android:longClickable="false" />
+
+	<SeekBar
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/sb_progress"
+			android:progress="15" />
+
+	<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_previous"
+				android:src="@drawable/ic_media_previous" />
+
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_rewind"
+				android:src="@drawable/ic_media_rew" />
+
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_play_pause"
+				android:src="@drawable/ic_media_play" />
+
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_forward"
+				android:focusableInTouchMode="false"
+				android:src="@drawable/ic_media_ff" />
+
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_next"
+				android:src="@drawable/ic_media_next" />
+
+		<Spinner
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/sp_play_speed"
+				android:spinnerMode="dropdown"
+				android:entries="@array/play_speed_list" />
+	</LinearLayout>
 </LinearLayout>
