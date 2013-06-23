@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		} else if (target == mPauseButton) {
 			startService(new Intent(MusicService.ACTION_PAUSE));
 		} else if (target == mSkipButton) {
-			startService(new Intent(MusicService.ACTION_SKIP));
+			startService(new Intent(MusicService.ACTION_NEXT));
 		} else if (target == mRewindButton) {
 			startService(new Intent(MusicService.ACTION_REWIND));
 		} else if (target == mStopButton) {
@@ -105,7 +105,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dlg, int whichButton) {
 				// Send an intent with the URL of the song to play. This is expected by
 				// MusicService.
-				Intent i = new Intent(MusicService.ACTION_URL);
+				Intent i = new Intent(MusicService.ACTION_STREAM);
 				Uri uri = Uri.parse(input.getText().toString());
 				i.setData(uri);
 				startService(i);
