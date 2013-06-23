@@ -103,6 +103,7 @@ public class Constants {
 		private Notification() {
 		}
 
+		public static final int PLAYBACK_NOTIFICATION_ID = 42;
 		public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
 	}
 
