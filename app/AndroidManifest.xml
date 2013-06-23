@@ -49,24 +49,7 @@
             </intent-filter>
         </activity>
 
-        <service android:exported="false" android:name=".service.MusicService">
-            <intent-filter>
-                <action android:name="com.wemakestuff.podstuff.action.PREVIOUS" />
-                <action android:name="com.wemakestuff.podstuff.action.REWIND" />
-                <action android:name="com.wemakestuff.podstuff.action.PLAY" />
-                <action android:name="com.wemakestuff.podstuff.action.TOGGLE_PLAYBACK" />
-                <action android:name="com.wemakestuff.podstuff.action.PAUSE" />
-                <action android:name="com.wemakestuff.podstuff.action.STOP" />
-                <action android:name="com.wemakestuff.podstuff.action.NEXT" />
-                <action android:name="com.wemakestuff.podstuff.action.HEADSET_PLUGGED_IN" />
-                <action android:name="com.wemakestuff.podstuff.action.HEADSET_UNPLUGGED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.wemakestuff.podstuff.action.STREAM" />
-                <action android:name="com.wemakestuff.podstuff.action.DOWNLOAD" />
-                <data android:scheme="https?" />
-            </intent-filter>
-        </service>
+        <service android:exported="false" android:name=".service.MusicService" />
 
         <receiver android:name=".service.MusicIntentReceiver">
             <intent-filter>
