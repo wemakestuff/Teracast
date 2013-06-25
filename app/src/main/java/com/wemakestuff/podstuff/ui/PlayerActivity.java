@@ -2,17 +2,26 @@ package com.wemakestuff.podstuff.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import butterknife.InjectView;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Media;
+import com.wemakestuff.podstuff.rss.FeedParser;
+import com.wemakestuff.podstuff.rss.FeedParserFactory;
+import com.wemakestuff.podstuff.rss.Message;
 import com.wemakestuff.podstuff.service.MusicService;
+
+import java.util.List;
 
 import static com.wemakestuff.podstuff.core.Constants.Extra.MEDIA_ITEM;
 
 public class PlayerActivity extends BootstrapActivity {
+	public static final String TAG = PlayerActivity.class.getSimpleName();
+
 	protected Media       mediaItem;
 	@InjectView(R.id.iv_podcast_icon)
 	protected ImageView   podcastIcon;
@@ -66,5 +75,24 @@ public class PlayerActivity extends BootstrapActivity {
 			}
 		});
 
+		new LoadRssTask().execute("http://www.npr.org/rss/podcast.php?id=510208");
+	}
+
+	private class LoadRssTask extends AsyncTask<String, Integer, List<Message>> {
+
+		protected List<Message> doInBackground(final String... urls) {
+			FeedParser parser = FeedParserFactory.getParser(urls[0]);
+			return parser.parse();
+		}
+
+		protected void onProgressUpdate(Integer... progress) {
+			//setProgressPercent(progress[0]);
+		}
+
+		protected void onPostExecute(List<Message> messages) {
+			for (Message msg : messages) {
+				Log.i(TAG, msg.getTitle());
+			}
+		}
 	}
 }
