@@ -52,6 +52,16 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 	public static final float  DUCK_VOLUME = 0.1f;
 	// The tag we put on debug messages
 	final static        String TAG         = "RandomMusicPlayer";
+	public static final String ACTION_STREAM             = "com.wemakestuff.podstuff.ACTION_STREAM";
+	public static final String ACTION_TOGGLE_PLAYBACK    = "com.wemakestuff.podstuff.ACTION_TOGGLE_PLAYBACK";
+	public static final String ACTION_PLAY               = "com.wemakestuff.podstuff.ACTION_PLAY";
+	public static final String ACTION_PAUSE              = "com.wemakestuff.podstuff.ACTION_PAUSE";
+	public static final String ACTION_STOP               = "com.wemakestuff.podstuff.ACTION_STOP";
+	public static final String ACTION_NEXT               = "com.wemakestuff.podstuff.ACTION_NEXT";
+	public static final String ACTION_PREVIOUS           = "com.wemakestuff.podstuff.ACTION_PREVIOUS";
+	public static final String ACTION_HEADSET_UNPLUGGED  = "com.wemakestuff.podstuff.ACTION_HEADSET_UNPLUGGED";
+	public static final String ACTION_HEADSET_PLUGGED_IN = "com.wemakestuff.podstuff.ACTION_HEADSET_PLUGGED_IN";
+	public static final String ACTION_REWIND             = "com.wemakestuff.podstuff.ACTION_REWIND";
 	@Inject
 	protected Bus BUS;
 	@Inject
