@@ -8,14 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import butterknife.InjectView;
+import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Media;
 import com.wemakestuff.podstuff.rss.FeedParser;
 import com.wemakestuff.podstuff.rss.FeedParserFactory;
-import com.wemakestuff.podstuff.rss.Message;
+import com.wemakestuff.podstuff.rss.RssFeed;
 import com.wemakestuff.podstuff.service.MusicService;
 
-import java.util.List;
+import javax.inject.Inject;
 
 import static com.wemakestuff.podstuff.core.Constants.Extra.MEDIA_ITEM;
 
@@ -46,6 +47,9 @@ public class PlayerActivity extends BootstrapActivity {
 	@InjectView(R.id.sp_play_speed)
 	protected Spinner     playSpeed;
 
+	@Inject
+	protected Bus bus;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,12 +79,12 @@ public class PlayerActivity extends BootstrapActivity {
 			}
 		});
 
-		new LoadRssTask().execute("http://www.npr.org/rss/podcast.php?id=510208");
+		new LoadRssTask().execute("http://feeds.feedburner.com/StartupsForTheRestOfUs");
 	}
 
-	private class LoadRssTask extends AsyncTask<String, Integer, List<Message>> {
+	private class LoadRssTask extends AsyncTask<String, Integer, RssFeed> {
 
-		protected List<Message> doInBackground(final String... urls) {
+		protected RssFeed doInBackground(final String... urls) {
 			FeedParser parser = FeedParserFactory.getParser(urls[0]);
 			return parser.parse();
 		}
@@ -89,10 +93,20 @@ public class PlayerActivity extends BootstrapActivity {
 			//setProgressPercent(progress[0]);
 		}
 
-		protected void onPostExecute(List<Message> messages) {
-			for (Message msg : messages) {
-				Log.i(TAG, msg.getTitle());
-			}
+		protected void onPostExecute(RssFeed feed) {
+			Log.i(TAG, feed.toString());
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		bus.unregister(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		bus.register(this);
 	}
 }
