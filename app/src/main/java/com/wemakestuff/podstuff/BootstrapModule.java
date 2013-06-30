@@ -5,7 +5,10 @@ import android.content.Context;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.authenticator.BootstrapAuthenticatorActivity;
 import com.wemakestuff.podstuff.authenticator.LogoutService;
+import com.wemakestuff.podstuff.bus.MainThreadBus;
 import com.wemakestuff.podstuff.core.TimerService;
+import com.wemakestuff.podstuff.service.HttpService;
+import com.wemakestuff.podstuff.service.RssFeedService;
 import com.wemakestuff.podstuff.ui.*;
 import dagger.Module;
 import dagger.Provides;
@@ -30,7 +33,10 @@ import javax.inject.Singleton;
 								  UserActivity.class,
 								  UserListFragment.class,
 								  TimerService.class,
-								  PlayerActivity.class
+								  PlayerActivity.class,
+                                  HttpService.class,
+								  RssFeedService.class
+
 				}
 
 		)
@@ -39,7 +45,7 @@ public class BootstrapModule {
 	@Singleton
 	@Provides
 	Bus provideOttoBus() {
-		return new Bus();
+		return new MainThreadBus(new Bus());
 	}
 
 	@Provides

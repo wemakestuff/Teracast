@@ -2,19 +2,18 @@ package com.wemakestuff.podstuff.ui;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import butterknife.InjectView;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Media;
-import com.wemakestuff.podstuff.rss.FeedParser;
-import com.wemakestuff.podstuff.rss.FeedParserFactory;
 import com.wemakestuff.podstuff.rss.RssFeed;
 import com.wemakestuff.podstuff.service.MusicService;
+import com.wemakestuff.podstuff.service.RssFeedService;
 
 import javax.inject.Inject;
 
@@ -79,23 +78,12 @@ public class PlayerActivity extends BootstrapActivity {
 			}
 		});
 
-		new LoadRssTask().execute("http://feeds.feedburner.com/StartupsForTheRestOfUs");
+		RssFeedService.getRssFeed(getApplicationContext(), Uri.parse("http://feeds.feedburner.com/StartupsForTheRestOfUs"));
 	}
 
-	private class LoadRssTask extends AsyncTask<String, Integer, RssFeed> {
-
-		protected RssFeed doInBackground(final String... urls) {
-			FeedParser parser = FeedParserFactory.getParser(urls[0]);
-			return parser.parse();
-		}
-
-		protected void onProgressUpdate(Integer... progress) {
-			//setProgressPercent(progress[0]);
-		}
-
-		protected void onPostExecute(RssFeed feed) {
-			Log.i(TAG, feed.toString());
-		}
+	@Subscribe
+	public void rssFeedAvailable(RssFeed feed) {
+		Log.i(TAG, "Received RSS feed!");
 	}
 
 	@Override
