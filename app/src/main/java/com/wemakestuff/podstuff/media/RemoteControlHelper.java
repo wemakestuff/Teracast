@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wemakestuff.podstuff.service;
+package com.wemakestuff.podstuff.media;
 
 import android.media.AudioManager;
 import android.util.Log;

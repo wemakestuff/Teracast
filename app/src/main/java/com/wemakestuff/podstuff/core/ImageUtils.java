@@ -3,6 +3,7 @@ package com.wemakestuff.podstuff.core;
 import android.graphics.*;
 import android.widget.ImageView;
 import com.wemakestuff.podstuff.util.Ln;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class ImageUtils {
 	 * @return bitmap or null if read fails
 	 */
 	public static Bitmap getBitmap(final String imagePath, int sampleSize) {
+		if (StringUtils.isEmpty(imagePath))
+			return null;
+
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inDither = false;
 		options.inSampleSize = sampleSize;

@@ -11,17 +11,16 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Media;
+import com.wemakestuff.podstuff.media.event.PlayItemPlaybackEvent;
+import com.wemakestuff.podstuff.rss.Item;
 import com.wemakestuff.podstuff.rss.RssFeed;
-import com.wemakestuff.podstuff.service.MusicService;
+import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.RssFeedService;
 
 import javax.inject.Inject;
 
-import static com.wemakestuff.podstuff.core.Constants.Extra.MEDIA_ITEM;
-
 public class PlayerActivity extends BootstrapActivity {
 	public static final String TAG = PlayerActivity.class.getSimpleName();
-
 	protected Media       mediaItem;
 	@InjectView(R.id.iv_podcast_icon)
 	protected ImageView   podcastIcon;
@@ -45,9 +44,9 @@ public class PlayerActivity extends BootstrapActivity {
 	protected ImageButton next;
 	@InjectView(R.id.sp_play_speed)
 	protected Spinner     playSpeed;
-
 	@Inject
-	protected Bus bus;
+	protected Bus         BUS;
+	private RssFeed feed = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,46 +54,50 @@ public class PlayerActivity extends BootstrapActivity {
 
 		setContentView(R.layout.activity_player);
 
-		if (getIntent() != null && getIntent().getExtras() != null) {
-			mediaItem = (Media) getIntent().getExtras().getSerializable(MEDIA_ITEM);
-		} else {
-			mediaItem = new Media("Startups For the Rest of Us", "Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions", "http://www.vorbis.com/music/Epoq-Lepidoptera.ogg");
-		}
-
 		getSupportActionBar().setHomeButtonEnabled(true);
 
-		setTitle(mediaItem.getTitle());
+		setTitle(getString(R.string.app_name));
 
-		podcastTitle.setText(mediaItem.getTitle());
-		episodeTitle.setText(mediaItem.getContent());
+		final Intent i = new Intent(this, MediaService.class);
+		startService(i);
+
+		RssFeedService.getRssFeed(getApplicationContext(), Uri.parse("http://feeds.feedburner.com/StartupsForTheRestOfUs"));
 
 		playPause.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				Intent i = new Intent(MusicService.ACTION_STREAM);
-				Uri uri = Uri.parse(mediaItem.getObjectId());
-				i.setData(uri);
-				startService(i);
+				Item mediaItem = feed.getItems().get(0);
+
+				producePlayItemEvent(mediaItem);
+				podcastTitle.setText(feed.getTitle());
+				episodeTitle.setText(mediaItem.getTitle());
+				episodeDescription.setText(mediaItem.getDescription());
 			}
 		});
-
-		RssFeedService.getRssFeed(getApplicationContext(), Uri.parse("http://feeds.feedburner.com/StartupsForTheRestOfUs"));
 	}
 
 	@Subscribe
 	public void rssFeedAvailable(RssFeed feed) {
 		Log.i(TAG, "Received RSS feed!");
+		this.feed = feed;
+	}
+
+	/**
+	 * Posts a {@link PlayItemPlaybackEvent} message to the {@link Bus}
+	 */
+	private void producePlayItemEvent(Item mediaItem) {
+		BUS.post(new PlayItemPlaybackEvent(mediaItem));
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		bus.unregister(this);
+		BUS.unregister(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		bus.register(this);
+		BUS.register(this);
 	}
 }

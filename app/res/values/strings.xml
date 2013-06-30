@@ -36,11 +36,19 @@
 	<string name="message_auth_failed_new_account">Please enter a valid email address &amp; password</string>
 	<string name="timer_running">Timer is running</string>
 	<string name="timer_is_paused">Timer is paused</string>
-	<string name="stop">Stop</string>
+	<string name="timer">Timer</string>
 	<string name="start">Start</string>
+
+	<!-- Player Actions -->
+	<string name="stop">Stop</string>
 	<string name="pause">Pause</string>
 	<string name="resume">Resume</string>
-	<string name="timer">Timer</string>
+
+	<!-- Player States -->
+	<string name="stopped">Stopped</string>
+	<string name="paused">Paused</string>
+	<string name="playing">Playing</string>
+	<string name="loading">Loading</string>
 
 	<string name="no_podcasts">You have no Podcasts, sucka!</string>
 

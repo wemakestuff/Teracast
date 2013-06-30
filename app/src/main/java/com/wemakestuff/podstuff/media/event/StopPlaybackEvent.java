@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.event;
+package com.wemakestuff.podstuff.media.event;
 
 /**
  * Marker class for Otto.

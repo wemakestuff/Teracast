@@ -8,6 +8,8 @@ import com.wemakestuff.podstuff.authenticator.LogoutService;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
 import com.wemakestuff.podstuff.core.TimerService;
 import com.wemakestuff.podstuff.service.HttpService;
+import com.wemakestuff.podstuff.service.MediaService;
+import com.wemakestuff.podstuff.service.MusicIntentReceiver;
 import com.wemakestuff.podstuff.service.RssFeedService;
 import com.wemakestuff.podstuff.ui.*;
 import dagger.Module;
@@ -34,6 +36,8 @@ import javax.inject.Singleton;
 								  UserListFragment.class,
 								  TimerService.class,
 								  PlayerActivity.class,
+                                  MediaService.class,
+                                  MusicIntentReceiver.class,
                                   HttpService.class,
 								  RssFeedService.class
 

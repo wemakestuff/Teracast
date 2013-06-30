@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.service;
+package com.wemakestuff.podstuff.media;
 
 import android.content.ComponentName;
 import android.media.AudioManager;
