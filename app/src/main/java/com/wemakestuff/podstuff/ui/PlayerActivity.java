@@ -11,7 +11,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Media;
-import com.wemakestuff.podstuff.media.event.PlayItemPlaybackEvent;
+import com.wemakestuff.podstuff.media.event.*;
 import com.wemakestuff.podstuff.rss.Item;
 import com.wemakestuff.podstuff.rss.RssFeed;
 import com.wemakestuff.podstuff.service.MediaService;
@@ -38,8 +38,8 @@ public class PlayerActivity extends BootstrapActivity {
 	protected ImageButton rewind;
 	@InjectView(R.id.ib_play_pause)
 	protected ImageButton playPause;
-	@InjectView(R.id.ib_forward)
-	protected ImageButton forward;
+	@InjectView(R.id.ib_fast_forward)
+	protected ImageButton fastForward;
 	@InjectView(R.id.ib_next)
 	protected ImageButton next;
 	@InjectView(R.id.sp_play_speed)
@@ -47,6 +47,7 @@ public class PlayerActivity extends BootstrapActivity {
 	@Inject
 	protected Bus         BUS;
 	private RssFeed feed = null;
+	private MediaService.State mMediaServiceState = MediaService.State.Stopped;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +67,33 @@ public class PlayerActivity extends BootstrapActivity {
 		playPause.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				Item mediaItem = feed.getItems().get(0);
+				switch (mMediaServiceState) {
+					case Playing:
+						producePausePlaybackEvent();
+						break;
+					default:
+						Item mediaItem = feed.getItems().get(0);
+						podcastTitle.setText(feed.getTitle());
+						episodeTitle.setText(mediaItem.getTitle());
+						episodeDescription.setText(mediaItem.getDescription());
+						producePlayItemEvent(mediaItem);
+						break;
+				}
 
-				producePlayItemEvent(mediaItem);
-				podcastTitle.setText(feed.getTitle());
-				episodeTitle.setText(mediaItem.getTitle());
-				episodeDescription.setText(mediaItem.getDescription());
+			}
+		});
+
+		rewind.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				produceRewindPlaybackEvent();
+			}
+		});
+
+		fastForward.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				produceFastForwardPlaybackEvent();
 			}
 		});
 	}
@@ -83,10 +105,59 @@ public class PlayerActivity extends BootstrapActivity {
 	}
 
 	/**
+	 * Handles a {@link ProvideMediaServiceStateEvent} message to the {@link Bus}
+	 */
+	@Subscribe
+	public void onProvideMediaServiceStateEvent(ProvideMediaServiceStateEvent mediaServiceState) {
+		mMediaServiceState = mediaServiceState.state;
+		switch (mediaServiceState.state) {
+			case Paused:
+				playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_media_play));
+				break;
+			case Playing:
+				playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_media_pause));
+				break;
+			case Preparing:
+				playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_media_play));
+				break;
+			case Stopped:
+				playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_media_play));
+				break;
+		}
+	}
+
+	/**
+	 * Posts a {@link RequestMediaServiceStateEvent} message to the {@link Bus}
+	 */
+	private void produceRequestMediaServiceStateEvent() {
+		BUS.post(new RequestMediaServiceStateEvent());
+	}
+
+	/**
 	 * Posts a {@link PlayItemPlaybackEvent} message to the {@link Bus}
 	 */
 	private void producePlayItemEvent(Item mediaItem) {
 		BUS.post(new PlayItemPlaybackEvent(mediaItem));
+	}
+
+	/**
+	 * Posts a {@link PlayItemPlaybackEvent} message to the {@link Bus}
+	 */
+	private void producePausePlaybackEvent() {
+		BUS.post(new PausePlaybackEvent());
+	}
+
+	/**
+	 * Posts a {@link FastForwardPlaybackEvent} message to the {@link Bus}
+	 */
+	private void produceFastForwardPlaybackEvent() {
+		BUS.post(new FastForwardPlaybackEvent());
+	}
+	/**
+	 * Posts a {@link RewindPlaybackEvent} message to the {@link Bus}
+	 */
+	private void produceRewindPlaybackEvent() {
+		BUS.post(new RewindPlaybackEvent());
 	}
 
 	@Override
@@ -99,5 +170,6 @@ public class PlayerActivity extends BootstrapActivity {
 	protected void onResume() {
 		super.onResume();
 		BUS.register(this);
+		produceRequestMediaServiceStateEvent();
 	}
 }

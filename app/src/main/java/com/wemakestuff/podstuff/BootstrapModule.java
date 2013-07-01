@@ -2,6 +2,7 @@ package com.wemakestuff.podstuff;
 
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.media.AudioManager;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.authenticator.BootstrapAuthenticatorActivity;
 import com.wemakestuff.podstuff.authenticator.LogoutService;
@@ -56,6 +57,11 @@ public class BootstrapModule {
 	@Singleton
 	LogoutService provideLogoutService(final Context context, final AccountManager accountManager) {
 		return new LogoutService(context, accountManager);
+	}
+
+	@Provides
+	AudioManager provideAudioManager(final Context context) {
+		return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 	}
 
 }

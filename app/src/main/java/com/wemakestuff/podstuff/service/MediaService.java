@@ -47,6 +47,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	protected Bus                 BUS;
 	@Inject
 	protected NotificationManager mNotificationManager;
+	@Inject
 	protected AudioManager        mAudioManager;
 	private MediaPlayer mPlayer      = null;
 	private State       mState       = State.Stopped;
@@ -71,29 +72,22 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	public void onCreate() {
 		super.onCreate();
 		Ln.d("%s - Service Started.", TAG);
-
 		BootstrapApplication.getInstance().inject(this);
-
 		// Register the bus so we can send notifications.
 		BUS.register(this);
 
 		// Create the Wifi lock (this does not acquire the lock, this just creates it)
 		mWifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))
 				            .createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
-		mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-
 		mMediaButtonReceiverComponent = new ComponentName(this, MusicIntentReceiver.class);
 	}
 
 	@Override
 	public void onDestroy() {
+		Ln.d("%s - Service Destroyed.", TAG);
 		// Unregister bus, since its not longer needed as the service is shutting down
 		BUS.unregister(this);
-
 		mNotificationManager.cancel(Constants.Notification.PLAYBACK_NOTIFICATION_ID);
-
-		Ln.d("%s - Service Destroyed.", TAG);
-
 		super.onDestroy();
 	}
 
@@ -101,14 +95,14 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	 * Starts playing the next song.
 	 */
 	private void playMedia(Item mediaItem) {
-		mState = State.Stopped;
+		updatePlaybackState(State.Stopped);
 		releaseResources(false); // release everything except MediaPlayer
 
 		String itemName = "NULL";
 		if (mediaItem != null) {
 			itemName = mediaItem.getTitle();
+			Ln.d("%s - Attempting to Play: %s", TAG, itemName);
 		}
-		Ln.d("%s - Attempting to Play: %s", TAG, itemName);
 
 		try {
 			if (mediaItem == null) {
@@ -125,7 +119,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 				mPlayer.setDataSource(mediaItem.getEnclosure().getUrl());
 
 				mIsStreaming = true;
-				mState = State.Preparing;
+				updatePlaybackState(State.Preparing);
 				Ln.d("%s - Becoming Foreground Service", TAG);
 				setUpAsForeground(mediaItem);
 
@@ -149,8 +143,9 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 				String largeIconPath = "";
 				iTunesImage itunesImage = mediaItem.getiTunesImage();
-				if (itunesImage != null)
+				if (itunesImage != null) {
 					largeIconPath = itunesImage.getHref();
+				}
 
 				mRemoteControlClientCompat.editMetadata(true).putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "Startups For the Rest of Us")
 				                          .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, mediaItem.getTitle())
@@ -205,15 +200,13 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	private void processPlayRequest() {
-		tryToGetAudioFocus();
-
 		// actually play the song
 		if (mState == State.Stopped) {
 			// If we're stopped, just go ahead and start the last played song (if available), if not go to the next in the queue.
 			playMedia(playingItem);
 		} else if (mState == State.Paused) {
 			// If we're paused, just continue playback and restore the 'foreground service' state.
-			mState = State.Playing;
+			updatePlaybackState(State.Playing);
 			configAndStartMediaPlayer();
 		}
 
@@ -229,7 +222,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	private void processPauseRequest() {
 		if (mState == State.Playing) {
 			// Pause media player and cancel the 'foreground service' state.
-			mState = State.Paused;
+			updatePlaybackState(State.Paused);
 			mPlayer.pause();
 			releaseResources(false); // while paused, we always retain the MediaPlayer
 			// do not give up audio focus
@@ -244,7 +237,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		updateNotification(playingItem);
 	}
 
-	void processPreviousRequest() {
+	private void processPreviousRequest() {
 		if (mState == State.Playing || mState == State.Paused) {
 			tryToGetAudioFocus();
 			playPreviousMedia();
@@ -261,7 +254,8 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 	private void processRewindRequest() {
 		if (mState == State.Playing || mState == State.Paused) {
-			mPlayer.seekTo(mPlayer.getCurrentPosition() - 15000);
+			int position = mPlayer.getCurrentPosition() - 15000;
+			mPlayer.seekTo(position < 0 ? 0 : position);
 		}
 	}
 
@@ -273,7 +267,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 	private void processStopRequest(boolean forceStop) {
 		if (mState == State.Playing || mState == State.Paused || forceStop) {
-			mState = State.Stopped;
+			updatePlaybackState(State.Stopped);
 
 			// let go of all resources...
 			releaseResources(true);
@@ -423,6 +417,11 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	@Subscribe
+	public void onRequestMediaServiceStateEvent(RequestMediaServiceStateEvent headsetUnpluggedEvent) {
+		produceProvideMediaServiceStateEvent();
+	}
+
+	@Subscribe
 	public void onHeadsetUnpluggedEvent(HeadsetUnpluggedEvent headsetUnpluggedEvent) {
 		processPauseRequest();
 	}
@@ -482,7 +481,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	public boolean onError(final MediaPlayer mp, final int what, final int extra) {
 		Ln.e(TAG + "Error: what=%s extra=%s", String.valueOf(what), String.valueOf(extra));
 
-		mState = State.Stopped;
+		updatePlaybackState(State.Stopped);
 		releaseResources(true);
 		giveUpAudioFocus();
 		return true; // true indicates we handled the error
@@ -492,7 +491,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	public void onPrepared(final MediaPlayer mp) {
 		// The media player is done preparing. That means we can start playing!
 		Ln.d("%s - Media Player is Prepared, Starting Playback.", TAG);
-		mState = State.Playing;
+		updatePlaybackState(State.Playing);
 		updateNotification(playingItem);
 		configAndStartMediaPlayer();
 	}
@@ -548,6 +547,15 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		mNotificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
 	}
 
+	private void updatePlaybackState(State state) {
+		mState = state;
+		produceProvideMediaServiceStateEvent();
+	}
+
+	private void produceProvideMediaServiceStateEvent() {
+		BUS.post(new ProvideMediaServiceStateEvent(mState));
+	}
+
 	/**
 	 * Creates a notification to show in the notification bar
 	 *
@@ -587,9 +595,9 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 		String largeIconPath = "";
 		iTunesImage itunesImage = mediaItem.getiTunesImage();
-		if (itunesImage != null)
+		if (itunesImage != null) {
 			largeIconPath = itunesImage.getHref();
-
+		}
 
 		return new NotificationCompat.Builder(this)
 				       .setContentTitle("Startups For the Rest of Us")
@@ -605,7 +613,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	// indicates the state our service:
-	enum State {
+	public enum State {
 		Stopped,    // media player is stopped and not prepared to play
 		Preparing,  // media player is preparing...
 		Playing,    // playback active (media player ready!). (but the media player may actually be
