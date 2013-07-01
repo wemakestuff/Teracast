@@ -37,7 +37,7 @@ import static com.wemakestuff.podstuff.core.Constants.Notification.PLAYBACK_NOTI
 import static com.wemakestuff.podstuff.core.Constants.System.WIFI_LOCK_TAG;
 
 public class MediaService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener,
-                                                     MediaPlayer.OnErrorListener, AudioManager.OnAudioFocusChangeListener {
+                                                     MediaPlayer.OnErrorListener, AudioManager.OnAudioFocusChangeListener, Runnable {
 
 	public static final String TAG         = "MediaService";
 	// The volume we set the media player to when we lose audio focus, but are allowed to reduce
@@ -256,12 +256,14 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		if (mState == State.Playing || mState == State.Paused) {
 			int position = mPlayer.getCurrentPosition() - 15000;
 			mPlayer.seekTo(position < 0 ? 0 : position);
+			produceProvideMediaProgressEvent();
 		}
 	}
 
 	private void processFastForwardRequest() {
 		if (mState == State.Playing || mState == State.Paused) {
 			mPlayer.seekTo(mPlayer.getCurrentPosition() + 15000);
+			produceProvideMediaProgressEvent();
 		}
 	}
 
@@ -271,6 +273,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 			// let go of all resources...
 			releaseResources(true);
+			produceProvideMediaProgressEvent();
 			giveUpAudioFocus();
 			playingItem = null;
 
@@ -339,6 +342,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		if (!mPlayer.isPlaying()) {
 			Ln.d("%s - Beginning Audio Playback", TAG);
 			mPlayer.start();
+			new Thread(this).start();
 		}
 	}
 
@@ -556,6 +560,13 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		BUS.post(new ProvideMediaServiceStateEvent(mState));
 	}
 
+	private void produceProvideMediaProgressEvent() {
+		if (mPlayer != null && mState != State.Stopped)
+			BUS.post(new ProvideMediaProgressEvent(mPlayer.getCurrentPosition(), mPlayer.getDuration()));
+		else
+			BUS.post(new ProvideMediaProgressEvent(0,100));
+	}
+
 	/**
 	 * Creates a notification to show in the notification bar
 	 *
@@ -610,6 +621,18 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 				       .setOngoing(true)
 				       .setContentIntent(pendingIntent)
 				       .getNotification();
+	}
+
+	@Override
+	public void run() {
+		while (mPlayer != null && mState == State.Playing) {
+			try {
+				Thread.sleep(1000);
+				produceProvideMediaProgressEvent();
+			} catch (InterruptedException e) {
+				return;
+			}
+		}
 	}
 
 	// indicates the state our service:

@@ -127,6 +127,15 @@ public class PlayerActivity extends BootstrapActivity {
 	}
 
 	/**
+	 * Handles a {@link ProvideMediaProgressEvent} message to the {@link Bus}
+	 */
+	@Subscribe
+	public void onProvideMediaProgressEvent(ProvideMediaProgressEvent mediaProgressEvent) {
+		progress.setProgress(mediaProgressEvent.progress);
+		progress.setMax(mediaProgressEvent.max);
+	}
+
+	/**
 	 * Posts a {@link RequestMediaServiceStateEvent} message to the {@link Bus}
 	 */
 	private void produceRequestMediaServiceStateEvent() {
