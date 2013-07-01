@@ -9,7 +9,9 @@ import android.widget.*;
 import butterknife.InjectView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.core.ConversionUtils;
 import com.wemakestuff.podstuff.core.Media;
 import com.wemakestuff.podstuff.media.event.*;
 import com.wemakestuff.podstuff.rss.Item;
@@ -32,6 +34,10 @@ public class PlayerActivity extends BootstrapActivity {
 	protected TextView    episodeDescription;
 	@InjectView(R.id.sb_progress)
 	protected SeekBar     progress;
+	@InjectView(R.id.tv_current_position)
+	protected TextView currentPosition;
+	@InjectView(R.id.tv_length)
+	protected TextView length;
 	@InjectView(R.id.ib_previous)
 	protected ImageButton previous;
 	@InjectView(R.id.ib_rewind)
@@ -69,7 +75,10 @@ public class PlayerActivity extends BootstrapActivity {
 			public void onClick(final View v) {
 				switch (mMediaServiceState) {
 					case Playing:
-						producePausePlaybackEvent();
+						produceTogglePlaybackEvent();
+						break;
+					case Paused:
+						produceTogglePlaybackEvent();
 						break;
 					default:
 						Item mediaItem = feed.getItems().get(0);
@@ -102,6 +111,13 @@ public class PlayerActivity extends BootstrapActivity {
 	public void rssFeedAvailable(RssFeed feed) {
 		Log.i(TAG, "Received RSS feed!");
 		this.feed = feed;
+
+		Item mediaItem = feed.getItems().get(0);
+		Picasso.with(this)
+		       .load(feed.getiTunesImage().getHref())
+		       .placeholder(R.drawable.ic_contact_picture)
+		       .error(R.drawable.ic_contact_picture)
+		       .into(podcastIcon);
 	}
 
 	/**
@@ -133,6 +149,8 @@ public class PlayerActivity extends BootstrapActivity {
 	public void onProvideMediaProgressEvent(ProvideMediaProgressEvent mediaProgressEvent) {
 		progress.setProgress(mediaProgressEvent.progress);
 		progress.setMax(mediaProgressEvent.max);
+		currentPosition.setText(ConversionUtils.ConvertMillisecondsToMinutesSeconds(mediaProgressEvent.progress));
+		length.setText(ConversionUtils.ConvertMillisecondsToMinutesSeconds(mediaProgressEvent.max));
 	}
 
 	/**
@@ -154,6 +172,13 @@ public class PlayerActivity extends BootstrapActivity {
 	 */
 	private void producePausePlaybackEvent() {
 		BUS.post(new PausePlaybackEvent());
+	}
+
+	/**
+	 * Posts a {@link TogglePlaybackEvent} message to the {@link Bus}
+	 */
+	private void produceTogglePlaybackEvent() {
+		BUS.post(new TogglePlaybackEvent());
 	}
 
 	/**
