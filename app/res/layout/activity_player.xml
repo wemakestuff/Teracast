@@ -23,7 +23,7 @@
 				android:cropToPadding="false"
 				android:scaleType="fitXY"
 				android:minHeight="250dp"
-				android:visibility="gone"/>
+				/>
 
 		<TextView
 				android:layout_width="wrap_content"
