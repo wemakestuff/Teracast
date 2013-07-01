@@ -253,18 +253,18 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	private void processRewindRequest() {
+		processSeekRequest(mPlayer.getCurrentPosition() - 15000);
+	}
+
+	private void processSeekRequest(int seekTo) {
 		if (mState == State.Playing || mState == State.Paused) {
-			int position = mPlayer.getCurrentPosition() - 15000;
-			mPlayer.seekTo(position < 0 ? 0 : position);
+			mPlayer.seekTo(seekTo < 0 ? 0 : seekTo);
 			produceProvideMediaProgressEvent();
 		}
 	}
 
 	private void processFastForwardRequest() {
-		if (mState == State.Playing || mState == State.Paused) {
-			mPlayer.seekTo(mPlayer.getCurrentPosition() + 15000);
-			produceProvideMediaProgressEvent();
-		}
+		processSeekRequest(mPlayer.getCurrentPosition() + 15000);
 	}
 
 	private void processStopRequest(boolean forceStop) {
@@ -475,6 +475,11 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		processTogglePlaybackRequest();
 	}
 
+	@Subscribe
+	public void onSeekPlaybackEvent(SeekPlaybackEvent seekPlaybackEvent) {
+		processSeekRequest(seekPlaybackEvent.seekTo);
+	}
+
 	@Override
 	public void onCompletion(final MediaPlayer mp) {
 		//Media playback has completed, play the next song in the queue if there is one.
@@ -561,10 +566,11 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	private void produceProvideMediaProgressEvent() {
-		if (mPlayer != null && mState != State.Stopped)
+		if (mPlayer != null && mState != State.Stopped) {
 			BUS.post(new ProvideMediaProgressEvent(mPlayer.getCurrentPosition(), mPlayer.getDuration()));
-		else
-			BUS.post(new ProvideMediaProgressEvent(0,42000));
+		} else {
+			BUS.post(new ProvideMediaProgressEvent(0, 42000));
+		}
 	}
 
 	/**

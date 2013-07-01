@@ -105,6 +105,26 @@ public class PlayerActivity extends BootstrapActivity {
 				produceFastForwardPlaybackEvent();
 			}
 		});
+
+		progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+				//We only care about input coming from the user.
+				if (fromUser) {
+				   produceSeekPlaybackEvent(progress);
+				}
+			}
+
+			@Override
+			public void onStartTrackingTouch(final SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(final SeekBar seekBar) {
+
+			}
+		});
 	}
 
 	@Subscribe
@@ -187,11 +207,19 @@ public class PlayerActivity extends BootstrapActivity {
 	private void produceFastForwardPlaybackEvent() {
 		BUS.post(new FastForwardPlaybackEvent());
 	}
+
 	/**
 	 * Posts a {@link RewindPlaybackEvent} message to the {@link Bus}
 	 */
 	private void produceRewindPlaybackEvent() {
 		BUS.post(new RewindPlaybackEvent());
+	}
+
+	/**
+	 * Posts a {@link SeekPlaybackEvent} message to the {@link Bus}
+	 */
+	private void produceSeekPlaybackEvent(int seekTo) {
+		BUS.post(new SeekPlaybackEvent(seekTo));
 	}
 
 	@Override
