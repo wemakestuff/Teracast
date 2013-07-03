@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import butterknife.InjectView;
+import com.j256.ormlite.dao.Dao;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -20,6 +21,7 @@ import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.RssFeedService;
 
 import javax.inject.Inject;
+import java.sql.SQLException;
 
 public class PlayerActivity extends BootstrapActivity {
 	public static final String TAG = PlayerActivity.class.getSimpleName();
@@ -52,6 +54,8 @@ public class PlayerActivity extends BootstrapActivity {
 	protected Spinner     playSpeed;
 	@Inject
 	protected Bus         BUS;
+	@Inject
+	protected Dao dao;
 	private RssFeed feed = null;
 	private MediaService.State mMediaServiceState = MediaService.State.Stopped;
 
@@ -111,7 +115,7 @@ public class PlayerActivity extends BootstrapActivity {
 			public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
 				//We only care about input coming from the user.
 				if (fromUser) {
-				   produceSeekPlaybackEvent(progress);
+					produceSeekPlaybackEvent(progress);
 				}
 			}
 
@@ -132,12 +136,17 @@ public class PlayerActivity extends BootstrapActivity {
 		Log.i(TAG, "Received RSS feed!");
 		this.feed = feed;
 
+		try {
+			dao.create(feed.getRssFeedForDao(getApplicationContext()));
+		} catch (SQLException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
 		Item mediaItem = feed.getItems().get(0);
 		Picasso.with(this)
-		       .load(feed.getiTunesImage().getHref())
-		       .placeholder(R.drawable.ic_contact_picture)
-		       .error(R.drawable.ic_contact_picture)
-		       .into(podcastIcon);
+				.load(feed.getiTunesImage().getHref())
+				.placeholder(R.drawable.ic_contact_picture)
+				.error(R.drawable.ic_contact_picture)
+				.into(podcastIcon);
 	}
 
 	/**

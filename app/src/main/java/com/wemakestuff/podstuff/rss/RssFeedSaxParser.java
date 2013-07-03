@@ -101,7 +101,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 		return new EndElementListener() {
 			@Override
 			public void end() {
-				feed.addAll(items);
+				feed.setItems(items);
 			}
 		};
 	}
@@ -308,9 +308,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				if (body != null) {
-					currentItem.setiTunesKeywords(body.split(","));
-				}
+				currentItem.setiTunesKeywords(body);
 			}
 		};
 	}
@@ -409,9 +407,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				if (body != null)
-					feed.setiTunesKeywords(body.split(","));
-
+				feed.setiTunesKeywords(body);
 			}
 		};
 	}

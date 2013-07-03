@@ -1,8 +1,21 @@
 package com.wemakestuff.podstuff.rss;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "media_content")
 public class MediaContent {
+
+	@DatabaseField(generatedId = true)
+	private int    id;
+
+	@DatabaseField
 	private String url;
+
+	@DatabaseField
 	private long   fileSize;
+
+	@DatabaseField
 	private String type;
 
 	public String getUrl() {

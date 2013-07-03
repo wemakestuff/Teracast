@@ -1,40 +1,81 @@
 package com.wemakestuff.podstuff.rss;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
+@DatabaseTable(tableName = "items")
 public class Item implements Comparable<Item> {
 	static SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 
-	private String       title;
-	private URL          link;
-	private String       comments;
-	private Date         pubDate;
-	private String       category;
-	private String       description;
-	private Guid         guid;
+	@DatabaseField(generatedId = true)
+	private int id;
+
+	@DatabaseField
+	private String title;
+
+	@DatabaseField
+	private String link;
+
+	@DatabaseField
+	private String comments;
+
+	@DatabaseField
+	private Date pubDate;
+
+	@DatabaseField
+	private String category;
+
+	@DatabaseField
+	private String description;
+
+	@DatabaseField(canBeNull = true, foreign = true)
+	private Guid guid;
+
+	@DatabaseField(canBeNull = true, foreign = true)
 	private RssEnclosure enclosure;
 
+	@DatabaseField(canBeNull = true, foreign = true)
 	private iTunesImage iTunesImage;
 
-	private String   iTunesSummary;
-	private String[] iTunesKeywords;
-	private String   iTunesSubtitle;
-	private String   iTunesAuthor;
-	private String   iTunesDuration;
+	@DatabaseField
+	private String iTunesSummary;
 
+	@DatabaseField(index = true)
+	private String iTunesKeywords;
+
+	@DatabaseField
+	private String iTunesSubtitle;
+
+	@DatabaseField
+	private String iTunesAuthor;
+
+	@DatabaseField
+	private String iTunesDuration;
+
+	@DatabaseField
 	private Boolean iTunesExplicit;
 
+	@DatabaseField
 	private Boolean iTunesBlock;
 
+	@DatabaseField(canBeNull = true, foreign = true)
 	private MediaContent mediaContent;
-	private String       feedBurnerOrigLink;
 
+	@DatabaseField
+	private String feedBurnerOrigLink;
+
+	@DatabaseField
 	private String wfwCommentRss;
+
+	/**
+	 * Needed so that ORMLite can find the items that match a particular feed
+	 */
+	@DatabaseField(foreign = true)
+	private RssFeed feed;
 
 	public Item copy() {
 		Item copy = new Item();
@@ -110,10 +151,6 @@ public class Item implements Comparable<Item> {
 	}
 
 
-	public void setLink(final URL link) {
-		this.link = link;
-	}
-
 	public String getComments() {
 		return comments;
 	}
@@ -161,11 +198,11 @@ public class Item implements Comparable<Item> {
 		this.iTunesSummary = iTunesSummary;
 	}
 
-	public String[] getiTunesKeywords() {
+	public String getiTunesKeywords() {
 		return iTunesKeywords;
 	}
 
-	public void setiTunesKeywords(final String[] iTunesKeywords) {
+	public void setiTunesKeywords(final String iTunesKeywords) {
 		this.iTunesKeywords = iTunesKeywords;
 	}
 
@@ -201,16 +238,12 @@ public class Item implements Comparable<Item> {
 		this.title = title;
 	}
 
-	public URL getLink() {
+	public String getLink() {
 		return link;
 	}
 
 	public void setLink(String link) {
-		try {
-			this.link = new URL(link);
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
+		this.link = link;
 	}
 
 	public String getPubDate() {
@@ -265,7 +298,7 @@ public class Item implements Comparable<Item> {
 		if (iTunesExplicit != null ? !iTunesExplicit.equals(item.iTunesExplicit) : item.iTunesExplicit != null)
 			return false;
 		if (iTunesImage != null ? !iTunesImage.equals(item.iTunesImage) : item.iTunesImage != null) return false;
-		if (!Arrays.equals(iTunesKeywords, item.iTunesKeywords)) return false;
+		if (!iTunesKeywords.equals(item.iTunesKeywords)) return false;
 		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(item.iTunesSubtitle) : item.iTunesSubtitle != null)
 			return false;
 		if (iTunesSummary != null ? !iTunesSummary.equals(item.iTunesSummary) : item.iTunesSummary != null)
@@ -292,7 +325,7 @@ public class Item implements Comparable<Item> {
 		result = 31 * result + (enclosure != null ? enclosure.hashCode() : 0);
 		result = 31 * result + (iTunesImage != null ? iTunesImage.hashCode() : 0);
 		result = 31 * result + (iTunesSummary != null ? iTunesSummary.hashCode() : 0);
-		result = 31 * result + (iTunesKeywords != null ? Arrays.hashCode(iTunesKeywords) : 0);
+		result = 31 * result + (iTunesKeywords != null ? iTunesKeywords.hashCode() : 0);
 		result = 31 * result + (iTunesSubtitle != null ? iTunesSubtitle.hashCode() : 0);
 		result = 31 * result + (iTunesAuthor != null ? iTunesAuthor.hashCode() : 0);
 		result = 31 * result + (iTunesDuration != null ? iTunesDuration.hashCode() : 0);
@@ -317,7 +350,7 @@ public class Item implements Comparable<Item> {
 		sb.append(", enclosure=").append(enclosure);
 		sb.append(", iTunesImage=").append(iTunesImage);
 		sb.append(", iTunesSummary='").append(iTunesSummary).append('\'');
-		sb.append(", iTunesKeywords=").append(Arrays.toString(iTunesKeywords));
+		sb.append(", iTunesKeywords=").append(iTunesKeywords);
 		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
 		sb.append(", iTunesAuthor='").append(iTunesAuthor).append('\'');
 		sb.append(", iTunesDuration='").append(iTunesDuration).append('\'');

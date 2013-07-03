@@ -2,121 +2,52 @@ package com.wemakestuff.podstuff.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
+import android.util.Log;
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+import com.wemakestuff.podstuff.rss.*;
 
-public class RssDatabase extends SQLiteOpenHelper {
+import java.sql.SQLException;
+
+public class RssDatabase extends OrmLiteSqliteOpenHelper {
+	private static final String TAG = RssDatabase.class.getSimpleName();
+
 	private static final int    DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME    = "redditinpictures.db";
+	private static final String DATABASE_NAME    = "podstuff.db";
 
-	public interface Tables {
-		String POSTDATA    = "post_data";
-		String REDDIT_DATA = "reddit_data";
-		String LOGIN       = "login";
-		String SUBREDDITS  = "subreddits";
-
-		interface CreateTableSql {
-			//@formatter:off
-			String LOGIN = "CREATE TABLE " + Tables.LOGIN +
-					" ("
-					+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ RssContract.LoginColumns.USERNAME + " TEXT NOT NULL, "
-					+ RssContract.LoginColumns.COOKIE + " TEXT, "
-					+ RssContract.LoginColumns.MODHASH + " TEXT, "
-					+ RssContract.LoginColumns.SUCCESS + " INTEGER, "
-					+ RssContract.LoginColumns.ERROR_MESSAGE + " TEXT"
-					+ " );";
-
-			String SUBREDDITS = "CREATE TABLE " + Tables.SUBREDDITS +
-					" ("
-					+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ RssContract.SubredditColumns.DISPLAY_NAME + " TEXT, "
-					+ RssContract.SubredditColumns.HEADER_IMAGE + " TEXT, "
-//					+ SubredditColumns.TITLE + " TEXT, "
-//					+ SubredditColumns.URL + " TEXT, "
-//					+ SubredditColumns.DESCRIPTION + " TEXT, "
-//					+ SubredditColumns.CREATED + " INTEGER, "
-//					+ SubredditColumns.CREATED_UTC + " INTEGER, "
-//					+ SubredditColumns.HEADER_SIZE + " TEXT, "
-//					+ SubredditColumns.OVER_18 + " TEXT, "
-//					+ SubredditColumns.SUBSCRIBERS + " INTEGER, "
-//					+ SubredditColumns.ACCOUNTS_ACTIVE + " TEXT, "
-//					+ SubredditColumns.PUBLIC_DESCRIPTION + " TEXT, "
-//					+ SubredditColumns.HEADER_TITLE + " TEXT, "
-//					+ SubredditColumns.SUBREDDIT_ID + " TEXT, "
-//					+ SubredditColumns.NAME + " TEXT"
-					+ " );";
-
-			String POSTDATA = "CREATE TABLE " + Tables.POSTDATA +
-					" ("
-					+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//					+ PostColumns.DOMAIN + " TEXT NOT NULL, "
-//					+ PostColumns.BANNED_BY + " TEXT, "
-//					+ PostColumns.SUBREDDIT + " TEXT NOT NULL, "
-//					+ PostColumns.SELFTEXT_HTML + " TEXT, "
-//					+ PostColumns.SELFTEXT + " TEXT, "
-//					+ PostColumns.VOTE + " TEXT NOT NULL, "
-//					+ PostColumns.SAVED + " INTEGER, "
-//					+ PostColumns.POST_ID + " TEXT NOT NULL, "
-//					+ PostColumns.CLICKED + " INTEGER, "
-//					+ PostColumns.TITLE + " TEXT, "
-//					+ PostColumns.COMMENTS + " INTEGER, "
-//					+ PostColumns.SCORE + " INTEGER, "
-//					+ PostColumns.APPROVED_BY + " TEXT, "
-//					+ PostColumns.OVER_18 + " INTEGER, "
-//					+ PostColumns.HIDDEN + " INTEGER, "
-//					+ PostColumns.THUMBNAIL + " TEXT, "
-//					+ PostColumns.SUBREDDIT_ID + " TEXT NOT NULL, "
-//					+ PostColumns.AUTHOR_FLAIR_CSS_CLASS + " TEXT, "
-//					+ PostColumns.DOWNS + " INTEGER, "
-//					+ PostColumns.IS_SELF + " INTEGER, "
-//					+ PostColumns.PERMALINK + " TEXT NOT NULL, "
-//					+ PostColumns.NAME + " TEXT NOT NULL, "
-//					+ PostColumns.CREATED + " INTEGER, "
-//					+ PostColumns.URL + " TEXT, "
-//					+ PostColumns.AUTHOR_FLAIR_TEXT + " TEXT, "
-//					+ PostColumns.AUTHOR + " TEXT NOT NULL, "
-//					+ PostColumns.CREATED_UTC + " INTEGER, "
-//					+ PostColumns.LINK_FLAIR_TEXT + " TEXT, "
-//					+ PostColumns.DECODED_URL + " TEXT, "
-//					+ PostColumns.LOADED_AT + " INTEGER"
-//                    + PostDataColumns.MODHASH                + " TEXT NOT NULL, "
-//                    + "FOREIGN KEY (" + PostDataColumns.MODHASH + ")" + " REFERENCES " + Tables.REDDIT_DATA + " (" + RedditDataColumns.MODHASH + ")"
-					+ " );";
-
-			String REDDIT_DATA = "CREATE TABLE " + Tables.REDDIT_DATA +
-					" ("
-					+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//					+ RedditDataColumns.MODHASH + " TEXT NOT NULL, "
-//					+ RedditDataColumns.AFTER + " TEXT, "
-//					+ RedditDataColumns.BEFORE + " TEXT "
-					+ ");";
-			//@formatter:on
-		}
-	}
+	private Dao<RssFeed, Integer> rssDao = null;
 
 	public RssDatabase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(Tables.CreateTableSql.POSTDATA);
-		db.execSQL(Tables.CreateTableSql.REDDIT_DATA);
-		db.execSQL(Tables.CreateTableSql.LOGIN);
-		db.execSQL(Tables.CreateTableSql.SUBREDDITS);
+	public void onCreate(final SQLiteDatabase sqLiteDatabase, final ConnectionSource connectionSource) {
+		try {
+			TableUtils.createTable(connectionSource, RssFeed.class);
+			TableUtils.createTable(connectionSource, Guid.class);
+			TableUtils.createTable(connectionSource, Item.class);
+			TableUtils.createTable(connectionSource, iTunesImage.class);
+			TableUtils.createTable(connectionSource, MediaContent.class);
+			TableUtils.createTable(connectionSource, RssEnclosure.class);
+			TableUtils.createTable(connectionSource, RssImage.class);
+		} catch (SQLException e) {
+			Log.e(TAG, "Unable to create database", e);
+		}
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.POSTDATA);
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.REDDIT_DATA);
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.LOGIN);
-		db.execSQL("DROP TABLE IF EXISTS " + Tables.SUBREDDITS);
-		onCreate(db);
+	public void onUpgrade(final SQLiteDatabase sqLiteDatabase, final ConnectionSource connectionSource, final int oldVersion, final int newVersion) {
+		// TODO: Implement onUpgrade for this database
 	}
 
-	public static void deleteDatabase(Context context) {
-		context.deleteDatabase(DATABASE_NAME);
+	public Dao<RssFeed, Integer> getRssDao() throws SQLException {
+		if (rssDao == null)
+			rssDao = getDao(RssFeed.class);
+
+		return rssDao;
 	}
+
 }

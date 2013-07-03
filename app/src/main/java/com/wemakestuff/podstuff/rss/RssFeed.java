@@ -1,39 +1,101 @@
 package com.wemakestuff.podstuff.rss;
 
+import android.content.Context;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+import com.wemakestuff.podstuff.BootstrapApplication;
+
+import javax.inject.Inject;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+@DatabaseTable(tableName = "feeds")
 public class RssFeed {
 	public static final String           TAG       = RssFeed.class.getSimpleName();
 	static              SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 
-	private String   title;
-	private String   link;
-	private String   description;
-	private String   copyright;
-	private String   generator;
-	private String   language;
-	private String   iTunesSummary;
-	private String   iTunesSubtitle;
-	private String[] iTunesKeywords;
-	private String   iTunesAuthor;
-	private iTunesImage   iTunesImage;
-	private Boolean  iTunesExplicit;
-	private Boolean  iTunesBlock;
+
+	@Inject
+	Dao rssDao;
+
+	@DatabaseField(generatedId = true)
+	private int id;
+
+	@DatabaseField(index = true)
+	private String title;
+
+	@DatabaseField
+	private String link;
+
+	@DatabaseField
+	private String description;
+
+	@DatabaseField
+	private String copyright;
+
+	@DatabaseField
+	private String generator;
+
+	@DatabaseField
+	private String language;
+
+	@DatabaseField
+	private String iTunesSummary;
+
+	@DatabaseField
+	private String iTunesSubtitle;
+
+	@DatabaseField(index = true, dataType = DataType.STRING_BYTES)
+	private String iTunesKeywords;
+
+	@DatabaseField
+	private String iTunesAuthor;
+
+	@DatabaseField(canBeNull = true, foreign = true)
+	private iTunesImage iTunesImage;
+
+	@DatabaseField
+	private Boolean iTunesExplicit;
+
+	@DatabaseField
+	private Boolean iTunesBlock;
+
+	@DatabaseField(canBeNull = true, foreign = true)
 	private RssImage rssImage;
-	private Date     lastBuildDate;
-	private Date     pubDate;
-	private String   category;
-	private int      ttl;
-	private String   docs;
-	private String   managingEditor;
 
-	private List<Item> items;
+	@DatabaseField
+	private Date lastBuildDate;
 
+	@DatabaseField
+	private Date pubDate;
+
+	@DatabaseField
+	private String category;
+
+	@DatabaseField
+	private int ttl;
+
+	@DatabaseField
+	private String docs;
+
+	@DatabaseField
+	private String managingEditor;
+
+	@ForeignCollectionField(eager = false, columnName = "items")
+	private ForeignCollection<Item> itemsForeignCollection;
+
+	/**
+	 * This is the real backing list, since {@link #itemsForeignCollection}
+	 * requires a Context there is a method assign the foreign collection
+	 * with {@link #getRssFeedForDao(android.content.Context)}
+	 */
+	private List<Item> items = new ArrayList<Item>();
 
 	public static String getTag() {
 		return TAG;
@@ -103,11 +165,11 @@ public class RssFeed {
 		this.iTunesSubtitle = iTunesSubtitle;
 	}
 
-	public String[] getiTunesKeywords() {
+	public String getiTunesKeywords() {
 		return iTunesKeywords;
 	}
 
-	public void setiTunesKeywords(final String[] iTunesKeywords) {
+	public void setiTunesKeywords(final String iTunesKeywords) {
 		this.iTunesKeywords = iTunesKeywords;
 	}
 
@@ -215,25 +277,55 @@ public class RssFeed {
 		this.managingEditor = managingEditor;
 	}
 
-	public void setItems(final List<Item> items) {
-		this.items = items;
+	public RssFeed getRssFeedForDao(Context context) {
+		RssFeed copy = new RssFeed();
+		copy.title = title;
+		copy.link = link;
+		copy.description = description;
+		copy.copyright = copyright;
+		copy.generator = generator;
+		copy.language  = language;
+		copy.items = items;
+		copy.iTunesSummary = iTunesSummary;
+		copy.iTunesSubtitle = iTunesSubtitle;
+		copy.iTunesKeywords = iTunesKeywords;
+		copy.iTunesAuthor = iTunesAuthor;
+		copy.iTunesImage = iTunesImage;
+		copy.iTunesExplicit = iTunesExplicit;
+		copy.iTunesBlock = iTunesBlock;
+		copy.rssImage = rssImage;
+		copy.lastBuildDate = lastBuildDate;
+		copy.pubDate = pubDate;
+		copy.category = category;
+		copy.ttl = ttl;
+		copy.docs = docs;
+		copy.managingEditor = managingEditor;
+
+		if (items != null) {
+			try {
+				copy.itemsForeignCollection = rssDao.getEmptyForeignCollection("items");
+				copy.itemsForeignCollection.addAll(items);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return copy;
+	}
+
+	public void setItems(final List<Item> newItems) {
+		this.items.addAll(newItems);
 	}
 
 	public RssFeed() {
+		BootstrapApplication.getInstance().inject(this);
 	}
 
 	public void addItem(Item item) {
-		getItems().add(item);
-	}
-
-	public void addAll(List<Item> items) {
-		getItems().addAll(items);
+		items.add(item);
 	}
 
 	public List<Item> getItems() {
-		if (items == null)
-			items = new ArrayList<Item>();
-
 		return items;
 	}
 
@@ -256,7 +348,7 @@ public class RssFeed {
 		if (iTunesExplicit != null ? !iTunesExplicit.equals(rssFeed.iTunesExplicit) : rssFeed.iTunesExplicit != null)
 			return false;
 		if (iTunesImage != null ? !iTunesImage.equals(rssFeed.iTunesImage) : rssFeed.iTunesImage != null) return false;
-		if (!Arrays.equals(iTunesKeywords, rssFeed.iTunesKeywords)) return false;
+		if (!iTunesKeywords.equals(rssFeed.iTunesKeywords)) return false;
 		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(rssFeed.iTunesSubtitle) : rssFeed.iTunesSubtitle != null)
 			return false;
 		if (iTunesSummary != null ? !iTunesSummary.equals(rssFeed.iTunesSummary) : rssFeed.iTunesSummary != null)
@@ -285,7 +377,7 @@ public class RssFeed {
 		result = 31 * result + (language != null ? language.hashCode() : 0);
 		result = 31 * result + (iTunesSummary != null ? iTunesSummary.hashCode() : 0);
 		result = 31 * result + (iTunesSubtitle != null ? iTunesSubtitle.hashCode() : 0);
-		result = 31 * result + (iTunesKeywords != null ? Arrays.hashCode(iTunesKeywords) : 0);
+		result = 31 * result + (iTunesKeywords != null ? iTunesKeywords.hashCode() : 0);
 		result = 31 * result + (iTunesAuthor != null ? iTunesAuthor.hashCode() : 0);
 		result = 31 * result + (iTunesImage != null ? iTunesImage.hashCode() : 0);
 		result = 31 * result + (iTunesExplicit != null ? iTunesExplicit.hashCode() : 0);
@@ -304,7 +396,9 @@ public class RssFeed {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("RssFeed{");
-		sb.append("title='").append(title).append('\'');
+		sb.append("rssDao=").append(rssDao);
+		sb.append(", id=").append(id);
+		sb.append(", title='").append(title).append('\'');
 		sb.append(", link='").append(link).append('\'');
 		sb.append(", description='").append(description).append('\'');
 		sb.append(", copyright='").append(copyright).append('\'');
@@ -312,9 +406,9 @@ public class RssFeed {
 		sb.append(", language='").append(language).append('\'');
 		sb.append(", iTunesSummary='").append(iTunesSummary).append('\'');
 		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
-		sb.append(", iTunesKeywords=").append(Arrays.toString(iTunesKeywords));
+		sb.append(", iTunesKeywords=").append(iTunesKeywords);
 		sb.append(", iTunesAuthor='").append(iTunesAuthor).append('\'');
-		sb.append(", iTunesImage='").append(iTunesImage).append('\'');
+		sb.append(", iTunesImage=").append(iTunesImage);
 		sb.append(", iTunesExplicit=").append(iTunesExplicit);
 		sb.append(", iTunesBlock=").append(iTunesBlock);
 		sb.append(", rssImage=").append(rssImage);
@@ -324,15 +418,19 @@ public class RssFeed {
 		sb.append(", ttl=").append(ttl);
 		sb.append(", docs='").append(docs).append('\'');
 		sb.append(", managingEditor='").append(managingEditor).append('\'');
+		sb.append(", itemsForeignCollection=").append(itemsForeignCollection);
 
 		if (items != null) {
 			sb.append(", items(Size=").append(items.size()).append(") : ");
-			for (int i = 0; i < items.size(); i++) {
+			int i = 0;
+			for (Item item : items) {
 				sb.append("[ Item: ")
-				  .append(i)
-				  .append(" = ")
-				  .append(items.get(i))
-				  .append(" ]");
+						.append(i)
+						.append(" = ")
+						.append(item)
+						.append(" ]");
+
+				i++;
 			}
 
 		} else {
@@ -340,7 +438,6 @@ public class RssFeed {
 		}
 
 		sb.append('}');
-
 		return sb.toString();
 	}
 }

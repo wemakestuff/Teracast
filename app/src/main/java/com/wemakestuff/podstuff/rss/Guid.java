@@ -1,7 +1,18 @@
 package com.wemakestuff.podstuff.rss;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "guid")
 public class Guid {
+
+	@DatabaseField(generatedId = true)
+	private int id;
+
+	@DatabaseField
 	private boolean isPermalink;
+
+	@DatabaseField
 	private String  url;
 
 	public boolean isPermalink() {

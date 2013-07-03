@@ -16,13 +16,14 @@ public class RssFeedParser {
 	private static final String     RSS          = "rss";
 	private static final String     TAG          = RssFeedParser.class.getSimpleName();
 	private              RssImage   currentImage = new RssImage();
-	private              RssFeed    feed         = new RssFeed();
+	private              RssFeed    feed;
 	private              Item       currentItem  = new Item();
 	private              List<Item> items        = new ArrayList<Item>();
 	private              String     xml;
 
 	public RssFeedParser(String xml) {
 		this.xml = xml;
+		feed = new RssFeed();
 	}
 
 	public RssFeed parse() {
@@ -116,7 +117,7 @@ public class RssFeedParser {
 		return new EndElementListener() {
 			@Override
 			public void end() {
-				feed.addAll(items);
+				feed.setItems(items);
 			}
 		};
 	}
@@ -323,9 +324,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				if (body != null) {
-					currentItem.setiTunesKeywords(body.split(","));
-				}
+				currentItem.setiTunesKeywords(body);
 			}
 		};
 	}
@@ -424,9 +423,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				if (body != null)
-					feed.setiTunesKeywords(body.split(","));
-
+				feed.setiTunesKeywords(body);
 			}
 		};
 	}

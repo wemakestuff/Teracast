@@ -1,9 +1,23 @@
 package com.wemakestuff.podstuff.rss;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "rss_enclosure")
 public class RssEnclosure {
+
+	@DatabaseField(generatedId = true)
+	private int    id;
+
+	@DatabaseField
 	private String url;
+
+	@DatabaseField
 	private long   length;
+
+	@DatabaseField
 	private String type;
+
 
 	public String getUrl() {
 		return url;

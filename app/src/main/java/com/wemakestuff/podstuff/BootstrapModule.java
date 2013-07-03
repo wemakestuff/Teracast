@@ -3,11 +3,14 @@ package com.wemakestuff.podstuff;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.media.AudioManager;
+import com.j256.ormlite.dao.Dao;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.authenticator.BootstrapAuthenticatorActivity;
 import com.wemakestuff.podstuff.authenticator.LogoutService;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
 import com.wemakestuff.podstuff.core.TimerService;
+import com.wemakestuff.podstuff.database.RssDatabase;
+import com.wemakestuff.podstuff.rss.RssFeed;
 import com.wemakestuff.podstuff.service.HttpService;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.MusicIntentReceiver;
@@ -17,6 +20,7 @@ import dagger.Module;
 import dagger.Provides;
 
 import javax.inject.Singleton;
+import java.sql.SQLException;
 
 /**
  * Dagger module for setting up provides statements. Register all of your entry points below.
@@ -40,7 +44,8 @@ import javax.inject.Singleton;
                                   MediaService.class,
                                   MusicIntentReceiver.class,
                                   HttpService.class,
-								  RssFeedService.class
+								  RssFeedService.class,
+								  RssFeed.class
 
 				}
 
@@ -62,6 +67,17 @@ public class BootstrapModule {
 	@Provides
 	AudioManager provideAudioManager(final Context context) {
 		return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+	}
+
+	@Singleton
+	@Provides
+	Dao provideDao(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

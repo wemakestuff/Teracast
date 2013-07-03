@@ -1,6 +1,14 @@
 package com.wemakestuff.podstuff.rss;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "itunes_image")
 public class iTunesImage {
+	@DatabaseField(generatedId = true)
+	private int    id;
+
+	@DatabaseField
 	private String href;
 
 	public String getHref() {

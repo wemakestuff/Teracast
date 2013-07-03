@@ -1,10 +1,27 @@
 package com.wemakestuff.podstuff.rss;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "rss_image")
 public class RssImage {
+
+	@DatabaseField(generatedId = true)
+	private int id;
+
+	@DatabaseField
 	private String url;
+
+	@DatabaseField
 	private String title;
+
+	@DatabaseField
 	private String link;
+
+	@DatabaseField
 	private int    width;
+
+	@DatabaseField
 	private int    height;
 
 	public String getUrl() {
