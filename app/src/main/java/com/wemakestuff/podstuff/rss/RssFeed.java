@@ -93,7 +93,7 @@ public class RssFeed {
 	/**
 	 * This is the real backing list, since {@link #itemsForeignCollection}
 	 * requires a Context there is a method assign the foreign collection
-	 * with {@link #getRssFeedForDao(android.content.Context)}
+	 * with {@link #getRssFeedForDao()}
 	 */
 	private List<Item> items = new ArrayList<Item>();
 
@@ -277,7 +277,7 @@ public class RssFeed {
 		this.managingEditor = managingEditor;
 	}
 
-	public RssFeed getRssFeedForDao(Context context) {
+	public RssFeed getRssFeedForDao() {
 		RssFeed copy = new RssFeed();
 		copy.title = title;
 		copy.link = link;

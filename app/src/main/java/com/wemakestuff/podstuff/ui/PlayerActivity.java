@@ -137,9 +137,9 @@ public class PlayerActivity extends BootstrapActivity {
 		this.feed = feed;
 
 		try {
-			dao.create(feed.getRssFeedForDao(getApplicationContext()));
+			dao.create(feed.getRssFeedForDao());
 		} catch (SQLException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			e.printStackTrace();
 		}
 		Item mediaItem = feed.getItems().get(0);
 		Picasso.with(this)
