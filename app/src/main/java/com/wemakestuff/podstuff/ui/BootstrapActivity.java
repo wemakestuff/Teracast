@@ -5,7 +5,9 @@ import android.os.Bundle;
 import butterknife.Views;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.android.debug.hv.ViewServer;
 import com.wemakestuff.podstuff.BootstrapApplication;
+import com.wemakestuff.podstuff.BuildConfig;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
@@ -20,6 +22,26 @@ public abstract class BootstrapActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 
 		BootstrapApplication.getInstance().inject(this);
+
+		if (BuildConfig.DEBUG) {
+			ViewServer.get(this).addWindow(this);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (BuildConfig.DEBUG) {
+			ViewServer.get(this).removeWindow(this);
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (BuildConfig.DEBUG) {
+			ViewServer.get(this).setFocusedWindow(this);
+		}
 	}
 
 	@Override
