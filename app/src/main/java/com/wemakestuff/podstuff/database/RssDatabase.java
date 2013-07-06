@@ -19,6 +19,16 @@ public class RssDatabase extends OrmLiteSqliteOpenHelper {
 
 	private Dao<RssFeed, Integer> rssDao = null;
 
+	public interface Tables {
+		String FEEDS    = "feeds";
+		String GUID = "guid";
+		String ITEMS       = "items";
+		String ITUNES_IMAGE  = "itunes_image";
+		String MEDIA_CONTENT  = "media_content";
+		String RSS_ENCLOSURE  = "rss_enclosure";
+		String RSS_IMAGE  = "rss_image";
+	}
+
 	public RssDatabase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
