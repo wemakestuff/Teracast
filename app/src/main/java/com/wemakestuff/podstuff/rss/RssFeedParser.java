@@ -3,6 +3,7 @@ package com.wemakestuff.podstuff.rss;
 import android.sax.*;
 import android.util.Log;
 import android.util.Xml;
+import com.wemakestuff.podstuff.rss.model.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 

@@ -7,27 +7,15 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.wemakestuff.podstuff.rss.*;
+import com.wemakestuff.podstuff.rss.model.*;
 
 import java.sql.SQLException;
 
 public class RssDatabase extends OrmLiteSqliteOpenHelper {
-	private static final String TAG = RssDatabase.class.getSimpleName();
-
-	private static final int    DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME    = "podstuff.db";
-
-	private Dao<RssFeed, Integer> rssDao = null;
-
-	public interface Tables {
-		String FEEDS    = "feeds";
-		String GUID = "guid";
-		String ITEMS       = "items";
-		String ITUNES_IMAGE  = "itunes_image";
-		String MEDIA_CONTENT  = "media_content";
-		String RSS_ENCLOSURE  = "rss_enclosure";
-		String RSS_IMAGE  = "rss_image";
-	}
+	private static final String                TAG              = RssDatabase.class.getSimpleName();
+	private static final int                   DATABASE_VERSION = 1;
+	private static final String                DATABASE_NAME    = "podstuff.db";
+	private              Dao<RssFeed, Integer> rssDao           = null;
 
 	public RssDatabase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,10 +42,21 @@ public class RssDatabase extends OrmLiteSqliteOpenHelper {
 	}
 
 	public Dao<RssFeed, Integer> getRssDao() throws SQLException {
-		if (rssDao == null)
+		if (rssDao == null) {
 			rssDao = getDao(RssFeed.class);
+		}
 
 		return rssDao;
+	}
+
+	public interface Tables {
+		String FEEDS         = "feeds";
+		String GUID          = "guid";
+		String ITEMS         = "items";
+		String ITUNES_IMAGE  = "itunes_image";
+		String MEDIA_CONTENT = "media_content";
+		String RSS_ENCLOSURE = "rss_enclosure";
+		String RSS_IMAGE     = "rss_image";
 	}
 
 }

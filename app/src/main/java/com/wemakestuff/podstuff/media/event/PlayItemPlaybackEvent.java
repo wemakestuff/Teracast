@@ -1,6 +1,6 @@
 package com.wemakestuff.podstuff.media.event;
 
-import com.wemakestuff.podstuff.rss.RssItem;
+import com.wemakestuff.podstuff.rss.model.RssItem;
 
 /**
  * Marker class for Otto.

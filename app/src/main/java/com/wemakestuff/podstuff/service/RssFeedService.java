@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import com.squareup.otto.Bus;
-import com.wemakestuff.podstuff.rss.RssFeed;
+import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.rss.RssFeedParser;
 
 import javax.inject.Inject;

@@ -15,8 +15,8 @@ import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.core.Media;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.RssItem;
-import com.wemakestuff.podstuff.rss.RssFeed;
+import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.RssFeedService;
 

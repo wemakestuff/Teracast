@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.rss.RssFeed;
+import com.wemakestuff.podstuff.rss.model.RssFeed;
 
 public class FeedItemListFragment extends SherlockListFragment {
 	private RssFeed mFeed;

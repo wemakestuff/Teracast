@@ -25,8 +25,8 @@ import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
 import com.wemakestuff.podstuff.media.RemoteControlHelper;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.RssItem;
-import com.wemakestuff.podstuff.rss.iTunesImage;
+import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.rss.model.iTunesImage;
 import com.wemakestuff.podstuff.ui.PlayerActivity;
 import com.wemakestuff.podstuff.util.Ln;
 

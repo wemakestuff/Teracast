@@ -10,9 +10,9 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import butterknife.Views;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.rss.MediaContent;
-import com.wemakestuff.podstuff.rss.RssEnclosure;
-import com.wemakestuff.podstuff.rss.RssItem;
+import com.wemakestuff.podstuff.rss.model.MediaContent;
+import com.wemakestuff.podstuff.rss.model.RssEnclosure;
+import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.util.ListUtils;
 

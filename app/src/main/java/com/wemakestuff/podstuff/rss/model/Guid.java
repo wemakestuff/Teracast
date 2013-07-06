@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.rss;
+package com.wemakestuff.podstuff.rss.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

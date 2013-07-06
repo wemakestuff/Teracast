@@ -10,7 +10,7 @@ import com.wemakestuff.podstuff.authenticator.LogoutService;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
 import com.wemakestuff.podstuff.core.TimerService;
 import com.wemakestuff.podstuff.database.RssDatabase;
-import com.wemakestuff.podstuff.rss.RssFeed;
+import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.service.HttpService;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.MusicIntentReceiver;

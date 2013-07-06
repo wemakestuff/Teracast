@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.rss;
+package com.wemakestuff.podstuff.rss.model;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
