@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "guid")
-public class Guid {
+public class RssGuid {
 
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -36,7 +36,7 @@ public class Guid {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		final Guid guid = (Guid) o;
+		final RssGuid guid = (RssGuid) o;
 
 		if (isPermalink != guid.isPermalink) return false;
 		if (url != null ? !url.equals(guid.url) : guid.url != null) return false;
@@ -53,7 +53,7 @@ public class Guid {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("Guid{");
+		final StringBuilder sb = new StringBuilder("RssGuid{");
 		sb.append("isPermalink=").append(isPermalink);
 		sb.append(", url='").append(url).append('\'');
 		sb.append('}');

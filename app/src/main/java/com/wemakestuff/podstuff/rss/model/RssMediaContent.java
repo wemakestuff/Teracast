@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "media_content")
-public class MediaContent {
+public class RssMediaContent {
 
 	@DatabaseField(generatedId = true)
 	private int    id;
@@ -44,7 +44,7 @@ public class MediaContent {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("MediaContent{");
+		final StringBuilder sb = new StringBuilder("RssMediaContent{");
 		sb.append("url='").append(url).append('\'');
 		sb.append(", fileSize=").append(fileSize);
 		sb.append(", type='").append(type).append('\'');
@@ -57,7 +57,7 @@ public class MediaContent {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		final MediaContent that = (MediaContent) o;
+		final RssMediaContent that = (RssMediaContent) o;
 
 		if (fileSize != that.fileSize) return false;
 		if (type != null ? !type.equals(that.type) : that.type != null) return false;

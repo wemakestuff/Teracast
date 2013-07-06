@@ -21,7 +21,6 @@ public class RssFeed {
 	public static final String           TAG       = RssFeed.class.getSimpleName();
 	static              SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 
-
 	@Inject
 	Dao rssDao;
 
@@ -59,7 +58,7 @@ public class RssFeed {
 	private String iTunesAuthor;
 
 	@DatabaseField(canBeNull = true, foreign = true)
-	private iTunesImage iTunesImage;
+	private RssiTunesImage iTunesImage;
 
 	@DatabaseField
 	private Boolean iTunesExplicit;
@@ -182,11 +181,11 @@ public class RssFeed {
 		this.iTunesAuthor = iTunesAuthor;
 	}
 
-	public iTunesImage getiTunesImage() {
+	public RssiTunesImage getiTunesImage() {
 		return iTunesImage;
 	}
 
-	public void setiTunesImage(final iTunesImage iTunesImage) {
+	public void setiTunesImage(final RssiTunesImage iTunesImage) {
 		this.iTunesImage = iTunesImage;
 	}
 
@@ -409,7 +408,7 @@ public class RssFeed {
 		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
 		sb.append(", iTunesKeywords=").append(iTunesKeywords);
 		sb.append(", iTunesAuthor='").append(iTunesAuthor).append('\'');
-		sb.append(", iTunesImage=").append(iTunesImage);
+		sb.append(", RssiTunesImage=").append(iTunesImage);
 		sb.append(", iTunesExplicit=").append(iTunesExplicit);
 		sb.append(", iTunesBlock=").append(iTunesBlock);
 		sb.append(", rssImage=").append(rssImage);

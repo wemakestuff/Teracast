@@ -33,13 +33,13 @@ public class RssItem implements Comparable<RssItem> {
 	private String description;
 
 	@DatabaseField(canBeNull = true, foreign = true)
-	private Guid guid;
+	private RssGuid guid;
 
 	@DatabaseField(canBeNull = true, foreign = true)
 	private RssEnclosure enclosure;
 
 	@DatabaseField(canBeNull = true, foreign = true)
-	private iTunesImage iTunesImage;
+	private RssiTunesImage iTunesImage;
 
 	@DatabaseField
 	private String iTunesSummary;
@@ -63,7 +63,7 @@ public class RssItem implements Comparable<RssItem> {
 	private Boolean iTunesBlock;
 
 	@DatabaseField(canBeNull = true, foreign = true)
-	private MediaContent mediaContent;
+	private RssMediaContent mediaContent;
 
 	@DatabaseField
 	private String feedBurnerOrigLink;
@@ -109,11 +109,11 @@ public class RssItem implements Comparable<RssItem> {
 		this.iTunesBlock = iTunesBlock;
 	}
 
-	public MediaContent getMediaContent() {
+	public RssMediaContent getMediaContent() {
 		return mediaContent;
 	}
 
-	public void setMediaContent(final MediaContent mediaContent) {
+	public void setMediaContent(final RssMediaContent mediaContent) {
 		this.mediaContent = mediaContent;
 	}
 
@@ -171,14 +171,14 @@ public class RssItem implements Comparable<RssItem> {
 		this.pubDate = pubDate;
 	}
 
-	public Guid getGuid() {
+	public RssGuid getGuid() {
 		if (guid == null)
-			guid = new Guid();
+			guid = new RssGuid();
 
 		return guid;
 	}
 
-	public void setGuid(final Guid guid) {
+	public void setGuid(final RssGuid guid) {
 		this.guid = guid;
 	}
 
@@ -262,11 +262,11 @@ public class RssItem implements Comparable<RssItem> {
 		}
 	}
 
-	public iTunesImage getiTunesImage() {
+	public RssiTunesImage getiTunesImage() {
 		return iTunesImage;
 	}
 
-	public void setiTunesImage(final iTunesImage iTunesImage) {
+	public void setiTunesImage(final RssiTunesImage iTunesImage) {
 		this.iTunesImage = iTunesImage;
 	}
 
@@ -348,7 +348,7 @@ public class RssItem implements Comparable<RssItem> {
 		sb.append(", description='").append(description).append('\'');
 		sb.append(", guid=").append(guid);
 		sb.append(", enclosure=").append(enclosure);
-		sb.append(", iTunesImage=").append(iTunesImage);
+		sb.append(", RssiTunesImage=").append(iTunesImage);
 		sb.append(", iTunesSummary='").append(iTunesSummary).append('\'');
 		sb.append(", iTunesKeywords=").append(iTunesKeywords);
 		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');

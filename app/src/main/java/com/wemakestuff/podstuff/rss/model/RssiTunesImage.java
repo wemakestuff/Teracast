@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "itunes_image")
-public class iTunesImage {
+public class RssiTunesImage {
 	@DatabaseField(generatedId = true)
 	private int    id;
 
@@ -21,7 +21,7 @@ public class iTunesImage {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("iTunesImage{");
+		final StringBuilder sb = new StringBuilder("RssiTunesImage{");
 		sb.append("href='").append(href).append('\'');
 		sb.append('}');
 		return sb.toString();
@@ -32,7 +32,7 @@ public class iTunesImage {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		final iTunesImage that = (iTunesImage) o;
+		final RssiTunesImage that = (RssiTunesImage) o;
 
 		if (href != null ? !href.equals(that.href) : that.href != null) return false;
 

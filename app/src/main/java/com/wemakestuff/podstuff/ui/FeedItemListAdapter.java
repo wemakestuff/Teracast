@@ -10,7 +10,7 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import butterknife.Views;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.rss.model.MediaContent;
+import com.wemakestuff.podstuff.rss.model.RssMediaContent;
 import com.wemakestuff.podstuff.rss.model.RssEnclosure;
 import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.util.ConversionUtils;
@@ -70,7 +70,7 @@ public class FeedItemListAdapter extends BaseAdapter {
 
 		long length = 0;
 		RssEnclosure enclosure = item.getEnclosure();
-		MediaContent mediaContent = item.getMediaContent();
+		RssMediaContent mediaContent = item.getMediaContent();
 
 		if (enclosure != null && enclosure.getLength() > 0) {
 			length = enclosure.getLength();

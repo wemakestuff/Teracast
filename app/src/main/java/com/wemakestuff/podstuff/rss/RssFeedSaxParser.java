@@ -204,7 +204,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 			public void start(final Attributes attributes) {
 				final String value = attributes.getValue(RssTags.Item.IS_PERMALINK);
 				if (value != null) {
-					Guid guid = new Guid();
+					RssGuid guid = new RssGuid();
 					guid.setIsPermalink(Deserialize.fromBoolean(value));
 					currentRssItem.setGuid(guid);
 				}
@@ -244,7 +244,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 		return new StartElementListener() {
 			@Override
 			public void start(final Attributes attributes) {
-				MediaContent mediaContent = new MediaContent();
+				RssMediaContent mediaContent = new RssMediaContent();
 				mediaContent.setUrl(attributes.getValue(RssTags.Item.URL));
 				mediaContent.setType(attributes.getValue(RssTags.Item.ENCLOSURE_TYPE));
 
@@ -369,7 +369,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 		return new StartElementListener() {
 			@Override
 			public void start(final Attributes attributes) {
-				iTunesImage image = new iTunesImage();
+				RssiTunesImage image = new RssiTunesImage();
 				image.setHref(attributes.getValue(iTunes.HREF));
 				feed.setiTunesImage(image);
 			}
