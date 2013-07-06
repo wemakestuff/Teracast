@@ -38,7 +38,7 @@ public class RssDatabase extends OrmLiteSqliteOpenHelper {
 		try {
 			TableUtils.createTable(connectionSource, RssFeed.class);
 			TableUtils.createTable(connectionSource, Guid.class);
-			TableUtils.createTable(connectionSource, Item.class);
+			TableUtils.createTable(connectionSource, RssItem.class);
 			TableUtils.createTable(connectionSource, iTunesImage.class);
 			TableUtils.createTable(connectionSource, MediaContent.class);
 			TableUtils.createTable(connectionSource, RssEnclosure.class);

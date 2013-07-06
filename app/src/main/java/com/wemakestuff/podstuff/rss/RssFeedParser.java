@@ -13,13 +13,13 @@ import java.util.List;
 import static com.wemakestuff.podstuff.rss.RssTags.*;
 
 public class RssFeedParser {
-	private static final String     RSS          = "rss";
-	private static final String     TAG          = RssFeedParser.class.getSimpleName();
-	private              RssImage   currentImage = new RssImage();
-	private              RssFeed    feed;
-	private              Item       currentItem  = new Item();
-	private              List<Item> items        = new ArrayList<Item>();
-	private              String     xml;
+	private static final String   RSS          = "rss";
+	private static final String   TAG          = RssFeedParser.class.getSimpleName();
+	private              RssImage currentImage = new RssImage();
+	private RssFeed feed;
+	private RssItem       currentRssItem = new RssItem();
+	private List<RssItem> rssItems       = new ArrayList<RssItem>();
+	private String xml;
 
 	public RssFeedParser(String xml) {
 		this.xml = xml;
@@ -117,7 +117,7 @@ public class RssFeedParser {
 		return new EndElementListener() {
 			@Override
 			public void end() {
-				feed.setItems(items);
+				feed.setRssItems(rssItems);
 			}
 		};
 	}
@@ -157,7 +157,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setFeedBurnerOrigLink(body);
+				currentRssItem.setFeedBurnerOrigLink(body);
 			}
 		};
 	}
@@ -166,7 +166,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setWfwCommentRss(body);
+				currentRssItem.setWfwCommentRss(body);
 			}
 		};
 	}
@@ -175,7 +175,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setComments(body);
+				currentRssItem.setComments(body);
 			}
 		};
 	}
@@ -183,7 +183,7 @@ public class RssFeedParser {
 	private EndTextElementListener getItemPubDateEndTextElementListener() {
 		return new EndTextElementListener() {
 			public void end(String body) {
-				currentItem.setPubDate(body);
+				currentRssItem.setPubDate(body);
 			}
 		};
 	}
@@ -191,7 +191,7 @@ public class RssFeedParser {
 	private EndTextElementListener getItemDescriptionEndTextElementListener() {
 		return new EndTextElementListener() {
 			public void end(String body) {
-				currentItem.setDescription(body);
+				currentRssItem.setDescription(body);
 			}
 		};
 	}
@@ -199,7 +199,7 @@ public class RssFeedParser {
 	private EndTextElementListener getItemLinkEndTextElementListener() {
 		return new EndTextElementListener() {
 			public void end(String body) {
-				currentItem.setLink(body);
+				currentRssItem.setLink(body);
 			}
 		};
 	}
@@ -208,7 +208,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.getGuid().setUrl(body);
+				currentRssItem.getGuid().setUrl(body);
 			}
 		};
 	}
@@ -221,7 +221,7 @@ public class RssFeedParser {
 				if (value != null) {
 					Guid guid = new Guid();
 					guid.setIsPermalink(Deserialize.fromBoolean(value));
-					currentItem.setGuid(guid);
+					currentRssItem.setGuid(guid);
 				}
 			}
 		};
@@ -241,7 +241,7 @@ public class RssFeedParser {
 				} catch (NumberFormatException e) {
 					// ignored
 				}
-				currentItem.setEnclosure(enclosure);
+				currentRssItem.setEnclosure(enclosure);
 			}
 		};
 	}
@@ -250,7 +250,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setCategory(body);
+				currentRssItem.setCategory(body);
 			}
 		};
 	}
@@ -269,7 +269,7 @@ public class RssFeedParser {
 				} catch (NumberFormatException e) {
 					// ignored
 				}
-				currentItem.setMediaContent(mediaContent);
+				currentRssItem.setMediaContent(mediaContent);
 			}
 
 		};
@@ -279,7 +279,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesBlock(Deserialize.fromBoolean(body));
+				currentRssItem.setiTunesBlock(Deserialize.fromBoolean(body));
 			}
 		};
 	}
@@ -288,7 +288,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesExplicit(Deserialize.fromBoolean(body));
+				currentRssItem.setiTunesExplicit(Deserialize.fromBoolean(body));
 			}
 		};
 	}
@@ -297,7 +297,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesDuration(body);
+				currentRssItem.setiTunesDuration(body);
 			}
 		};
 	}
@@ -306,7 +306,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesAuthor(body);
+				currentRssItem.setiTunesAuthor(body);
 			}
 		};
 	}
@@ -315,7 +315,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesSubtitle(body);
+				currentRssItem.setiTunesSubtitle(body);
 			}
 		};
 	}
@@ -324,7 +324,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesKeywords(body);
+				currentRssItem.setiTunesKeywords(body);
 			}
 		};
 	}
@@ -333,7 +333,7 @@ public class RssFeedParser {
 		return new EndTextElementListener() {
 			@Override
 			public void end(final String body) {
-				currentItem.setiTunesSummary(body);
+				currentRssItem.setiTunesSummary(body);
 			}
 		};
 	}
@@ -350,7 +350,7 @@ public class RssFeedParser {
 		return new StartElementListener() {
 			@Override
 			public void start(final Attributes attributes) {
-				currentItem = new Item();
+				currentRssItem = new RssItem();
 			}
 		};
 	}
@@ -367,7 +367,7 @@ public class RssFeedParser {
 	private EndTextElementListener getItemTitleEndTextElementListener() {
 		return new EndTextElementListener() {
 			public void end(String body) {
-				currentItem.setTitle(body);
+				currentRssItem.setTitle(body);
 			}
 		};
 	}
@@ -375,7 +375,7 @@ public class RssFeedParser {
 	private EndElementListener getItemEndElementListener() {
 		return new EndElementListener() {
 			public void end() {
-				items.add(currentItem);
+				rssItems.add(currentRssItem);
 			}
 		};
 	}

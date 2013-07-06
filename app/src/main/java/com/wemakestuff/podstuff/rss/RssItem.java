@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @DatabaseTable(tableName = "items")
-public class Item implements Comparable<Item> {
+public class RssItem implements Comparable<RssItem> {
 	static SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 
 	@DatabaseField(generatedId = true)
@@ -77,8 +77,8 @@ public class Item implements Comparable<Item> {
 	@DatabaseField(foreign = true)
 	private RssFeed feed;
 
-	public Item copy() {
-		Item copy = new Item();
+	public RssItem copy() {
+		RssItem copy = new RssItem();
 		copy.title = title;
 		copy.link = link;
 		copy.comments = comments;
@@ -271,7 +271,7 @@ public class Item implements Comparable<Item> {
 	}
 
 	// sort by date
-	public int compareTo(Item another) {
+	public int compareTo(RssItem another) {
 		if (another == null) return 1;
 		// sort descending, most recent first
 		return another.pubDate.compareTo(pubDate);
@@ -282,32 +282,32 @@ public class Item implements Comparable<Item> {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		final Item item = (Item) o;
+		final RssItem rssItem = (RssItem) o;
 
-		if (category != null ? !category.equals(item.category) : item.category != null) return false;
-		if (comments != null ? !comments.equals(item.comments) : item.comments != null) return false;
-		if (description != null ? !description.equals(item.description) : item.description != null) return false;
-		if (enclosure != null ? !enclosure.equals(item.enclosure) : item.enclosure != null) return false;
-		if (feedBurnerOrigLink != null ? !feedBurnerOrigLink.equals(item.feedBurnerOrigLink) : item.feedBurnerOrigLink != null)
+		if (category != null ? !category.equals(rssItem.category) : rssItem.category != null) return false;
+		if (comments != null ? !comments.equals(rssItem.comments) : rssItem.comments != null) return false;
+		if (description != null ? !description.equals(rssItem.description) : rssItem.description != null) return false;
+		if (enclosure != null ? !enclosure.equals(rssItem.enclosure) : rssItem.enclosure != null) return false;
+		if (feedBurnerOrigLink != null ? !feedBurnerOrigLink.equals(rssItem.feedBurnerOrigLink) : rssItem.feedBurnerOrigLink != null)
 			return false;
-		if (guid != null ? !guid.equals(item.guid) : item.guid != null) return false;
-		if (iTunesAuthor != null ? !iTunesAuthor.equals(item.iTunesAuthor) : item.iTunesAuthor != null) return false;
-		if (iTunesBlock != null ? !iTunesBlock.equals(item.iTunesBlock) : item.iTunesBlock != null) return false;
-		if (iTunesDuration != null ? !iTunesDuration.equals(item.iTunesDuration) : item.iTunesDuration != null)
+		if (guid != null ? !guid.equals(rssItem.guid) : rssItem.guid != null) return false;
+		if (iTunesAuthor != null ? !iTunesAuthor.equals(rssItem.iTunesAuthor) : rssItem.iTunesAuthor != null) return false;
+		if (iTunesBlock != null ? !iTunesBlock.equals(rssItem.iTunesBlock) : rssItem.iTunesBlock != null) return false;
+		if (iTunesDuration != null ? !iTunesDuration.equals(rssItem.iTunesDuration) : rssItem.iTunesDuration != null)
 			return false;
-		if (iTunesExplicit != null ? !iTunesExplicit.equals(item.iTunesExplicit) : item.iTunesExplicit != null)
+		if (iTunesExplicit != null ? !iTunesExplicit.equals(rssItem.iTunesExplicit) : rssItem.iTunesExplicit != null)
 			return false;
-		if (iTunesImage != null ? !iTunesImage.equals(item.iTunesImage) : item.iTunesImage != null) return false;
-		if (!iTunesKeywords.equals(item.iTunesKeywords)) return false;
-		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(item.iTunesSubtitle) : item.iTunesSubtitle != null)
+		if (iTunesImage != null ? !iTunesImage.equals(rssItem.iTunesImage) : rssItem.iTunesImage != null) return false;
+		if (!iTunesKeywords.equals(rssItem.iTunesKeywords)) return false;
+		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(rssItem.iTunesSubtitle) : rssItem.iTunesSubtitle != null)
 			return false;
-		if (iTunesSummary != null ? !iTunesSummary.equals(item.iTunesSummary) : item.iTunesSummary != null)
+		if (iTunesSummary != null ? !iTunesSummary.equals(rssItem.iTunesSummary) : rssItem.iTunesSummary != null)
 			return false;
-		if (link != null ? !link.equals(item.link) : item.link != null) return false;
-		if (mediaContent != null ? !mediaContent.equals(item.mediaContent) : item.mediaContent != null) return false;
-		if (pubDate != null ? !pubDate.equals(item.pubDate) : item.pubDate != null) return false;
-		if (title != null ? !title.equals(item.title) : item.title != null) return false;
-		if (wfwCommentRss != null ? !wfwCommentRss.equals(item.wfwCommentRss) : item.wfwCommentRss != null)
+		if (link != null ? !link.equals(rssItem.link) : rssItem.link != null) return false;
+		if (mediaContent != null ? !mediaContent.equals(rssItem.mediaContent) : rssItem.mediaContent != null) return false;
+		if (pubDate != null ? !pubDate.equals(rssItem.pubDate) : rssItem.pubDate != null) return false;
+		if (title != null ? !title.equals(rssItem.title) : rssItem.title != null) return false;
+		if (wfwCommentRss != null ? !wfwCommentRss.equals(rssItem.wfwCommentRss) : rssItem.wfwCommentRss != null)
 			return false;
 
 		return true;

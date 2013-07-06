@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import com.actionbarsherlock.app.ActionBar;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.util.GravatarUtils;
+import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.util.Ln;
 import com.wemakestuff.podstuff.util.SafeAsyncTask;
 

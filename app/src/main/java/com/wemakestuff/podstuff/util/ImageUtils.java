@@ -1,8 +1,7 @@
-package com.wemakestuff.podstuff.core;
+package com.wemakestuff.podstuff.util;
 
 import android.graphics.*;
 import android.widget.ImageView;
-import com.wemakestuff.podstuff.util.Ln;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;

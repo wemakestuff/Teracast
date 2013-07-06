@@ -20,12 +20,12 @@ import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Constants;
-import com.wemakestuff.podstuff.core.ImageUtils;
+import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
 import com.wemakestuff.podstuff.media.RemoteControlHelper;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.Item;
+import com.wemakestuff.podstuff.rss.RssItem;
 import com.wemakestuff.podstuff.rss.iTunesImage;
 import com.wemakestuff.podstuff.ui.PlayerActivity;
 import com.wemakestuff.podstuff.util.Ln;
@@ -63,10 +63,10 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	// The component name of MusicIntentReceiver, for use with media button and remote control
 	// APIs
 	private ComponentName             mMediaButtonReceiverComponent;
-	private Notification mNotification = null;
+	private Notification mNotification  = null;
 	//Do we have audio focus?
-	private AudioFocus   mAudioFocus   = AudioFocus.NoFocusNoDuck;
-	private Item         playingItem   = null;
+	private AudioFocus   mAudioFocus    = AudioFocus.NoFocusNoDuck;
+	private RssItem      playingRssItem = null;
 
 	@Override
 	public void onCreate() {
@@ -94,7 +94,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	/**
 	 * Starts playing the next song.
 	 */
-	private void playMedia(Item mediaItem) {
+	private void playMedia(RssItem mediaItem) {
 		updatePlaybackState(State.Stopped);
 		releaseResources(false); // release everything except MediaPlayer
 
@@ -111,7 +111,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 			}
 
 			if (mediaItem != null) {
-				playingItem = mediaItem;
+				playingRssItem = mediaItem;
 				tryToGetAudioFocus();
 				createMediaPlayerIfNeeded();
 				mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -188,7 +188,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 	private void playPreviousMedia() {
 		//TODO: Get the previous item in the queue and play it.
-		playMedia(playingItem);
+		playMedia(playingRssItem);
 	}
 
 	private void processTogglePlaybackRequest() {
@@ -203,7 +203,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		// actually play the song
 		if (mState == State.Stopped) {
 			// If we're stopped, just go ahead and start the last played song (if available), if not go to the next in the queue.
-			playMedia(playingItem);
+			playMedia(playingRssItem);
 		} else if (mState == State.Paused) {
 			// If we're paused, just continue playback and restore the 'foreground service' state.
 			updatePlaybackState(State.Playing);
@@ -216,7 +216,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 					.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
 		}
 
-		updateNotification(playingItem);
+		updateNotification(playingRssItem);
 	}
 
 	private void processPauseRequest() {
@@ -234,7 +234,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 					.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		}
 
-		updateNotification(playingItem);
+		updateNotification(playingRssItem);
 	}
 
 	private void processPreviousRequest() {
@@ -275,7 +275,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 			releaseResources(true);
 			produceProvideMediaProgressEvent();
 			giveUpAudioFocus();
-			playingItem = null;
+			playingRssItem = null;
 
 			cancelNotification();
 
@@ -408,7 +408,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	 * actively aware of (such as playing music), and must appear to the user as a notification. That's why we create the
 	 * notification here.
 	 */
-	private void setUpAsForeground(Item mediaItem) {
+	private void setUpAsForeground(RssItem mediaItem) {
 		// Run as foreground service: http://stackoverflow.com/a/3856940/5210
 		// Another example: https://github.com/commonsguy/cw-android/blob/master/Notifications/FakePlayer/src/com/commonsware/android/fakeplayerfg/PlayerService.java
 		startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(mediaItem));
@@ -501,7 +501,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		// The media player is done preparing. That means we can start playing!
 		Ln.d("%s - Media Player is Prepared, Starting Playback.", TAG);
 		updatePlaybackState(State.Playing);
-		updateNotification(playingItem);
+		updateNotification(playingRssItem);
 		configAndStartMediaPlayer();
 	}
 
@@ -548,7 +548,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		}
 	}
 
-	private void updateNotification(Item mediaItem) {
+	private void updateNotification(RssItem mediaItem) {
 		mNotificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(mediaItem));
 	}
 
@@ -581,7 +581,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	 *
 	 * @return a new {@link android.app.Notification}
 	 */
-	private Notification getNotification(Item mediaItem) {
+	private Notification getNotification(RssItem mediaItem) {
 		final Intent intent = new Intent(this, PlayerActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 

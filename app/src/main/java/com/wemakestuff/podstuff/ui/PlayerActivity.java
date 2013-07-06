@@ -12,10 +12,10 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.core.ConversionUtils;
+import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.core.Media;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.Item;
+import com.wemakestuff.podstuff.rss.RssItem;
 import com.wemakestuff.podstuff.rss.RssFeed;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.RssFeedService;
@@ -50,8 +50,6 @@ public class PlayerActivity extends BootstrapActivity {
 	protected ImageButton fastForward;
 	@InjectView(R.id.ib_next)
 	protected ImageButton next;
-	@InjectView(R.id.sp_play_speed)
-	protected Spinner     playSpeed;
 	@Inject
 	protected Bus         BUS;
 	@Inject
@@ -85,7 +83,7 @@ public class PlayerActivity extends BootstrapActivity {
 						produceTogglePlaybackEvent();
 						break;
 					default:
-						Item mediaItem = feed.getItems().get(0);
+						RssItem mediaItem = feed.getRssItems().get(0);
 						podcastTitle.setText(feed.getTitle());
 						episodeTitle.setText(mediaItem.getTitle());
 						episodeDescription.setText(mediaItem.getDescription());
@@ -141,7 +139,7 @@ public class PlayerActivity extends BootstrapActivity {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		Item mediaItem = feed.getItems().get(0);
+		RssItem mediaItem = feed.getRssItems().get(0);
 		Picasso.with(this)
 				.load(feed.getiTunesImage().getHref())
 				.placeholder(R.drawable.ic_contact_picture)
@@ -178,8 +176,8 @@ public class PlayerActivity extends BootstrapActivity {
 	public void onProvideMediaProgressEvent(ProvideMediaProgressEvent mediaProgressEvent) {
 		progress.setProgress(mediaProgressEvent.progress);
 		progress.setMax(mediaProgressEvent.max);
-		currentPosition.setText(ConversionUtils.ConvertMillisecondsToMinutesSeconds(mediaProgressEvent.progress));
-		length.setText(ConversionUtils.ConvertMillisecondsToMinutesSeconds(mediaProgressEvent.max));
+		currentPosition.setText(ConversionUtils.formatMilliseconds(mediaProgressEvent.progress));
+		length.setText(ConversionUtils.formatMilliseconds(mediaProgressEvent.max));
 	}
 
 	/**
@@ -192,7 +190,7 @@ public class PlayerActivity extends BootstrapActivity {
 	/**
 	 * Posts a {@link PlayItemPlaybackEvent} message to the {@link Bus}
 	 */
-	private void producePlayItemEvent(Item mediaItem) {
+	private void producePlayItemEvent(RssItem mediaItem) {
 		BUS.post(new PlayItemPlaybackEvent(mediaItem));
 	}
 

@@ -51,6 +51,7 @@
 	<string name="loading">Loading</string>
 
 	<string name="no_podcasts">You have no Podcasts, sucka!</string>
+	<string name="unknown">Unknown</string>
 
 
 </resources>

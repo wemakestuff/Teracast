@@ -1,6 +1,5 @@
 package com.wemakestuff.podstuff.rss;
 
-import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -13,7 +12,9 @@ import javax.inject.Inject;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @DatabaseTable(tableName = "feeds")
 public class RssFeed {
@@ -87,15 +88,15 @@ public class RssFeed {
 	@DatabaseField
 	private String managingEditor;
 
-	@ForeignCollectionField(eager = false, columnName = "items")
-	private ForeignCollection<Item> itemsForeignCollection;
+	@ForeignCollectionField(eager = false, columnName = "RssItems")
+	private ForeignCollection<RssItem> RssItemsForeignCollection;
 
 	/**
-	 * This is the real backing list, since {@link #itemsForeignCollection}
+	 * This is the real backing list, since {@link #RssItemsForeignCollection}
 	 * requires a Context there is a method assign the foreign collection
 	 * with {@link #getRssFeedForDao()}
 	 */
-	private List<Item> items = new ArrayList<Item>();
+	private List<RssItem> RssItems = new ArrayList<RssItem>();
 
 	public static String getTag() {
 		return TAG;
@@ -285,7 +286,7 @@ public class RssFeed {
 		copy.copyright = copyright;
 		copy.generator = generator;
 		copy.language  = language;
-		copy.items = items;
+		copy.RssItems = RssItems;
 		copy.iTunesSummary = iTunesSummary;
 		copy.iTunesSubtitle = iTunesSubtitle;
 		copy.iTunesKeywords = iTunesKeywords;
@@ -301,10 +302,10 @@ public class RssFeed {
 		copy.docs = docs;
 		copy.managingEditor = managingEditor;
 
-		if (items != null) {
+		if (RssItems != null) {
 			try {
-				copy.itemsForeignCollection = rssDao.getEmptyForeignCollection("items");
-				copy.itemsForeignCollection.addAll(items);
+				copy.RssItemsForeignCollection = rssDao.getEmptyForeignCollection("RssItems");
+				copy.RssItemsForeignCollection.addAll(RssItems);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -313,20 +314,20 @@ public class RssFeed {
 		return copy;
 	}
 
-	public void setItems(final List<Item> newItems) {
-		this.items.addAll(newItems);
+	public void setRssItems(final List<RssItem> newRssItems) {
+		this.RssItems.addAll(newRssItems);
 	}
 
 	public RssFeed() {
 		BootstrapApplication.getInstance().inject(this);
 	}
 
-	public void addItem(Item item) {
-		items.add(item);
+	public void addRssItem(RssItem RssItem) {
+		RssItems.add(RssItem);
 	}
 
-	public List<Item> getItems() {
-		return items;
+	public List<RssItem> getRssItems() {
+		return RssItems;
 	}
 
 	@Override
@@ -353,7 +354,7 @@ public class RssFeed {
 			return false;
 		if (iTunesSummary != null ? !iTunesSummary.equals(rssFeed.iTunesSummary) : rssFeed.iTunesSummary != null)
 			return false;
-		if (items != null ? !items.equals(rssFeed.items) : rssFeed.items != null) return false;
+		if (RssItems != null ? !RssItems.equals(rssFeed.RssItems) : rssFeed.RssItems != null) return false;
 		if (language != null ? !language.equals(rssFeed.language) : rssFeed.language != null) return false;
 		if (lastBuildDate != null ? !lastBuildDate.equals(rssFeed.lastBuildDate) : rssFeed.lastBuildDate != null)
 			return false;
@@ -389,7 +390,7 @@ public class RssFeed {
 		result = 31 * result + ttl;
 		result = 31 * result + (docs != null ? docs.hashCode() : 0);
 		result = 31 * result + (managingEditor != null ? managingEditor.hashCode() : 0);
-		result = 31 * result + (items != null ? items.hashCode() : 0);
+		result = 31 * result + (RssItems != null ? RssItems.hashCode() : 0);
 		return result;
 	}
 
@@ -418,23 +419,23 @@ public class RssFeed {
 		sb.append(", ttl=").append(ttl);
 		sb.append(", docs='").append(docs).append('\'');
 		sb.append(", managingEditor='").append(managingEditor).append('\'');
-		sb.append(", itemsForeignCollection=").append(itemsForeignCollection);
+		sb.append(", RssItemsForeignCollection=").append(RssItemsForeignCollection);
 
-		if (items != null) {
-			sb.append(", items(Size=").append(items.size()).append(") : ");
+		if (RssItems != null) {
+			sb.append(", RssItems(Size=").append(RssItems.size()).append(") : ");
 			int i = 0;
-			for (Item item : items) {
-				sb.append("[ Item: ")
+			for (RssItem RssItem : RssItems) {
+				sb.append("[ RssItem: ")
 						.append(i)
 						.append(" = ")
-						.append(item)
+						.append(RssItem)
 						.append(" ]");
 
 				i++;
 			}
 
 		} else {
-			sb.append("items = null ");
+			sb.append("RssItems = null ");
 		}
 
 		sb.append('}');

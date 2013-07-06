@@ -4,26 +4,6 @@
                 android:layout_height="match_parent"
                 android:minHeight="?android:attr/listPreferredItemHeight">
 
-	<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/iv_podcast_icon"
-			android:contentDescription="Podcast Title Goes Here"
-			android:src="@drawable/ic_contact_picture"
-			android:layout_alignParentTop="true"
-			android:padding="5dp" />
-
-	<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Startups For the Rest of Us"
-			android:id="@+id/tv_podcast_title"
-			android:layout_toRightOf="@id/iv_podcast_icon"
-			android:layout_alignTop="@id/iv_podcast_icon"
-			android:paddingLeft="10dp"
-			android:paddingTop="10dp"
-			android:textStyle="bold" />
-
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -45,8 +25,8 @@
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Length: 36m 12s (42MB)"
-			android:id="@+id/tv_episode_length"
+			android:text="Length: 36:12"
+			android:id="@+id/tv_length"
 			android:layout_toRightOf="@id/tv_episode_date"
 			android:layout_alignBaseline="@id/tv_episode_date"
 			android:paddingLeft="5dp" />

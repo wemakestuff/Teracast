@@ -2,10 +2,14 @@
 
 package com.wemakestuff.podstuff.core;
 
+import com.wemakestuff.podstuff.R;
+
 /**
  * Bootstrap constants
  */
 public class Constants {
+
+	public static final int IMAGE_PLACEHOLDER = R.drawable.ic_contact_picture;
 
 	public static class Auth {
 		private Auth() {

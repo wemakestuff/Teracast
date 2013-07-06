@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.core;
+package com.wemakestuff.podstuff.util;
 
 import android.text.TextUtils;
 
