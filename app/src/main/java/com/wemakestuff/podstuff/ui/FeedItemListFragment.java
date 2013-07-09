@@ -20,7 +20,7 @@ public class FeedItemListFragment extends SherlockListFragment {
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setListAdapter(new FeedItemListAdapter(mInflater, mFeed.getRssItems()));
+		setListAdapter(new FeedItemListAdapter(mInflater, mFeed));
 	}
 
 	@Override

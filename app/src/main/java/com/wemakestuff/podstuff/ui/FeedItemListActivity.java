@@ -43,7 +43,7 @@ public class FeedItemListActivity extends BootstrapListActivity {
 	@Subscribe
 	public void onProvideRssFeedEvent(ProvideRssFeedEvent provideRssFeedEvent) {
 		parsedFeed = provideRssFeedEvent.rssFeed;
-		FeedItemListAdapter adapter = new FeedItemListAdapter(getLayoutInflater(), parsedFeed.getRssItems());
+		FeedItemListAdapter adapter = new FeedItemListAdapter(getLayoutInflater(), parsedFeed);
 		setListAdapter(adapter);
 	}
 

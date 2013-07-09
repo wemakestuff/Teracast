@@ -6,6 +6,7 @@
 		<item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
 		<item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
 		<item name="android:listViewStyle">@style/DarkListView</item>
+		<item name="android:imageButtonStyle">@style/DarkImageButton</item>
 	</style>
 
 	<style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.ActionBar.Solid">
