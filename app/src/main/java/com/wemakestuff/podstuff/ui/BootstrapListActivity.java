@@ -3,7 +3,7 @@ package com.wemakestuff.podstuff.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import butterknife.Views;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.debug.hv.ViewServer;
 import com.wemakestuff.podstuff.BootstrapApplication;
@@ -15,7 +15,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 /**
  * Base activity for a Bootstrap activity which does not use fragments.
  */
-public abstract class BootstrapListActivity extends SherlockActivity {
+public abstract class BootstrapListActivity extends SherlockListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

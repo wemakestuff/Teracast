@@ -26,7 +26,7 @@ public class FeedItemListFragment extends SherlockListFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		mInflater = inflater;
-		View view = mInflater.inflate(R.layout.feed_item_list, container, false);
+		View view = mInflater.inflate(R.layout.list_activity, container, false);
 		return view;
 	}
 

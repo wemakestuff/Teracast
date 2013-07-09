@@ -32,6 +32,7 @@ import java.sql.SQLException;
 				injects = {
 								  BootstrapApplication.class,
 								  BootstrapAuthenticatorActivity.class,
+								  FeedItemListActivity.class,
 								  CarouselActivity.class,
 								  BootstrapTimerActivity.class,
 								  CheckInsListFragment.class,

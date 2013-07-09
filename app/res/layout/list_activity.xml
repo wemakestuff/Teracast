@@ -8,8 +8,9 @@
 			android:layout_height="wrap_content"
 			android:id="@android:id/list"
 			android:layout_width="match_parent"
-			style="@style/ListView"
-			android:fastScrollEnabled="true"/>
+			android:fastScrollEnabled="true"
+			android:clickable="false"
+			android:textFilterEnabled="true"/>
 
 	<TextView
 			android:text="@string/no_podcasts"

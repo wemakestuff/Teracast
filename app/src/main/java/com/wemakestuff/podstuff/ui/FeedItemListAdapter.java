@@ -4,15 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import butterknife.InjectView;
 import butterknife.Views;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.rss.model.RssMediaContent;
 import com.wemakestuff.podstuff.rss.model.RssEnclosure;
 import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.rss.model.RssMediaContent;
 import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.util.ListUtils;
 
@@ -92,10 +90,11 @@ public class FeedItemListAdapter extends BaseAdapter {
 		TextView    episodeDate;
 		@InjectView(R.id.tv_length)
 		TextView    length;
+		/*
 		@InjectView(R.id.ib_play)
 		ImageButton play;
 		@InjectView(R.id.cb_select)
-		CheckBox    select;
+		CheckBox    select;   */
 
 		public ViewHolder(View view) {
 			Views.inject(this, view);

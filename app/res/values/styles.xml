@@ -2,6 +2,33 @@
 
 <resources>
 
+	<!-- List Views -->
+	<style name="ListView">
+		<item name="android:dividerHeight">2px</item>
+		<item name="android:cacheColorHint">@android:color/transparent</item>
+		<item name="android:fadingEdge">none</item>
+	</style>
+
+	<style name="DarkListView" parent="ListView">
+		<item name="android:divider">@drawable/list_divider_holo_dark</item>
+		<item name="android:listSelector">@drawable/list_selector_holo_dark</item>
+	</style>
+
+	<style name="LightListView" parent="ListView">
+		<item name="android:divider">@drawable/list_divider_holo_light</item>
+		<item name="android:listSelector">@drawable/list_selector_holo_light</item>
+	</style>
+
+	<style name="ListItem">
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:paddingLeft">10dp</item>
+		<item name="android:paddingRight">10dp</item>
+		<item name="android:paddingTop">10dp</item>
+		<item name="android:paddingBottom">10dp</item>
+	</style>
+	<!-- End List Views -->
+
 	<style name="SignInEditText">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -38,12 +65,6 @@
 		<item name="android:layout_height">16dp</item>
 	</style>
 
-	<style name="ListView">
-		<item name="android:dividerHeight">2px</item>
-		<item name="android:divider">@drawable/bootstrap_divider</item>
-		<item name="android:cacheColorHint">@android:color/transparent</item>
-	</style>
-
 	<style name="ListSubtitleText">
 		<item name="android:textSize">14sp</item>
 		<item name="android:textColor">@color/table_text_light</item>
@@ -62,16 +83,6 @@
 	<style name="ListSpinner" parent="Spinner">
 		<item name="android:layout_width">64dp</item>
 		<item name="android:layout_height">64dp</item>
-	</style>
-
-	<style name="ListItem">
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:paddingLeft">10dp</item>
-		<item name="android:paddingRight">10dp</item>
-		<item name="android:paddingTop">10dp</item>
-		<item name="android:paddingBottom">10dp</item>
-		<item name="android:background">@drawable/list_item_background</item>
 	</style>
 
 	<style name="BootstrapButton">
