@@ -6,8 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import com.squareup.otto.Bus;
-import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.rss.RssFeedParser;
+import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
+import com.wemakestuff.podstuff.rss.model.RssFeed;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,18 @@ public class RssFeedService extends HttpService {
 	private static final String TAG = RssFeedService.class.getSimpleName();
 	@Inject
 	Bus bus;
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		bus.register(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		bus.unregister(this);
+		super.onDestroy();
+	}
 
 	@Override
 	public void onRequestComplete(final Intent result) {
@@ -35,8 +48,11 @@ public class RssFeedService extends HttpService {
 
 		RssFeedParser parser = new RssFeedParser(mJson);
 		RssFeed feed = parser.parse();
+		produceProvideRssFeedEvent(feed);
+	}
 
-		bus.post(feed);
+	protected void produceProvideRssFeedEvent(RssFeed rssFeed) {
+		bus.post(new ProvideRssFeedEvent(rssFeed));
 	}
 
 	public static void getRssFeed(Context context, Uri uri) {

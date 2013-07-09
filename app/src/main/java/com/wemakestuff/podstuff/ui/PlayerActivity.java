@@ -12,6 +12,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
 import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.core.Media;
 import com.wemakestuff.podstuff.media.event.*;
@@ -130,9 +131,9 @@ public class PlayerActivity extends BootstrapActivity {
 	}
 
 	@Subscribe
-	public void rssFeedAvailable(RssFeed feed) {
+	public void onProvideRssFeedEvent(ProvideRssFeedEvent provideRssFeedEvent) {
 		Log.i(TAG, "Received RSS feed!");
-		this.feed = feed;
+		this.feed = provideRssFeedEvent.rssFeed;
 
 		try {
 			dao.create(feed.getRssFeedForDao());
@@ -141,10 +142,10 @@ public class PlayerActivity extends BootstrapActivity {
 		}
 		RssItem mediaItem = feed.getRssItems().get(0);
 		Picasso.with(this)
-				.load(feed.getiTunesImage().getHref())
-				.placeholder(R.drawable.ic_contact_picture)
-				.error(R.drawable.ic_contact_picture)
-				.into(podcastIcon);
+		       .load(feed.getiTunesImage().getHref())
+		       .placeholder(R.drawable.ic_contact_picture)
+		       .error(R.drawable.ic_contact_picture)
+		       .into(podcastIcon);
 	}
 
 	/**
