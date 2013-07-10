@@ -12,10 +12,16 @@ import com.wemakestuff.podstuff.rss.model.*;
 import java.sql.SQLException;
 
 public class RssDatabase extends OrmLiteSqliteOpenHelper {
-	private static final String                TAG              = RssDatabase.class.getSimpleName();
-	private static final int                   DATABASE_VERSION = 1;
-	private static final String                DATABASE_NAME    = "podstuff.db";
-	private              Dao<RssFeed, Integer> rssDao           = null;
+	private static final String                        TAG                = RssDatabase.class.getSimpleName();
+	private static final int                           DATABASE_VERSION   = 1;
+	private static final String                        DATABASE_NAME      = "podstuff.db";
+	private              Dao<RssEnclosure, Integer>    rssEnclosureDao    = null;
+	private              Dao<RssFeed, Integer>         rssFeedDao         = null;
+	private              Dao<RssGuid, Integer>         rssGuidDao         = null;
+	private              Dao<RssImage, Integer>        rssImageDao        = null;
+	private              Dao<RssItem, Integer>         rssItemDao         = null;
+	private              Dao<RssITunesImage, Integer>  rssITunesImageDao  = null;
+	private              Dao<RssMediaContent, Integer> rssMediaContentDao = null;
 
 	public RssDatabase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,7 +33,7 @@ public class RssDatabase extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, RssFeed.class);
 			TableUtils.createTable(connectionSource, RssGuid.class);
 			TableUtils.createTable(connectionSource, RssItem.class);
-			TableUtils.createTable(connectionSource, RssiTunesImage.class);
+			TableUtils.createTable(connectionSource, RssITunesImage.class);
 			TableUtils.createTable(connectionSource, RssMediaContent.class);
 			TableUtils.createTable(connectionSource, RssEnclosure.class);
 			TableUtils.createTable(connectionSource, RssImage.class);
@@ -41,12 +47,8 @@ public class RssDatabase extends OrmLiteSqliteOpenHelper {
 		// TODO: Implement onUpgrade for this database
 	}
 
-	public Dao<RssFeed, Integer> getRssDao() throws SQLException {
-		if (rssDao == null) {
-			rssDao = getDao(RssFeed.class);
-		}
-
-		return rssDao;
+	public <T, Integer> Dao<T, Integer> getRssDao(Class<T> clazz) throws SQLException {
+		return getDao(clazz);
 	}
 
 	public interface Tables {

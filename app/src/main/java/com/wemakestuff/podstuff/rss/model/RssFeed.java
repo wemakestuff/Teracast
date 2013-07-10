@@ -22,7 +22,21 @@ public class RssFeed {
 	static              SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 
 	@Inject
-	Dao rssDao;
+	Dao<RssFeed, Integer>         rssFeedDao;
+	@Inject
+	Dao<RssITunesImage, Integer>  iTunesImageDao;
+	@Inject
+	Dao<RssItem, Integer>         rssItemDao;
+	@Inject
+	Dao<RssITunesImage, Integer>  rssITunesImageDao;
+	@Inject
+	Dao<RssMediaContent, Integer> rssMediaContentDao;
+	@Inject
+	Dao<RssEnclosure, Integer>    rssEnclosureDao;
+	@Inject
+	Dao<RssImage, Integer>        rssImageDao;
+	@Inject
+	Dao<RssGuid, Integer>         rssGuidDao;
 
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -57,8 +71,8 @@ public class RssFeed {
 	@DatabaseField
 	private String iTunesAuthor;
 
-	@DatabaseField(canBeNull = true, foreign = true)
-	private RssiTunesImage iTunesImage;
+	@DatabaseField(canBeNull = true, foreign = true, foreignAutoCreate = true)
+	private RssITunesImage iTunesImage;
 
 	@DatabaseField
 	private Boolean iTunesExplicit;
@@ -90,11 +104,6 @@ public class RssFeed {
 	@ForeignCollectionField(eager = false, columnName = "RssItems")
 	private ForeignCollection<RssItem> RssItemsForeignCollection;
 
-	/**
-	 * This is the real backing list, since {@link #RssItemsForeignCollection}
-	 * requires a Context there is a method assign the foreign collection
-	 * with {@link #getRssFeedForDao()}
-	 */
 	private List<RssItem> RssItems = new ArrayList<RssItem>();
 
 	public static String getTag() {
@@ -181,11 +190,11 @@ public class RssFeed {
 		this.iTunesAuthor = iTunesAuthor;
 	}
 
-	public RssiTunesImage getiTunesImage() {
+	public RssITunesImage getiTunesImage() {
 		return iTunesImage;
 	}
 
-	public void setiTunesImage(final RssiTunesImage iTunesImage) {
+	public void setiTunesImage(final RssITunesImage iTunesImage) {
 		this.iTunesImage = iTunesImage;
 	}
 
@@ -277,14 +286,14 @@ public class RssFeed {
 		this.managingEditor = managingEditor;
 	}
 
-	public RssFeed getRssFeedForDao() {
+	public RssFeed insertIntoDatabase() throws SQLException {
 		RssFeed copy = new RssFeed();
 		copy.title = title;
 		copy.link = link;
 		copy.description = description;
 		copy.copyright = copyright;
 		copy.generator = generator;
-		copy.language  = language;
+		copy.language = language;
 		copy.RssItems = RssItems;
 		copy.iTunesSummary = iTunesSummary;
 		copy.iTunesSubtitle = iTunesSubtitle;
@@ -301,13 +310,29 @@ public class RssFeed {
 		copy.docs = docs;
 		copy.managingEditor = managingEditor;
 
+		iTunesImageDao.createIfNotExists(copy.iTunesImage);
+
+		for (RssItem item : RssItems) {
+			item.setRssFeed(copy);
+
+			if (item.getGuid() != null)
+				rssGuidDao.createIfNotExists(item.getGuid());
+
+			if (item.getiTunesImage() != null)
+				rssITunesImageDao.createIfNotExists(item.getiTunesImage());
+
+			if (item.getEnclosure() != null)
+				rssEnclosureDao.createIfNotExists(item.getEnclosure());
+
+			if (item.getMediaContent() != null)
+				rssMediaContentDao.createIfNotExists(item.getMediaContent());
+		}
+
+		rssFeedDao.createIfNotExists(copy);
+
 		if (RssItems != null) {
-			try {
-				copy.RssItemsForeignCollection = rssDao.getEmptyForeignCollection("RssItems");
-				copy.RssItemsForeignCollection.addAll(RssItems);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			copy.RssItemsForeignCollection = rssFeedDao.getEmptyForeignCollection("RssItems");
+			copy.RssItemsForeignCollection.addAll(RssItems);
 		}
 
 		return copy;
@@ -396,7 +421,7 @@ public class RssFeed {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("RssFeed{");
-		sb.append("rssDao=").append(rssDao);
+		sb.append("rssFeedDao=").append(rssFeedDao);
 		sb.append(", id=").append(id);
 		sb.append(", title='").append(title).append('\'');
 		sb.append(", link='").append(link).append('\'');
@@ -408,7 +433,7 @@ public class RssFeed {
 		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
 		sb.append(", iTunesKeywords=").append(iTunesKeywords);
 		sb.append(", iTunesAuthor='").append(iTunesAuthor).append('\'');
-		sb.append(", RssiTunesImage=").append(iTunesImage);
+		sb.append(", RssITunesImage=").append(iTunesImage);
 		sb.append(", iTunesExplicit=").append(iTunesExplicit);
 		sb.append(", iTunesBlock=").append(iTunesBlock);
 		sb.append(", rssImage=").append(rssImage);

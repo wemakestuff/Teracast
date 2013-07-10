@@ -39,7 +39,7 @@ public class RssItem implements Comparable<RssItem> {
 	private RssEnclosure enclosure;
 
 	@DatabaseField(canBeNull = true, foreign = true)
-	private RssiTunesImage iTunesImage;
+	private RssITunesImage iTunesImage;
 
 	@DatabaseField
 	private String iTunesSummary;
@@ -72,10 +72,10 @@ public class RssItem implements Comparable<RssItem> {
 	private String wfwCommentRss;
 
 	/**
-	 * Needed so that ORMLite can find the items that match a particular feed
+	 * Needed so that ORMLite can find the items that match a particular rssFeed
 	 */
 	@DatabaseField(foreign = true)
-	private RssFeed feed;
+	private RssFeed rssFeed;
 
 	public RssItem copy() {
 		RssItem copy = new RssItem();
@@ -262,11 +262,11 @@ public class RssItem implements Comparable<RssItem> {
 		}
 	}
 
-	public RssiTunesImage getiTunesImage() {
+	public RssITunesImage getiTunesImage() {
 		return iTunesImage;
 	}
 
-	public void setiTunesImage(final RssiTunesImage iTunesImage) {
+	public void setiTunesImage(final RssITunesImage iTunesImage) {
 		this.iTunesImage = iTunesImage;
 	}
 
@@ -348,7 +348,7 @@ public class RssItem implements Comparable<RssItem> {
 		sb.append(", description='").append(description).append('\'');
 		sb.append(", guid=").append(guid);
 		sb.append(", enclosure=").append(enclosure);
-		sb.append(", RssiTunesImage=").append(iTunesImage);
+		sb.append(", RssITunesImage=").append(iTunesImage);
 		sb.append(", iTunesSummary='").append(iTunesSummary).append('\'');
 		sb.append(", iTunesKeywords=").append(iTunesKeywords);
 		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
@@ -361,5 +361,13 @@ public class RssItem implements Comparable<RssItem> {
 		sb.append(", wfwCommentRss='").append(wfwCommentRss).append('\'');
 		sb.append('}');
 		return sb.toString();
+	}
+
+	public RssFeed getRssFeed() {
+		return rssFeed;
+	}
+
+	public void setRssFeed(final RssFeed rssFeed) {
+		this.rssFeed = rssFeed;
 	}
 }

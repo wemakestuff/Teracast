@@ -11,6 +11,7 @@ import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
 import com.wemakestuff.podstuff.rss.model.RssFeed;
 
 import javax.inject.Inject;
+import java.sql.SQLException;
 
 public class RssFeedService extends HttpService {
 
@@ -48,6 +49,11 @@ public class RssFeedService extends HttpService {
 
 		RssFeedParser parser = new RssFeedParser(mJson);
 		RssFeed feed = parser.parse();
+		try {
+			feed.insertIntoDatabase();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		produceProvideRssFeedEvent(feed);
 	}
 

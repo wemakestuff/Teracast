@@ -5,24 +5,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import butterknife.InjectView;
-import com.j256.ormlite.dao.Dao;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
-import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.core.Media;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
 import com.wemakestuff.podstuff.rss.model.RssFeed;
+import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.RssFeedService;
+import com.wemakestuff.podstuff.util.ConversionUtils;
 
 import javax.inject.Inject;
-import java.sql.SQLException;
 
 public class PlayerActivity extends BootstrapActivity {
 	public static final String TAG = PlayerActivity.class.getSimpleName();
@@ -53,8 +54,6 @@ public class PlayerActivity extends BootstrapActivity {
 	protected ImageButton next;
 	@Inject
 	protected Bus         BUS;
-	@Inject
-	protected Dao dao;
 	private RssFeed feed = null;
 	private MediaService.State mMediaServiceState = MediaService.State.Stopped;
 
@@ -135,11 +134,6 @@ public class PlayerActivity extends BootstrapActivity {
 		Log.i(TAG, "Received RSS feed!");
 		this.feed = provideRssFeedEvent.rssFeed;
 
-		try {
-			dao.create(feed.getRssFeedForDao());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		RssItem mediaItem = feed.getRssItems().get(0);
 		Picasso.with(this)
 		       .load(feed.getiTunesImage().getHref())

@@ -10,7 +10,7 @@ import com.wemakestuff.podstuff.authenticator.LogoutService;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
 import com.wemakestuff.podstuff.core.TimerService;
 import com.wemakestuff.podstuff.database.RssDatabase;
-import com.wemakestuff.podstuff.rss.model.RssFeed;
+import com.wemakestuff.podstuff.rss.model.*;
 import com.wemakestuff.podstuff.service.HttpService;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.MusicIntentReceiver;
@@ -72,9 +72,75 @@ public class BootstrapModule {
 
 	@Singleton
 	@Provides
-	Dao provideDao(final Context context) {
+	Dao<RssFeed, Integer> provideDao(final Context context) {
 		try {
-			return new RssDatabase(context).getRssDao();
+			return new RssDatabase(context).getRssDao(RssFeed.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Singleton
+	@Provides
+	Dao<RssEnclosure, Integer> provideEnclosureDao(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao(RssEnclosure.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Singleton
+	@Provides
+	Dao<RssGuid, Integer> provideRssGuidDao(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao(RssGuid.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Singleton
+	@Provides
+	Dao<RssImage, Integer> provideRssImageDao(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao(RssImage.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Singleton
+	@Provides
+	Dao<RssItem, Integer> provideRssItemDao(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao(RssItem.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Singleton
+	@Provides
+	Dao<RssMediaContent, Integer> provideRssMediaContentDao(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao(RssMediaContent.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Singleton
+	@Provides
+	Dao<RssITunesImage, Integer> provideITunesImage(final Context context) {
+		try {
+			return new RssDatabase(context).getRssDao(RssITunesImage.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
