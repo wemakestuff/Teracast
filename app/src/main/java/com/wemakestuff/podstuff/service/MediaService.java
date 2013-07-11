@@ -20,14 +20,14 @@ import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Constants;
-import com.wemakestuff.podstuff.ui.PlayerActivity;
-import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
 import com.wemakestuff.podstuff.media.RemoteControlHelper;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.rss.model.RssITunesImage;
+import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.ui.PlayerActivity;
+import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.util.Ln;
 
 import javax.inject.Inject;
@@ -49,11 +49,12 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	protected NotificationManager mNotificationManager;
 	@Inject
 	protected AudioManager        mAudioManager;
-	private MediaPlayer mPlayer      = null;
-	private State       mState       = State.Stopped;
-	private boolean     mIsStreaming = false;
+	private MediaPlayer mPlayer       = null;
+	private State       mState        = State.Stopped;
+	private boolean     mIsStreaming  = false;
+	private boolean     mInForeground = false;
 	//Why did we pause? Only relevant when State == Paused.
-	private PauseReason mPauseReason = PauseReason.UserRequest;
+	private PauseReason mPauseReason  = PauseReason.UserRequest;
 	// Wifi lock that we hold when streaming files from the internet, in order to prevent the
 	// device from shutting off the Wifi radio
 	private WifiManager.WifiLock      mWifiLock;
@@ -98,30 +99,19 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		updatePlaybackState(State.Stopped);
 		releaseResources(false); // release everything except MediaPlayer
 
-		String itemName = "NULL";
-		if (mediaItem != null) {
-			itemName = mediaItem.getTitle();
-			Ln.d("%s - Attempting to Play: %s", TAG, itemName);
-		}
-
 		try {
-			if (mediaItem == null) {
-				//TODO: Need to grab the next Item in the queue and assign it as mediaItem.
-				Ln.d("%s - No Item Passed to Play", TAG);
-			}
-
 			if (mediaItem != null) {
 				playingRssItem = mediaItem;
 				tryToGetAudioFocus();
 				createMediaPlayerIfNeeded();
 				mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 				//TODO: Add logic for playing local files.
-				mPlayer.setDataSource(mediaItem.getEnclosure().getUrl());
+				mPlayer.setDataSource(playingRssItem.getEnclosure().getUrl());
 
 				mIsStreaming = true;
 				updatePlaybackState(State.Preparing);
 				Ln.d("%s - Becoming Foreground Service", TAG);
-				setUpAsForeground(mediaItem);
+				setUpAsForeground(playingRssItem);
 
 				// Use the media button APIs (if available) to register ourselves for media button
 				// events
@@ -142,14 +132,14 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 				mRemoteControlClientCompat.setTransportControlFlags(RemoteControlClient.FLAG_KEY_MEDIA_PLAY | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_STOP);
 
 				String largeIconPath = "";
-				RssITunesImage itunesImage = mediaItem.getiTunesImage();
+				RssITunesImage itunesImage = playingRssItem.getiTunesImage();
 				if (itunesImage != null) {
 					largeIconPath = itunesImage.getHref();
 				}
 
 				mRemoteControlClientCompat.editMetadata(true).putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "Startups For the Rest of Us")
-				                          .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, mediaItem.getTitle())
-				                          .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, mediaItem.getEnclosure().getLength())
+				                          .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, playingRssItem.getTitle())
+				                          .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, playingRssItem.getEnclosure().getLength())
 				                          .putBitmap(RemoteControlClientCompat.MetadataEditorCompat.METADATA_KEY_ARTWORK, ImageUtils.getBitmap(largeIconPath))
 				                          .apply();
 
@@ -176,13 +166,13 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 				processStopRequest(true);
 			}
 		} catch (IOException e) {
-			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - IO Error", "Startups for the Rest of Us", mediaItem.getTitle());
+			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - IO Error", "Startups for the Rest of Us", playingRssItem.getTitle());
 		} catch (IllegalArgumentException e) {
-			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - Bad Arguments", "Startups for the Rest of Us", mediaItem.getTitle());
+			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - Bad Arguments", "Startups for the Rest of Us", playingRssItem.getTitle());
 		} catch (SecurityException e) {
-			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - Security Error", "Startups for the Rest of Us", mediaItem.getTitle());
+			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - Security Error", "Startups for the Rest of Us", playingRssItem.getTitle());
 		} catch (IllegalStateException e) {
-			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - Bad State", "Startups for the Rest of Us", mediaItem.getTitle());
+			Ln.e(e, TAG + "Failed to Play Media Item %s:%s - Bad State", "Startups for the Rest of Us", playingRssItem.getTitle());
 		}
 	}
 
@@ -358,6 +348,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		if (releaseMediaPlayer && mPlayer != null) {
 			// stop being a foreground service
 			stopForeground(true);
+			mInForeground = false;
 
 			//Release the player.
 			mPlayer.reset();
@@ -408,9 +399,12 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	 * notification here.
 	 */
 	private void setUpAsForeground(RssItem mediaItem) {
-		// Run as foreground service: http://stackoverflow.com/a/3856940/5210
-		// Another example: https://github.com/commonsguy/cw-android/blob/master/Notifications/FakePlayer/src/com/commonsware/android/fakeplayerfg/PlayerService.java
-		startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(mediaItem));
+		if (!mInForeground) {
+			// Run as foreground service: http://stackoverflow.com/a/3856940/5210
+			// Another example: https://github.com/commonsguy/cw-android/blob/master/Notifications/FakePlayer/src/com/commonsware/android/fakeplayerfg/PlayerService.java
+			startForeground(PLAYBACK_NOTIFICATION_ID, getNotification());
+			mInForeground = true;
+		}
 	}
 
 	@Subscribe
@@ -446,7 +440,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 	@Subscribe
 	public void onPlayItemEvent(PlayItemEvent playItemEvent) {
-		playMedia(playItemEvent.mediaItem);
+		playMedia(playItemEvent.rssItem);
 	}
 
 	@Subscribe
@@ -456,7 +450,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 
 	@Subscribe
 	public void onRelativeSeekEvent(RelativeSeekEvent relativeSeekEvent) {
-		  processRelativeSeekRequest(relativeSeekEvent.seekAmount);
+		processRelativeSeekRequest(relativeSeekEvent.seekAmount);
 	}
 
 	@Subscribe
@@ -543,7 +537,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	private void updateNotification(RssItem mediaItem) {
-		mNotificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(mediaItem));
+		mNotificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification());
 	}
 
 	private void cancelNotification() {
@@ -556,11 +550,11 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	private void produceProvideMediaServiceStateEvent() {
-		BUS.post(new ProvideMediaServiceStateEvent(mState));
+		BUS.post(new ProvideMediaServiceStateEvent(mState, playingRssItem));
 	}
 
 	private void produceProvideMediaProgressEvent() {
-		if (mPlayer != null && mState != State.Stopped) {
+		if (mPlayer != null && mPlayer.isPlaying() && mState != State.Stopped) {
 			BUS.post(new ProvideMediaProgressEvent(mPlayer.getCurrentPosition(), mPlayer.getDuration()));
 		} else {
 			BUS.post(new ProvideMediaProgressEvent(0, 42000));
@@ -570,12 +564,9 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	/**
 	 * Creates a notification to show in the notification bar
 	 *
-	 * @param mediaItem
-	 * 		The item that the notification is being created for. This is used to fill out the Custom Notification.
-	 *
 	 * @return a new {@link android.app.Notification}
 	 */
-	private Notification getNotification(RssItem mediaItem) {
+	private Notification getNotification() {
 		final Intent intent = new Intent(this, PlayerActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
@@ -605,16 +596,16 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		}
 
 		String largeIconPath = "";
-		RssITunesImage itunesImage = mediaItem.getiTunesImage();
+		RssITunesImage itunesImage = playingRssItem.getiTunesImage();
 		if (itunesImage != null) {
 			largeIconPath = itunesImage.getHref();
 		}
 
 		return new NotificationCompat.Builder(this)
-				       .setContentTitle("Startups For the Rest of Us")
+				       .setContentTitle(playingRssItem.getTitle())
 				       .setSmallIcon(smallIcon)
 				       .setLargeIcon(ImageUtils.getBitmap(largeIconPath))
-				       .setContentText(mediaItem.getTitle())
+				       .setContentText("Text")
 				       .setContentInfo(contentInfo)
 				       .setAutoCancel(false)
 				       .setOnlyAlertOnce(true)

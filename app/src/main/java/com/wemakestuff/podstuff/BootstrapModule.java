@@ -33,6 +33,7 @@ import java.sql.SQLException;
 								  BootstrapApplication.class,
 								  BootstrapAuthenticatorActivity.class,
 								  FeedItemListActivity.class,
+								  FeedItemListAdapter.class,
 								  CarouselActivity.class,
 								  BootstrapTimerActivity.class,
 								  CheckInsListFragment.class,

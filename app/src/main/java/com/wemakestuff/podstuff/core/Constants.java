@@ -112,6 +112,11 @@ public class Constants {
 		 */
 		public static final String INTENT_PREFIX = "com.wemakestuff.podstuff.";
 
+		/**
+		 * Value used to transfer Rss Items.
+		 */
+		public static final String RSS_ITEM = INTENT_PREFIX + "RssItem";
+
 	}
 
 	public static class Notification {
@@ -119,7 +124,7 @@ public class Constants {
 		}
 
 		public static final int PLAYBACK_NOTIFICATION_ID = 42;
-		public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
+		public static final int TIMER_NOTIFICATION_ID    = 1000; // Why 1000? Why not? :)
 	}
 
 }

@@ -77,13 +77,13 @@
 				android:layout_toLeftOf="@id/tv_length"/>
 	</RelativeLayout>
 
-	<RelativeLayout
+	<LinearLayout
 			android:orientation="horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/rl_playback_controls"
 			android:layout_alignParentBottom="true"
-			>
+			android:layout_marginBottom="10dp">
 
 		<ImageButton
 				android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
 				android:src="@drawable/ic_media_previous"
 				android:layout_marginLeft="5dp"
 				android:layout_marginRight="5dp"
-				android:layout_alignParentLeft="true"/>
+				android:layout_weight="20"/>
 
 		<ImageButton
 				android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
 				android:src="@drawable/ic_media_rew"
 				android:layout_marginLeft="5dp"
 				android:layout_marginRight="5dp"
-				android:layout_toRightOf="@+id/ib_previous"/>
+				android:layout_weight="20"/>
 
 		<ImageButton
 				android:layout_width="wrap_content"
@@ -110,8 +110,7 @@
 				android:src="@drawable/ic_media_play"
 				android:layout_marginLeft="5dp"
 				android:layout_marginRight="5dp"
-				android:layout_toRightOf="@+id/ib_rewind"
-				android:layout_toLeftOf="@+id/ib_fast_forward"/>
+				android:layout_weight="20"/>
 
 		<ImageButton
 				android:layout_width="wrap_content"
@@ -121,7 +120,7 @@
 				android:src="@drawable/ic_media_ff"
 				android:layout_marginLeft="5dp"
 				android:layout_marginRight="5dp"
-				android:layout_toLeftOf="@+id/ib_next"/>
+				android:layout_weight="20"/>
 
 		<ImageButton
 				android:layout_width="wrap_content"
@@ -130,6 +129,6 @@
 				android:src="@drawable/ic_media_next"
 				android:layout_marginLeft="5dp"
 				android:layout_marginRight="5dp"
-				android:layout_alignParentRight="true"/>
-	</RelativeLayout>
+				android:layout_weight="20"/>
+	</LinearLayout>
 </RelativeLayout>

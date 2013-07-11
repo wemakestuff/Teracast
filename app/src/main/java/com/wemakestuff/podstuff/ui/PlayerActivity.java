@@ -46,7 +46,7 @@ public class PlayerActivity extends BootstrapActivity {
 	@InjectView(R.id.ib_next)
 	protected ImageButton next;
 	@Inject
-	protected Bus         BUS;
+	protected Bus         bus;
 	private MediaService.State mMediaServiceState = MediaService.State.Stopped;
 
 	@Override
@@ -112,13 +112,25 @@ public class PlayerActivity extends BootstrapActivity {
 		});
 	}
 
+	private void updateViews() {
+		if (playingItem != null) {
+			Picasso.with(this)
+			       .load("http://www.startupsfortherestofus.com/wp-content/uploads/sftrou_300x300.jpg")
+			       .placeholder(R.drawable.ic_contact_picture)
+			       .error(R.drawable.ic_contact_picture)
+			       .into(podcastIcon);
+			episodeTitle.setText(playingItem.getTitle());
+			episodeDescription.setText(playingItem.getDescription());
+		}
+	}
+
 	/**
 	 * Handles a {@link com.wemakestuff.podstuff.media.event.ProvideMediaServiceStateEvent} message to the {@link Bus}
 	 */
 	@Subscribe
-	public void onProvideMediaServiceStateEvent(ProvideMediaServiceStateEvent mediaServiceState) {
-		mMediaServiceState = mediaServiceState.state;
-		switch (mediaServiceState.state) {
+	public void onProvideMediaServiceStateEvent(ProvideMediaServiceStateEvent mediaServiceStateEvent) {
+		mMediaServiceState = mediaServiceStateEvent.state;
+		switch (mediaServiceStateEvent.state) {
 			case Paused:
 				Picasso.with(this).load(R.drawable.ic_media_play).into(playPause);
 				break;
@@ -132,6 +144,7 @@ public class PlayerActivity extends BootstrapActivity {
 				Picasso.with(this).load(R.drawable.ic_media_play).into(playPause);
 				break;
 		}
+		playingItem = mediaServiceStateEvent.rssItem;
 	}
 
 	/**
@@ -149,28 +162,21 @@ public class PlayerActivity extends BootstrapActivity {
 	 * Posts a {@link RequestMediaServiceStateEvent} message to the {@link Bus}
 	 */
 	private void produceRequestMediaServiceStateEvent() {
-		BUS.post(new RequestMediaServiceStateEvent());
+		bus.post(new RequestMediaServiceStateEvent());
 	}
 
 	/**
 	 * Posts a {@link PlayItemEvent} message to the {@link Bus}
 	 */
-	private void producePlayItemEvent(RssItem mediaItem) {
-		BUS.post(new PlayItemEvent(mediaItem));
-	}
-
-	/**
-	 * Posts a {@link PlayItemEvent} message to the {@link Bus}
-	 */
-	private void producePauseEvent() {
-		BUS.post(new PauseEvent());
+	private void producePlayItemEvent(RssItem rssItem) {
+		bus.post(new PlayItemEvent(rssItem));
 	}
 
 	/**
 	 * Posts a {@link ToggleEvent} message to the {@link Bus}
 	 */
 	private void produceToggleEvent() {
-		BUS.post(new ToggleEvent());
+		bus.post(new ToggleEvent());
 	}
 
 	/**
@@ -197,14 +203,28 @@ public class PlayerActivity extends BootstrapActivity {
 	 * Posts a {@link SeekEvent} message to the {@link Bus}
 	 */
 	private void produceSeekEvent(int seekTo) {
-		BUS.post(new SeekEvent(seekTo));
+		bus.post(new SeekEvent(seekTo));
 	}
 
 	/**
 	 * Posts a {@link RelativeSeekEvent} message to the {@link Bus}
 	 */
 	private void produceRelativeSeekEvent(int seekAmount) {
-		BUS.post(new RelativeSeekEvent(seekAmount));
+		bus.post(new RelativeSeekEvent(seekAmount));
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		bus.unregister(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		bus.register(this);
+		produceRequestMediaServiceStateEvent();
+		updateViews();
 	}
 
 }

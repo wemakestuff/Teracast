@@ -1,5 +1,6 @@
 package com.wemakestuff.podstuff.ui;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +10,31 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import butterknife.InjectView;
 import butterknife.Views;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
+import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.media.event.PlayItemEvent;
 import com.wemakestuff.podstuff.rss.model.RssEnclosure;
 import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.rss.model.RssMediaContent;
+import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.util.ListUtils;
 
+import javax.inject.Inject;
+
 public class FeedItemListAdapter extends BaseAdapter {
-	private LayoutInflater mInflater;
-	private RssFeed        mFeed;
+	@Inject
+	protected Bus            bus;
+	private   LayoutInflater mInflater;
+	private   RssFeed        mFeed;
 
 	public FeedItemListAdapter(LayoutInflater mInflater, RssFeed mFeed) {
 		this.mInflater = mInflater;
 		this.mFeed = mFeed;
+		BootstrapApplication.getInstance().inject(this);
+		mInflater.getContext().startService(new Intent(mInflater.getContext(), MediaService.class));
 	}
 
 	@Override
@@ -65,11 +76,11 @@ public class FeedItemListAdapter extends BaseAdapter {
 			return null;
 		}
 
-		RssItem item = mFeed.getRssItems().get(position);
+		final RssItem rssItem = mFeed.getRssItems().get(position);
 
 		long length = 0;
-		RssEnclosure enclosure = item.getEnclosure();
-		RssMediaContent mediaContent = item.getMediaContent();
+		RssEnclosure enclosure = rssItem.getEnclosure();
+		RssMediaContent mediaContent = rssItem.getMediaContent();
 
 		if (enclosure != null && enclosure.getLength() > 0) {
 			length = enclosure.getLength();
@@ -77,9 +88,15 @@ public class FeedItemListAdapter extends BaseAdapter {
 			length = mediaContent.getFileSize();
 		}
 
-		holder.episodeTitle.setText(item.getTitle());
-		holder.episodeDate.setText(item.getPubDate());
-		holder.length.setText("Length: " + item.getiTunesDuration());
+		holder.episodeTitle.setText(rssItem.getTitle());
+		holder.episodeDate.setText(rssItem.getPubDate());
+		holder.length.setText("Length: " + rssItem.getiTunesDuration());
+		holder.play.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				producePlayItemEvent(rssItem);
+			}
+		});
 
 		Picasso.with(mInflater.getContext())
 		       .load(mFeed.getiTunesImage().getHref())
@@ -88,6 +105,13 @@ public class FeedItemListAdapter extends BaseAdapter {
 		       .into(holder.podcastIcon);
 
 		return view;
+	}
+
+	/**
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.PlayItemEvent} message to the {@link com.squareup.otto.Bus}
+	 */
+	private void producePlayItemEvent(RssItem rssItem) {
+		bus.post(new PlayItemEvent(rssItem));
 	}
 
 	static class ViewHolder {
