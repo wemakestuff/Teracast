@@ -39,6 +39,9 @@
 	<string name="timer">Timer</string>
 	<string name="start">Start</string>
 
+	<!-- Titles -->
+	<string name="player">Player</string>
+
 	<!-- Player Actions -->
 	<string name="stop">Stop</string>
 	<string name="pause">Pause</string>

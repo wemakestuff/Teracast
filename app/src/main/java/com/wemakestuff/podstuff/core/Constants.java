@@ -10,6 +10,7 @@ import com.wemakestuff.podstuff.R;
 public class Constants {
 
 	public static final int IMAGE_PLACEHOLDER = R.drawable.ic_contact_picture;
+	public static final int SEEK_AMOUNT = 15000;
 
 	public static class Auth {
 		private Auth() {

@@ -1,126 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView">
-
-	<LinearLayout
-			android:orientation="vertical"
+	<ImageView
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="wrap_content"
+			android:id="@+id/iv_podcast_icon"
+			android:src="@drawable/ic_contact_picture"
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"
+			android:layout_above="@+id/tv_episode_title"
+			android:layout_margin="5dp"/>
 
-		<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/iv_podcast_icon"
-				android:src="@drawable/ic_contact_picture"
-				android:layout_marginLeft="30dp"
-				android:layout_marginRight="30dp"
-				android:layout_marginTop="10dp"
-				android:layout_marginBottom="10dp"
-				android:adjustViewBounds="false"
-				android:cropToPadding="false"
-				android:scaleType="fitXY"
-				android:minHeight="250dp"
-				/>
+	<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
+			android:id="@+id/tv_episode_title"
+			android:textSize="@dimen/text_size_medium"
+			android:textStyle="bold"
+			android:layout_centerHorizontal="true"
+			android:autoText="false"
+			android:gravity="center"
+			android:layout_above="@+id/tv_episode_description"
+			android:layout_margin="5dp"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Rob and Mike answer listener questions about startup feedback, finding better consulting gigs, and more."
+			android:id="@+id/tv_episode_description"
+			android:textSize="@dimen/text_size_micro"
+			android:gravity="center"
+			android:layout_above="@+id/rl_playback_status"
+			android:layout_margin="5dp"/>
+
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/rl_playback_status"
+			android:layout_above="@+id/rl_playback_controls"
+			android:layout_margin="5dp">
+
 
 		<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Startups For the Rest of Us"
-				android:id="@+id/tv_podcast_title"
-				android:singleLine="false"
-				android:textSize="18sp"
-				android:ellipsize="end"
-				android:textStyle="bold"/>
-
-		<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
-				android:id="@+id/tv_episode_title"
-				android:textSize="14sp"/>
-
-		<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Rob and Mike answer listener questions about startup feedback, finding better consulting gigs, and more."
-				android:id="@+id/tv_episode_description"
+				android:text="0:00"
+				android:id="@+id/tv_current_position"
+				android:layout_alignParentLeft="true"
+				android:layout_centerVertical="true"
+				android:paddingLeft="2sp"
+				android:paddingRight="2sp"
 				android:textSize="12sp"/>
 
-		<RelativeLayout
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent">
 
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="0:42"
+				android:id="@+id/tv_length"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:paddingLeft="2sp"
+				android:paddingRight="2sp"
+				android:textSize="12sp"/>
 
-			<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="0:00"
-					android:id="@+id/tv_current_position"
-					android:layout_alignParentLeft="true"
-					android:layout_centerVertical="true"
-					android:paddingLeft="2sp"
-					android:paddingRight="2sp"
-					android:textSize="12sp"/>
+		<SeekBar
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/sb_progress"
+				android:progress="0"
+				android:layout_toRightOf="@id/tv_current_position"
+				android:layout_toLeftOf="@id/tv_length"/>
+	</RelativeLayout>
 
+	<RelativeLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/rl_playback_controls"
+			android:layout_alignParentBottom="true"
+			>
 
-			<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="0:42"
-					android:id="@+id/tv_length"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:paddingLeft="2sp"
-					android:paddingRight="2sp"
-					android:textSize="12sp"/>
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_previous"
+				android:src="@drawable/ic_media_previous"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_alignParentLeft="true"/>
 
-			<SeekBar
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/sb_progress"
-					android:progress="0"
-					android:layout_toRightOf="@id/tv_current_position"
-					android:layout_toLeftOf="@id/tv_length"/>
-		</RelativeLayout>
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_rewind"
+				android:src="@drawable/ic_media_rew"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_toRightOf="@+id/ib_previous"/>
 
-		<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent">
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_play_pause"
+				android:src="@drawable/ic_media_play"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_toRightOf="@+id/ib_rewind"
+				android:layout_toLeftOf="@+id/ib_fast_forward"/>
 
-			<ImageButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/ib_previous"
-					android:src="@drawable/ic_media_previous"/>
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_fast_forward"
+				android:focusableInTouchMode="false"
+				android:src="@drawable/ic_media_ff"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_toLeftOf="@+id/ib_next"/>
 
-			<ImageButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/ib_rewind"
-					android:src="@drawable/ic_media_rew"/>
-
-			<ImageButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/ib_play_pause"
-					android:src="@drawable/ic_media_play"/>
-
-			<ImageButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/ib_fast_forward"
-					android:focusableInTouchMode="false"
-					android:src="@drawable/ic_media_ff"/>
-
-			<ImageButton
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/ib_next"
-					android:src="@drawable/ic_media_next"/>
-		</LinearLayout>
-	</LinearLayout>
-</ScrollView>
+		<ImageButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/ib_next"
+				android:src="@drawable/ic_media_next"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_alignParentRight="true"/>
+	</RelativeLayout>
+</RelativeLayout>

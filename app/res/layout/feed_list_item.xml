@@ -25,6 +25,17 @@
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:text="Startups For The Rest Of Us"
+			android:id="@+id/tv_podcast_title"
+			android:layout_toRightOf="@id/ib_podcast_icon"
+			android:layout_alignTop="@+id/ib_podcast_icon"
+			android:layout_toLeftOf="@id/ib_play_pause"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:textSize="@dimen/text_size_large"/>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
 			android:id="@+id/tv_episode_title"
 			android:layout_toRightOf="@id/ib_podcast_icon"

@@ -104,38 +104,38 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 	}
 
 	/**
-	 * Posts a {@link StopPlaybackEvent} message to the {@link Bus}
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.StopEvent} message to the {@link Bus}
 	 */
 	private void produceStopPlaybackEvent() {
-		BUS.post(new StopPlaybackEvent());
+		BUS.post(new StopEvent());
 	}
 
 	/**
-	 * Posts a {@link PlayPlaybackEvent} message to the {@link Bus}
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.PlayEvent} message to the {@link Bus}
 	 */
 	private void producePlayPlaybackEvent() {
-		BUS.post(new PlayPlaybackEvent());
+		BUS.post(new PlayEvent());
 	}
 
 	/**
-	 * Posts a {@link PausePlaybackEvent} message to the {@link Bus}
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.PauseEvent} message to the {@link Bus}
 	 */
 	private void producePausePlaybackEvent() {
-		BUS.post(new PausePlaybackEvent());
+		BUS.post(new PauseEvent());
 	}
 
 	/**
-	 * Posts a {@link PreviousPlaybackEvent} message to the {@link Bus}
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.PreviousEvent} message to the {@link Bus}
 	 */
 	private void producePreviousPlaybackEvent() {
-		BUS.post(new PreviousPlaybackEvent());
+		BUS.post(new PreviousEvent());
 	}
 
 	/**
-	 * Posts a {@link NextPlaybackEvent} message to the {@link Bus}
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.NextEvent} message to the {@link Bus}
 	 */
 	private void produceNextPlaybackEvent() {
-		BUS.post(new NextPlaybackEvent());
+		BUS.post(new NextEvent());
 	}
 
 	/**
@@ -146,9 +146,9 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 	}
 
 	/**
-	 * Posts a {@link TogglePlaybackEvent} message to the {@link Bus}
+	 * Posts a {@link com.wemakestuff.podstuff.media.event.ToggleEvent} message to the {@link Bus}
 	 */
 	private void produceTogglePlaybackEvent() {
-		BUS.post(new TogglePlaybackEvent());
+		BUS.post(new ToggleEvent());
 	}
 }

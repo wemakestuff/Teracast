@@ -20,6 +20,7 @@ import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Constants;
+import com.wemakestuff.podstuff.ui.OldPlayerActivity;
 import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
@@ -27,7 +28,6 @@ import com.wemakestuff.podstuff.media.RemoteControlHelper;
 import com.wemakestuff.podstuff.media.event.*;
 import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.rss.model.RssITunesImage;
-import com.wemakestuff.podstuff.ui.PlayerActivity;
 import com.wemakestuff.podstuff.util.Ln;
 
 import javax.inject.Inject;
@@ -252,8 +252,11 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		processStopRequest(false);
 	}
 
-	private void processRewindRequest() {
-		processSeekRequest(mPlayer.getCurrentPosition() - 15000);
+	private void processRelativeSeekRequest(int seekAmount) {
+		if (mState == State.Playing || mState == State.Paused) {
+			mPlayer.seekTo(mPlayer.getCurrentPosition() + seekAmount);
+			produceProvideMediaProgressEvent();
+		}
 	}
 
 	private void processSeekRequest(int seekTo) {
@@ -261,10 +264,6 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 			mPlayer.seekTo(seekTo < 0 ? 0 : seekTo);
 			produceProvideMediaProgressEvent();
 		}
-	}
-
-	private void processFastForwardRequest() {
-		processSeekRequest(mPlayer.getCurrentPosition() + 15000);
 	}
 
 	private void processStopRequest(boolean forceStop) {
@@ -431,53 +430,48 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	@Subscribe
-	public void onNextEvent(NextPlaybackEvent nextPlaybackEvent) {
+	public void onNextEvent(NextEvent nextEvent) {
 		processNextRequest();
 	}
 
 	@Subscribe
-	public void onPauseEvent(PausePlaybackEvent pausePlaybackEvent) {
+	public void onPauseEvent(PauseEvent pauseEvent) {
 		processPauseRequest();
 	}
 
 	@Subscribe
-	public void onPlayEvent(PlayPlaybackEvent playPlaybackEvent) {
+	public void onPlayEvent(PlayEvent playEvent) {
 		processPlayRequest();
 	}
 
 	@Subscribe
-	public void onPlayItemEvent(PlayItemPlaybackEvent playItemPlaybackEvent) {
-		playMedia(playItemPlaybackEvent.mediaItem);
+	public void onPlayItemEvent(PlayItemEvent playItemEvent) {
+		playMedia(playItemEvent.mediaItem);
 	}
 
 	@Subscribe
-	public void onPreviousEvent(PreviousPlaybackEvent previousPlaybackEvent) {
+	public void onPreviousEvent(PreviousEvent previousEvent) {
 		processPreviousRequest();
 	}
 
 	@Subscribe
-	public void onRewindEvent(RewindPlaybackEvent rewindPlaybackEvent) {
-		processRewindRequest();
+	public void onRelativeSeekEvent(RelativeSeekEvent relativeSeekEvent) {
+		  processRelativeSeekRequest(relativeSeekEvent.seekAmount);
 	}
 
 	@Subscribe
-	public void onFastForwardEvent(FastForwardPlaybackEvent fastForwardPlaybackEvent) {
-		processFastForwardRequest();
-	}
-
-	@Subscribe
-	public void onStopEvent(StopPlaybackEvent stopPlaybackEvent) {
+	public void onStopEvent(StopEvent stopEvent) {
 		processStopRequest();
 	}
 
 	@Subscribe
-	public void onToggleEvent(TogglePlaybackEvent togglePlaybackEvent) {
+	public void onToggleEvent(ToggleEvent toggleEvent) {
 		processTogglePlaybackRequest();
 	}
 
 	@Subscribe
-	public void onSeekPlaybackEvent(SeekPlaybackEvent seekPlaybackEvent) {
-		processSeekRequest(seekPlaybackEvent.seekTo);
+	public void onSeekPlaybackEvent(SeekEvent seekEvent) {
+		processSeekRequest(seekEvent.seekTo);
 	}
 
 	@Override
@@ -582,7 +576,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	 * @return a new {@link android.app.Notification}
 	 */
 	private Notification getNotification(RssItem mediaItem) {
-		final Intent intent = new Intent(this, PlayerActivity.class);
+		final Intent intent = new Intent(this, OldPlayerActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
 		int smallIcon = R.drawable.ic_media_pause;
