@@ -3,10 +3,10 @@ package com.wemakestuff.podstuff.media.event;
 /**
  * Marker class for Otto.
 */
-public class SeekPlaybackEvent {
+public class RelativeSeekEvent {
 	public int seekTo;
 
-	public SeekPlaybackEvent(int seekTo) {
+	public RelativeSeekEvent(int seekTo) {
 		this.seekTo = seekTo;
 	}
 }

@@ -5,10 +5,10 @@ import com.wemakestuff.podstuff.rss.model.RssItem;
 /**
  * Marker class for Otto.
  */
-public class PlayItemPlaybackEvent {
+public class PlayItemEvent {
 	public RssItem mediaItem;
 
-	public PlayItemPlaybackEvent(RssItem mediaItem) {
+	public PlayItemEvent(RssItem mediaItem) {
 		this.mediaItem = mediaItem;
 	}
 }

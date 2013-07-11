@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="?android:attr/listPreferredItemHeight"
+                android:descendantFocusability="blocksDescendants"
+                style="@style/ListItem">
+
+	<com.wemakestuff.podstuff.ui.widget.FocusableCheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/cb_select"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"/>
+
+	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+			android:layout_width="@dimen/feed_list_item_icon_height"
+			android:layout_height="@dimen/feed_list_item_icon_height"
+			android:padding="4dp"
+			android:id="@+id/ib_podcast_icon"
+			android:src="@drawable/ic_contact_picture"
+			android:layout_toRightOf="@id/cb_select"
+			android:layout_centerVertical="true"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
+			android:id="@+id/tv_episode_title"
+			android:layout_toRightOf="@id/ib_podcast_icon"
+			android:layout_alignTop="@+id/ib_podcast_icon"
+			android:layout_toLeftOf="@id/ib_play_pause"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:textSize="@dimen/text_size_large"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Rob and Mike answer listener questions about startup feedback, finding better consulting gigs, and more."
+			android:id="@+id/tv_episode_description"
+			android:layout_alignLeft="@id/tv_episode_title"
+			android:layout_below="@id/tv_episode_title"
+			android:layout_toLeftOf="@id/ib_play_pause"
+			android:ellipsize="end"
+			android:textSize="@dimen/text_size_small"/>
+
+	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/ib_play_pause"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:src="@drawable/ic_media_play"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Date: June 18"
+			android:id="@+id/tv_episode_date"
+			android:layout_alignLeft="@id/tv_episode_title"
+			android:layout_alignBottom="@id/ib_podcast_icon"
+			android:textSize="@dimen/text_size_micro"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Length: 36:12"
+			android:id="@+id/tv_length"
+			android:layout_toLeftOf="@id/ib_play_pause"
+			android:layout_alignBaseline="@id/tv_episode_date"
+			android:textSize="@dimen/text_size_micro"/>
+</RelativeLayout>

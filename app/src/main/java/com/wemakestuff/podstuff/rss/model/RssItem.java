@@ -1,5 +1,7 @@
 package com.wemakestuff.podstuff.rss.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,74 +10,87 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @DatabaseTable(tableName = "items")
-public class RssItem implements Comparable<RssItem> {
-	static SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+public class RssItem implements Comparable<RssItem>, Parcelable {
+	public static final Parcelable.Creator<RssItem> CREATOR
+			                                                  = new Parcelable.Creator<RssItem>() {
+		public RssItem createFromParcel(Parcel in) {
+			return new RssItem(in);
+		}
 
+		public RssItem[] newArray(int size) {
+			return new RssItem[size];
+		}
+	};
+	static              SimpleDateFormat            FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 	@DatabaseField(generatedId = true)
-	private int id;
-
+	private int             id;
 	@DatabaseField
-	private String title;
-
+	private String          title;
 	@DatabaseField
-	private String link;
-
+	private String          link;
 	@DatabaseField
-	private String comments;
-
+	private String          comments;
 	@DatabaseField
-	private Date pubDate;
-
+	private Date            pubDate;
 	@DatabaseField
-	private String category;
-
+	private String          category;
 	@DatabaseField
-	private String description;
-
+	private String          description;
 	@DatabaseField(canBeNull = true, foreign = true)
-	private RssGuid guid;
-
+	private RssGuid         guid;
 	@DatabaseField(canBeNull = true, foreign = true)
-	private RssEnclosure enclosure;
-
+	private RssEnclosure    enclosure;
 	@DatabaseField(canBeNull = true, foreign = true)
-	private RssITunesImage iTunesImage;
-
+	private RssITunesImage  iTunesImage;
 	@DatabaseField
-	private String iTunesSummary;
-
+	private String          iTunesSummary;
 	@DatabaseField(index = true)
-	private String iTunesKeywords;
-
+	private String          iTunesKeywords;
 	@DatabaseField
-	private String iTunesSubtitle;
-
+	private String          iTunesSubtitle;
 	@DatabaseField
-	private String iTunesAuthor;
-
+	private String          iTunesAuthor;
 	@DatabaseField
-	private String iTunesDuration;
-
+	private String          iTunesDuration;
 	@DatabaseField
-	private Boolean iTunesExplicit;
-
+	private Boolean         iTunesExplicit;
 	@DatabaseField
-	private Boolean iTunesBlock;
-
+	private Boolean         iTunesBlock;
 	@DatabaseField(canBeNull = true, foreign = true)
 	private RssMediaContent mediaContent;
-
 	@DatabaseField
-	private String feedBurnerOrigLink;
-
+	private String          feedBurnerOrigLink;
 	@DatabaseField
-	private String wfwCommentRss;
-
+	private String          wfwCommentRss;
 	/**
 	 * Needed so that ORMLite can find the items that match a particular rssFeed
 	 */
 	@DatabaseField(foreign = true)
-	private RssFeed rssFeed;
+	private RssFeed         rssFeed;
+
+	public RssItem() {
+
+	}
+
+	private RssItem(Parcel in) {
+		title = in.readString();
+		link = in.readString();
+		pubDate = new Date(in.readLong());
+		category = in.readString();
+		description = in.readString();
+		guid = in.readParcelable(RssGuid.class.getClassLoader());
+		enclosure = in.readParcelable(RssEnclosure.class.getClassLoader());
+		iTunesImage = in.readParcelable(RssITunesImage.class.getClassLoader());
+		iTunesSummary = in.readString();
+		iTunesKeywords = in.readString();
+		iTunesAuthor = in.readString();
+		iTunesDuration = in.readString();
+		iTunesExplicit = in.readByte() == 1 ? true : false;
+		iTunesBlock = in.readByte() == 1 ? true : false;
+		mediaContent = in.readParcelable(RssMediaContent.class.getClassLoader());
+		feedBurnerOrigLink = in.readString();
+		wfwCommentRss = in.readString();
+	}
 
 	public RssItem copy() {
 		RssItem copy = new RssItem();
@@ -141,7 +156,6 @@ public class RssItem implements Comparable<RssItem> {
 		this.iTunesExplicit = iTunesExplicit;
 	}
 
-
 	public String getiTunesDuration() {
 		return iTunesDuration;
 	}
@@ -149,7 +163,6 @@ public class RssItem implements Comparable<RssItem> {
 	public void setiTunesDuration(final String iTunesDuration) {
 		this.iTunesDuration = iTunesDuration;
 	}
-
 
 	public String getComments() {
 		return comments;
@@ -172,8 +185,9 @@ public class RssItem implements Comparable<RssItem> {
 	}
 
 	public RssGuid getGuid() {
-		if (guid == null)
+		if (guid == null) {
 			guid = new RssGuid();
+		}
 
 		return guid;
 	}
@@ -272,43 +286,81 @@ public class RssItem implements Comparable<RssItem> {
 
 	// sort by date
 	public int compareTo(RssItem another) {
-		if (another == null) return 1;
+		if (another == null) {
+			return 1;
+		}
 		// sort descending, most recent first
 		return another.pubDate.compareTo(pubDate);
 	}
 
 	@Override
 	public boolean equals(final Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		final RssItem rssItem = (RssItem) o;
 
-		if (category != null ? !category.equals(rssItem.category) : rssItem.category != null) return false;
-		if (comments != null ? !comments.equals(rssItem.comments) : rssItem.comments != null) return false;
-		if (description != null ? !description.equals(rssItem.description) : rssItem.description != null) return false;
-		if (enclosure != null ? !enclosure.equals(rssItem.enclosure) : rssItem.enclosure != null) return false;
-		if (feedBurnerOrigLink != null ? !feedBurnerOrigLink.equals(rssItem.feedBurnerOrigLink) : rssItem.feedBurnerOrigLink != null)
+		if (category != null ? !category.equals(rssItem.category) : rssItem.category != null) {
 			return false;
-		if (guid != null ? !guid.equals(rssItem.guid) : rssItem.guid != null) return false;
-		if (iTunesAuthor != null ? !iTunesAuthor.equals(rssItem.iTunesAuthor) : rssItem.iTunesAuthor != null) return false;
-		if (iTunesBlock != null ? !iTunesBlock.equals(rssItem.iTunesBlock) : rssItem.iTunesBlock != null) return false;
-		if (iTunesDuration != null ? !iTunesDuration.equals(rssItem.iTunesDuration) : rssItem.iTunesDuration != null)
+		}
+		if (comments != null ? !comments.equals(rssItem.comments) : rssItem.comments != null) {
 			return false;
-		if (iTunesExplicit != null ? !iTunesExplicit.equals(rssItem.iTunesExplicit) : rssItem.iTunesExplicit != null)
+		}
+		if (description != null ? !description.equals(rssItem.description) : rssItem.description != null) {
 			return false;
-		if (iTunesImage != null ? !iTunesImage.equals(rssItem.iTunesImage) : rssItem.iTunesImage != null) return false;
-		if (!iTunesKeywords.equals(rssItem.iTunesKeywords)) return false;
-		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(rssItem.iTunesSubtitle) : rssItem.iTunesSubtitle != null)
+		}
+		if (enclosure != null ? !enclosure.equals(rssItem.enclosure) : rssItem.enclosure != null) {
 			return false;
-		if (iTunesSummary != null ? !iTunesSummary.equals(rssItem.iTunesSummary) : rssItem.iTunesSummary != null)
+		}
+		if (feedBurnerOrigLink != null ? !feedBurnerOrigLink.equals(rssItem.feedBurnerOrigLink) : rssItem.feedBurnerOrigLink != null) {
 			return false;
-		if (link != null ? !link.equals(rssItem.link) : rssItem.link != null) return false;
-		if (mediaContent != null ? !mediaContent.equals(rssItem.mediaContent) : rssItem.mediaContent != null) return false;
-		if (pubDate != null ? !pubDate.equals(rssItem.pubDate) : rssItem.pubDate != null) return false;
-		if (title != null ? !title.equals(rssItem.title) : rssItem.title != null) return false;
-		if (wfwCommentRss != null ? !wfwCommentRss.equals(rssItem.wfwCommentRss) : rssItem.wfwCommentRss != null)
+		}
+		if (guid != null ? !guid.equals(rssItem.guid) : rssItem.guid != null) {
 			return false;
+		}
+		if (iTunesAuthor != null ? !iTunesAuthor.equals(rssItem.iTunesAuthor) : rssItem.iTunesAuthor != null) {
+			return false;
+		}
+		if (iTunesBlock != null ? !iTunesBlock.equals(rssItem.iTunesBlock) : rssItem.iTunesBlock != null) {
+			return false;
+		}
+		if (iTunesDuration != null ? !iTunesDuration.equals(rssItem.iTunesDuration) : rssItem.iTunesDuration != null) {
+			return false;
+		}
+		if (iTunesExplicit != null ? !iTunesExplicit.equals(rssItem.iTunesExplicit) : rssItem.iTunesExplicit != null) {
+			return false;
+		}
+		if (iTunesImage != null ? !iTunesImage.equals(rssItem.iTunesImage) : rssItem.iTunesImage != null) {
+			return false;
+		}
+		if (!iTunesKeywords.equals(rssItem.iTunesKeywords)) {
+			return false;
+		}
+		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(rssItem.iTunesSubtitle) : rssItem.iTunesSubtitle != null) {
+			return false;
+		}
+		if (iTunesSummary != null ? !iTunesSummary.equals(rssItem.iTunesSummary) : rssItem.iTunesSummary != null) {
+			return false;
+		}
+		if (link != null ? !link.equals(rssItem.link) : rssItem.link != null) {
+			return false;
+		}
+		if (mediaContent != null ? !mediaContent.equals(rssItem.mediaContent) : rssItem.mediaContent != null) {
+			return false;
+		}
+		if (pubDate != null ? !pubDate.equals(rssItem.pubDate) : rssItem.pubDate != null) {
+			return false;
+		}
+		if (title != null ? !title.equals(rssItem.title) : rssItem.title != null) {
+			return false;
+		}
+		if (wfwCommentRss != null ? !wfwCommentRss.equals(rssItem.wfwCommentRss) : rssItem.wfwCommentRss != null) {
+			return false;
+		}
 
 		return true;
 	}
@@ -369,5 +421,32 @@ public class RssItem implements Comparable<RssItem> {
 
 	public void setRssFeed(final RssFeed rssFeed) {
 		this.rssFeed = rssFeed;
+	}
+
+	@Override
+	public int describeContents() {
+		return hashCode();
+	}
+
+	@Override
+	public void writeToParcel(final Parcel out, final int flags) {
+		out.writeString(title);
+		out.writeString(link);
+		out.writeString(comments);
+		out.writeLong(pubDate.getTime());
+		out.writeString(category);
+		out.writeString(description);
+		out.writeParcelable(guid, 0);
+		out.writeParcelable(enclosure, 0);
+		out.writeParcelable(iTunesImage, 0);
+		out.writeString(iTunesSummary);
+		out.writeString(iTunesKeywords);
+		out.writeString(iTunesAuthor);
+		out.writeString(iTunesDuration);
+		out.writeByte((byte) (iTunesExplicit ? 1 : 0));
+		out.writeByte((byte) (iTunesBlock ? 1 : 0));
+		out.writeParcelable(mediaContent, 0);
+		out.writeString(feedBurnerOrigLink);
+		out.writeString(wfwCommentRss);
 	}
 }
