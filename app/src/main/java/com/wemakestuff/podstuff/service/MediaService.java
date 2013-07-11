@@ -20,7 +20,7 @@ import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Constants;
-import com.wemakestuff.podstuff.ui.OldPlayerActivity;
+import com.wemakestuff.podstuff.ui.PlayerActivity;
 import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
@@ -576,7 +576,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	 * @return a new {@link android.app.Notification}
 	 */
 	private Notification getNotification(RssItem mediaItem) {
-		final Intent intent = new Intent(this, OldPlayerActivity.class);
+		final Intent intent = new Intent(this, PlayerActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
 		int smallIcon = R.drawable.ic_media_pause;

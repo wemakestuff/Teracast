@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 import com.squareup.otto.Bus;
+import com.wemakestuff.podstuff.core.Constants;
 import com.wemakestuff.podstuff.media.event.*;
 
 import javax.inject.Inject;
@@ -139,16 +140,36 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 	}
 
 	/**
-	 * Posts a {@link RewindPlaybackEvent} message to the {@link Bus}
-	 */
-	private void produceRewindPlaybackEvent() {
-		BUS.post(new RewindPlaybackEvent());
-	}
-
-	/**
 	 * Posts a {@link com.wemakestuff.podstuff.media.event.ToggleEvent} message to the {@link Bus}
 	 */
 	private void produceTogglePlaybackEvent() {
 		BUS.post(new ToggleEvent());
+	}
+
+	/**
+	 * Posts a {@link RelativeSeekEvent} message to the {@link Bus} which advances the playback by {@link
+	 * com.wemakestuff.podstuff.core.Constants#SEEK_AMOUNT}
+	 *
+	 * @see #produceRelativeSeekEvent(int)
+	 */
+	private void produceFastForwardEvent() {
+		produceRelativeSeekEvent(Constants.SEEK_AMOUNT);
+	}
+
+	/**
+	 * Posts a {@link RelativeSeekEvent} message to the {@link Bus} which reverses the playback by {@link
+	 * Constants#SEEK_AMOUNT}
+	 *
+	 * @see #produceRelativeSeekEvent(int)
+	 */
+	private void produceRewindEvent() {
+		produceRelativeSeekEvent(-1 * Constants.SEEK_AMOUNT);
+	}
+
+	/**
+	 * Posts a {@link RelativeSeekEvent} message to the {@link Bus}
+	 */
+	private void produceRelativeSeekEvent(int seekAmount) {
+		BUS.post(new RelativeSeekEvent(seekAmount));
 	}
 }
