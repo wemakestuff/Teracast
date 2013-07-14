@@ -11,10 +11,12 @@ import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.widget.RemoteViews;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
@@ -577,6 +579,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 			case Preparing:
 				smallIcon = R.drawable.stat_sys_download;
 				contentInfo = getString(R.string.loading);
+
 				break;
 			case Paused:
 				smallIcon = R.drawable.ic_media_pause;
@@ -601,11 +604,23 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 			largeIconPath = itunesImage.getHref();
 		}
 
+		RemoteViews smallNotificationView = new RemoteViews(getPackageName(), R.layout.media_notification_small);
+		smallNotificationView.setImageViewResource(R.id.iv_podcast_icon, smallIcon);
+		smallNotificationView.setTextViewText(R.id.tv_podcast_title, "Startups For The Rest Of Us");
+		smallNotificationView.setTextViewText(R.id.tv_episode_title, playingRssItem.getTitle());
+
+		RemoteViews bigNotificationView = new RemoteViews(getPackageName(), R.layout.media_notification_big);
+		bigNotificationView.setImageViewUri(R.id.iv_podcast_icon, Uri.parse("http://www.startupsfortherestofus.com/wp-content/uploads/sftrou_300x300.jpg"));
+		bigNotificationView.setTextViewText(R.id.tv_podcast_title, "Startups For The Rest Of Us");
+		bigNotificationView.setTextViewText(R.id.tv_episode_title, playingRssItem.getTitle());
+		bigNotificationView.setImageViewResource(R.id.ib_play_pause, smallIcon);
+
 		return new NotificationCompat.Builder(this)
 				       .setContentTitle(playingRssItem.getTitle())
 				       .setSmallIcon(smallIcon)
-				       .setLargeIcon(ImageUtils.getBitmap(largeIconPath))
-				       .setContentText("Text")
+				       .setLargeIcon(ImageUtils.getBitmapFromURL("http://www.startupsfortherestofus.com/wp-content/uploads/sftrou_300x300.jpg"))
+				       .setContentText(playingRssItem.getDescription())
+					   .setContent(bigNotificationView)
 				       .setContentInfo(contentInfo)
 				       .setAutoCancel(false)
 				       .setOnlyAlertOnce(true)

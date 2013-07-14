@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Custom Notification Styles -->
+	<!-- For custom notifications we must use a style to ensure that the text is readable. See http://developer.android.com/guide/topics/ui/notifiers/notifications.html#CustomNotification -->
+	<style name="NotificationText" parent="android:TextAppearance.StatusBar.EventContent"/>
+
+	<style name="NotificationTitle" parent="android:TextAppearance.StatusBar.EventContent.Title"/>
+	<!-- End Custom Notification Styles -->
+</resources>

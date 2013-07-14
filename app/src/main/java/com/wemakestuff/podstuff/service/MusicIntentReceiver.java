@@ -41,13 +41,10 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-
+		BUS.register(this);
 		if (intent.getAction().equals(android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-			BUS.register(this);
 			producePausePlaybackEvent();
-			BUS.unregister(this);
 		} else if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
-			BUS.register(this);
 			int state = intent.getExtras().getInt(STATE, -1);
 			String name = intent.getExtras().getString(NAME);
 			int microphone = intent.getExtras().getInt(MICROPHONE, -1);
@@ -57,9 +54,7 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 			} else if (state == 1) {
 				produceHeadsetPluggedInEvent();
 			}
-			BUS.unregister(this);
 		} else if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)) {
-			BUS.register(this);
 			KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
 			if (keyEvent.getAction() != KeyEvent.ACTION_DOWN) {
 				return;
@@ -86,7 +81,6 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 					producePreviousPlaybackEvent();
 					break;
 			}
-			BUS.unregister(this);
 		}
 	}
 

@@ -45,4 +45,22 @@
 		<item name="android:layout_marginRight">@dimen/image_button_margin</item>
 	</style>
 	<!-- End Image Buttons -->
+
+	<!-- Custom Notification Styles -->
+	<!-- For custom notifications we must use a style to ensure that the text is readable. See http://developer.android.com/guide/topics/ui/notifiers/notifications.html#CustomNotification -->
+	<style name="NotificationText">
+		<item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+	</style>
+	<style name="NotificationTitle">
+		<item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+	<style name="NotificationMediaButton">
+		<item name="android:background">@drawable/list_selector_holo_dark</item>
+		<item name="android:layout_height">@dimen/image_button_height</item>
+		<item name="android:clickable">true</item>
+		<item name="android:layout_marginLeft">@dimen/image_button_margin</item>
+		<item name="android:layout_marginRight">@dimen/image_button_margin</item>
+	</style>
+	<!-- End Custom Notification Styles -->
 </resources>
