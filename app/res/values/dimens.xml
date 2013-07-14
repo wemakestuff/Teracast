@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="feed_list_item_icon_height">80dp</dimen>
+	<dimen name="feed_list_item_icon_height">80sp</dimen>
+
+	<dimen name="currently_playing_icon_width">48dp</dimen>
 
 	<dimen name="image_button_height">32dp</dimen>
 	<dimen name="image_button_padding">8dp</dimen>
+	<dimen name="image_button_margin">5dp</dimen>
 
 	<dimen name="text_size_micro">12sp</dimen>
 	<dimen name="text_size_small">14sp</dimen>

@@ -90,8 +90,7 @@
 				android:layout_height="wrap_content"
 				android:id="@+id/ib_previous"
 				android:src="@drawable/ic_media_previous"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
+				style="@style/MediaButton"
 				android:layout_weight="20"/>
 
 		<ImageButton
@@ -99,8 +98,7 @@
 				android:layout_height="wrap_content"
 				android:id="@+id/ib_rewind"
 				android:src="@drawable/ic_media_rew"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
+				style="@style/MediaButton"
 				android:layout_weight="20"/>
 
 		<ImageButton
@@ -108,18 +106,15 @@
 				android:layout_height="wrap_content"
 				android:id="@+id/ib_play_pause"
 				android:src="@drawable/ic_media_play"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
+				style="@style/MediaButton"
 				android:layout_weight="20"/>
 
 		<ImageButton
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/ib_fast_forward"
-				android:focusableInTouchMode="false"
 				android:src="@drawable/ic_media_ff"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
+				style="@style/MediaButton"
 				android:layout_weight="20"/>
 
 		<ImageButton
@@ -127,8 +122,7 @@
 				android:layout_height="wrap_content"
 				android:id="@+id/ib_next"
 				android:src="@drawable/ic_media_next"
-				android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
+				style="@style/MediaButton"
 				android:layout_weight="20"/>
 	</LinearLayout>
 </RelativeLayout>

@@ -554,7 +554,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 	}
 
 	private void produceProvideMediaProgressEvent() {
-		if (mPlayer != null && mPlayer.isPlaying() && mState != State.Stopped) {
+		if (mPlayer != null && mState != State.Stopped) {
 			BUS.post(new ProvideMediaProgressEvent(mPlayer.getCurrentPosition(), mPlayer.getDuration()));
 		} else {
 			BUS.post(new ProvideMediaProgressEvent(0, 42000));

@@ -11,7 +11,6 @@
 
 	<ImageView
 			android:id="@+id/iv_avatar"
-			style="@style/AvatarLarge"
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true"
 			android:layout_marginRight="10dp"

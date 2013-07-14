@@ -9,19 +9,19 @@
 			style="@style/ListView"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:visibility="gone" />
+			android:visibility="gone"/>
 
 	<TextView
 			android:id="@android:id/empty"
-			style="@style/ListSubtitleText"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:gravity="center"
-			android:visibility="gone" />
+			android:visibility="gone"/>
 
 	<ProgressBar
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:id="@+id/pb_loading"
-			style="@style/ListSpinner"
-			android:layout_centerInParent="true" />
+			android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -8,7 +8,6 @@
 
 	<TextView
 			android:id="@+id/tv_signup"
-			style="@style/ShadowText"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="@drawable/stripe_repeat"
@@ -33,7 +32,6 @@
 				android:paddingTop="5dp">
 
 			<TextView
-					style="@style/ShadowText"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:paddingBottom="5dp"
@@ -44,15 +42,15 @@
 					android:textColor="@color/text" />
 
 			<AutoCompleteTextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:id="@+id/et_email"
-					style="@style/SignInEditText"
 					android:completionThreshold="1"
 					android:imeOptions="actionNext"
 					android:inputType="textEmailAddress"
 					android:nextFocusDown="@+id/et_password" />
 
 			<TextView
-					style="@style/ShadowText"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:paddingBottom="5dp"
@@ -64,15 +62,15 @@
 					android:textColor="@color/text" />
 
 			<EditText
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:id="@+id/et_password"
-					style="@style/SignInEditText"
 					android:imeOptions="actionDone"
 					android:inputType="textPassword"
 					android:password="true" />
 
 			<Button
 					android:id="@+id/b_signin"
-					style="@style/ShadowText"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:layout_marginTop="15dp"
