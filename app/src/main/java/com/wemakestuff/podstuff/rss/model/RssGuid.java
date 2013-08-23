@@ -4,33 +4,43 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.wemakestuff.podstuff.database.annotations.ContentType;
+import com.wemakestuff.podstuff.database.annotations.SortOrder;
+import com.wemakestuff.podstuff.database.annotations.UriPaths;
 
 @DatabaseTable(tableName = "guid")
-public class RssGuid implements Parcelable {
+@UriPaths({ RssGuid.ENTITY_PL, RssGuid.ENTITY_PL + "/#" })
+@ContentType(BaseData.MIME_TYPE_PFX + RssGuid.ENTITY)
+@SortOrder(RssGuid.URL + " DESC")
+public class RssGuid extends BaseData implements Parcelable {
+    public static final String ENTITY = "feed";
+    public static final String ENTITY_PL = ENTITY + "s";
 
-	public static final Parcelable.Creator<RssGuid> CREATOR
-			= new Parcelable.Creator<RssGuid>() {
-		public RssGuid createFromParcel(Parcel in) {
-			return new RssGuid(in);
-		}
+    private static final String IS_PERMALINK = "is_permalink";
+    public static final String URL = "url";
 
-		public RssGuid[] newArray(int size) {
-			return new RssGuid[size];
-		}
-	};
-	@DatabaseField(generatedId = true)
-	private int     id;
-	@DatabaseField
+    @DatabaseField(columnName = IS_PERMALINK)
 	private boolean isPermalink;
-	@DatabaseField
+
+	@DatabaseField(columnName = URL)
 	private String  url;
 
-	public RssGuid() {
+    public static final Parcelable.Creator<RssGuid> CREATOR = new Parcelable.Creator<RssGuid>() {
+        public RssGuid createFromParcel(Parcel in) {
+            return new RssGuid(in);
+        }
+
+        public RssGuid[] newArray(int size) {
+            return new RssGuid[size];
+        }
+    };
+
+    public RssGuid() {
 
 	}
 
 	private RssGuid(Parcel in) {
-		id = in.readInt();
+		id = in.readLong();
 		isPermalink = in.readByte() == 1 ? true : false;
 		url = in.readString();
 	}
@@ -95,7 +105,7 @@ public class RssGuid implements Parcelable {
 
 	@Override
 	public void writeToParcel(final Parcel out, final int flags) {
-		out.writeInt(id);
+		out.writeLong(id);
 		out.writeByte((byte) (isPermalink ? 1 : 0));
 		out.writeString(url);
 	}

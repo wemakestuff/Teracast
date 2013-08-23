@@ -2,6 +2,7 @@ package com.wemakestuff.podstuff.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.media.event.ProvideMediaProgressEvent;
 import com.wemakestuff.podstuff.media.event.ProvideMediaServiceStateEvent;
 import com.wemakestuff.podstuff.media.event.ToggleEvent;
+import com.wemakestuff.podstuff.provider.ContentManager;
 import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
 import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.rss.model.RssItem;
@@ -45,6 +47,9 @@ public class FeedItemListActivity extends BootstrapListActivity {
 	Integer mCurrentlyPlayingProgress;
 	Integer mCurrentlyPlayingLength;
 
+    @Inject
+    ContentManager manager;
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,7 +59,8 @@ public class FeedItemListActivity extends BootstrapListActivity {
 		getListView().setFastScrollEnabled(true);
 		getListView().setClickable(true);
 
-		updateCurrentlyPlayingView();
+        Log.i(TAG, "manager = " + (manager == null ? "null" : "not null"));
+        updateCurrentlyPlayingView();
 	}
 
 	private void updateCurrentlyPlayingView() {

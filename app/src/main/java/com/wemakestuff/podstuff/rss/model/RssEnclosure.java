@@ -2,118 +2,120 @@ package com.wemakestuff.podstuff.rss.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.wemakestuff.podstuff.database.annotations.ContentType;
+import com.wemakestuff.podstuff.database.annotations.SortOrder;
+import com.wemakestuff.podstuff.database.annotations.UriPaths;
 
 @DatabaseTable(tableName = "rss_enclosure")
-public class RssEnclosure implements Parcelable {
+@UriPaths({RssEnclosure.ENTITY_PL, RssEnclosure.ENTITY_PL + "/#"})
+@ContentType(BaseData.MIME_TYPE_PFX + RssEnclosure.ENTITY)
+@SortOrder(RssEnclosure.URL + " DESC")
+public class RssEnclosure extends BaseData implements Parcelable {
+    public static final String ENTITY    = "enclosure";
+    public static final String ENTITY_PL = ENTITY + "s";
 
-	public static final Parcelable.Creator<RssEnclosure> CREATOR
-			= new Parcelable.Creator<RssEnclosure>() {
-		public RssEnclosure createFromParcel(Parcel in) {
-			return new RssEnclosure(in);
-		}
+    public static final  String URL    = "url";
+    public static final String LENGTH = "length";
+    public static final String TYPE   = "type";
 
-		public RssEnclosure[] newArray(int size) {
-			return new RssEnclosure[size];
-		}
-	};
-	@DatabaseField(generatedId = true)
-	private int    id;
-	@DatabaseField
-	private String url;
-	@DatabaseField
-	private long   length;
-	@DatabaseField
-	private String type;
+    @DatabaseField(columnName = URL)
+    private String url;
 
-	public RssEnclosure() {
+    @DatabaseField(columnName = LENGTH)
+    private long length;
 
-	}
+    @DatabaseField(columnName = TYPE)
+    private String type;
 
-	private RssEnclosure(Parcel in) {
-		id = in.readInt();
-		url = in.readString();
-		length = in.readLong();
-		type = in.readString();
-	}
+    public RssEnclosure() {
+        super();
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public RssEnclosure(long id) {
+        super(id);
+    }
 
-	public void setUrl(final String url) {
-		this.url = url;
-	}
+    private RssEnclosure(Parcel in) {
+        id = in.readLong();
+        url = in.readString();
+        length = in.readLong();
+        type = in.readString();
+    }
 
-	public long getLength() {
-		return length;
-	}
+    public static final Parcelable.Creator<RssEnclosure> CREATOR = new Parcelable.Creator<RssEnclosure>() {
+        public RssEnclosure createFromParcel(Parcel in) {
+            return new RssEnclosure(in);
+        }
 
-	public void setLength(final long length) {
-		this.length = length;
-	}
+        public RssEnclosure[] newArray(int size) {
+            return new RssEnclosure[size];
+        }
+    };
 
-	public String getType() {
-		return type;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setType(final String type) {
-		this.type = type;
-	}
+    public void setUrl(final String url) {
+        this.url = url;
+    }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+    public long getLength() {
+        return length;
+    }
 
-		final RssEnclosure enclosure = (RssEnclosure) o;
+    public void setLength(final long length) {
+        this.length = length;
+    }
 
-		if (length != enclosure.length) {
-			return false;
-		}
-		if (type != null ? !type.equals(enclosure.type) : enclosure.type != null) {
-			return false;
-		}
-		if (url != null ? !url.equals(enclosure.url) : enclosure.url != null) {
-			return false;
-		}
+    public String getType() {
+        return type;
+    }
 
-		return true;
-	}
+    public void setType(final String type) {
+        this.type = type;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = url != null ? url.hashCode() : 0;
-		result = 31 * result + (int) (length ^ (length >>> 32));
-		result = 31 * result + (type != null ? type.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public boolean equals(final Object o) {
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder("RssEnclosure{");
-		sb.append("url='").append(url).append('\'');
-		sb.append(", length=").append(length);
-		sb.append(", type='").append(type).append('\'');
-		sb.append('}');
-		return sb.toString();
-	}
+        final RssEnclosure enclosure = (RssEnclosure) o;
 
-	@Override
-	public int describeContents() {
-		return hashCode();
-	}
 
-	@Override
-	public void writeToParcel(final Parcel out, final int flags) {
-		out.writeInt(id);
-		out.writeString(url);
-		out.writeLong(length);
-		out.writeString(type);
-	}
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = url != null ? url.hashCode() : 0;
+        result = 31 * result + (int) (length ^ (length >>> 32));
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("RssEnclosure{");
+        sb.append("url='").append(url).append('\'');
+        sb.append(", length=").append(length);
+        sb.append(", type='").append(type).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(final Parcel out, final int flags) {
+        out.writeLong(id);
+        out.writeString(url);
+        out.writeLong(length);
+        out.writeString(type);
+    }
 }

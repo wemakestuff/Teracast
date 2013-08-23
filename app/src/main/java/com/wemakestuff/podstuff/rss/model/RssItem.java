@@ -4,72 +4,123 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.wemakestuff.podstuff.database.annotations.ContentType;
+import com.wemakestuff.podstuff.database.annotations.ProvideContentUri;
+import com.wemakestuff.podstuff.database.annotations.SortOrder;
+import com.wemakestuff.podstuff.database.annotations.UriPaths;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@ProvideContentUri
 @DatabaseTable(tableName = "items")
-public class RssItem implements Comparable<RssItem>, Parcelable {
-	public static final Parcelable.Creator<RssItem> CREATOR
-			                                                  = new Parcelable.Creator<RssItem>() {
-		public RssItem createFromParcel(Parcel in) {
-			return new RssItem(in);
-		}
+@UriPaths({ RssItem.ENTITY_PL, RssItem.ENTITY_PL + "/#" })
+@ContentType(BaseData.MIME_TYPE_PFX + RssItem.ENTITY)
+@SortOrder(RssItem.PUB_DATE + " DESC")
+public class RssItem extends BaseData implements Comparable<RssItem>, Parcelable {
+    public static final String ENTITY    = "item";
+    public static final String ENTITY_PL = ENTITY + "s";
 
-		public RssItem[] newArray(int size) {
-			return new RssItem[size];
-		}
-	};
-	static              SimpleDateFormat            FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
-	@DatabaseField(generatedId = true)
-	private int             id;
-	@DatabaseField
-	private String          title;
-	@DatabaseField
-	private String          link;
-	@DatabaseField
-	private String          comments;
-	@DatabaseField
-	private Date            pubDate;
-	@DatabaseField
-	private String          category;
-	@DatabaseField
-	private String          description;
-	@DatabaseField(canBeNull = true, foreign = true)
-	private RssGuid         guid;
-	@DatabaseField(canBeNull = true, foreign = true)
-	private RssEnclosure    enclosure;
-	@DatabaseField(canBeNull = true, foreign = true)
-	private RssITunesImage  iTunesImage;
-	@DatabaseField
-	private String          iTunesSummary;
-	@DatabaseField(index = true)
-	private String          iTunesKeywords;
-	@DatabaseField
-	private String          iTunesSubtitle;
-	@DatabaseField
-	private String          iTunesAuthor;
-	@DatabaseField
-	private String          iTunesDuration;
-	@DatabaseField
-	private Boolean         iTunesExplicit;
-	@DatabaseField
-	private Boolean         iTunesBlock;
-	@DatabaseField(canBeNull = true, foreign = true)
-	private RssMediaContent mediaContent;
-	@DatabaseField
-	private String          feedBurnerOrigLink;
-	@DatabaseField
-	private String          wfwCommentRss;
+    public static final  String PUB_DATE             = "pub_date";
+    private static final String TITLE                = "title";
+    private static final String LINK                 = "link";
+    private static final String COMMENTS             = "comments";
+    private static final String CATEGORY             = "category";
+    private static final String DESCRIPTION          = "description";
+    private static final String GUID                 = "guid";
+    private static final String ENCLOSURE            = "enclosure";
+    private static final String ITUNES_IMAGE         = "enclosure";
+    private static final String ITUNES_SUMMARY       = "itunes_summary";
+    private static final String ITUNES_KEYWORDS      = "itunes_keywords";
+    private static final String ITUNES_SUBTITLE      = "itunes_subtitle";
+    private static final String ITUNES_AUTHOR        = "itunes_author";
+    private static final String ITUNES_DURATION      = "itunes_duration";
+    private static final String ITUNES_EXPLICIT      = "itunes_explicit";
+    private static final String ITUNES_BLOCK         = "itunes_block";
+    private static final String MEDIA_CONTENT        = "media_content";
+    private static final String FEEDBURNER_ORIG_LINK = "feedburner_orig_link";
+    private static final String WFW_COMMENTS         = "wfw_comments";
+    private static final String RSS_FEED             = "rss_feed";
+
+    private static SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+
+    public static final Parcelable.Creator<RssItem> CREATOR = new Parcelable.Creator<RssItem>() {
+
+        @Override
+        public RssItem createFromParcel(Parcel source) {
+        return new RssItem(source);
+        }
+
+        public RssItem[] newArray(int size) {
+            return new RssItem[size];
+        }
+    };
+
+    @DatabaseField(columnName = TITLE)
+    private String title;
+
+    @DatabaseField(columnName = LINK)
+    private String link;
+
+    @DatabaseField(columnName = COMMENTS)
+    private String comments;
+
+    @DatabaseField(columnName = PUB_DATE)
+    private Date pubDate;
+
+    @DatabaseField(columnName = CATEGORY)
+    private String category;
+
+    @DatabaseField(columnName = DESCRIPTION)
+    private String description;
+
+    @DatabaseField(columnName = GUID, canBeNull = true, foreign = true)
+    private RssGuid guid;
+
+    @DatabaseField(columnName = ENCLOSURE, canBeNull = true, foreign = true)
+    private RssEnclosure enclosure;
+
+    @DatabaseField(columnName = ITUNES_IMAGE, canBeNull = true, foreign = true)
+    private RssITunesImage iTunesImage;
+
+    @DatabaseField(columnName = ITUNES_SUMMARY)
+    private String iTunesSummary;
+
+    @DatabaseField(columnName = ITUNES_KEYWORDS, index = true)
+    private String iTunesKeywords;
+
+    @DatabaseField(columnName = ITUNES_SUBTITLE)
+    private String iTunesSubtitle;
+
+    @DatabaseField(columnName = ITUNES_AUTHOR)
+    private String iTunesAuthor;
+
+    @DatabaseField(columnName = ITUNES_DURATION)
+    private String iTunesDuration;
+
+    @DatabaseField(columnName = ITUNES_EXPLICIT)
+    private Boolean iTunesExplicit;
+
+    @DatabaseField(columnName = ITUNES_BLOCK)
+    private Boolean iTunesBlock;
+
+    @DatabaseField(columnName = MEDIA_CONTENT, canBeNull = true, foreign = true)
+    private RssMediaContent mediaContent;
+
+    @DatabaseField(columnName = FEEDBURNER_ORIG_LINK)
+    private String feedBurnerOrigLink;
+
+    @DatabaseField(columnName = WFW_COMMENTS)
+    private String wfwCommentRss;
+
 	/**
 	 * Needed so that ORMLite can find the items that match a particular rssFeed
 	 */
-	@DatabaseField(foreign = true)
-	private RssFeed         rssFeed;
+    @DatabaseField(columnName = RSS_FEED, foreign = true)
+    private RssFeed rssFeed;
 
 	public RssItem() {
-
 	}
 
 	private RssItem(Parcel in) {
@@ -92,336 +143,214 @@ public class RssItem implements Comparable<RssItem>, Parcelable {
 		wfwCommentRss = in.readString();
 	}
 
-	public RssItem copy() {
-		RssItem copy = new RssItem();
-		copy.title = title;
-		copy.link = link;
-		copy.comments = comments;
-		copy.pubDate = new Date(pubDate.getTime());
-		copy.category = category;
-		copy.description = description;
-		copy.guid = guid;
-		copy.enclosure = enclosure;
-		copy.iTunesSummary = iTunesSummary;
-		copy.iTunesKeywords = iTunesKeywords;
-		copy.iTunesSubtitle = iTunesSubtitle;
-		copy.iTunesAuthor = iTunesAuthor;
-		copy.iTunesDuration = iTunesDuration;
-		copy.iTunesExplicit = iTunesExplicit;
-		copy.iTunesBlock = iTunesBlock;
-		copy.mediaContent = mediaContent;
-		copy.feedBurnerOrigLink = feedBurnerOrigLink;
-		copy.wfwCommentRss = wfwCommentRss;
+    public RssItem copy() {
+        RssItem copy = new RssItem();
+        copy.id = id;
+        copy.title = title;
+        copy.link = link;
+        copy.comments = comments;
+        copy.pubDate = new Date(pubDate.getTime());
+        copy.category = category;
+        copy.description = description;
+        copy.guid = guid;
+        copy.enclosure = enclosure;
+        copy.iTunesSummary = iTunesSummary;
+        copy.iTunesKeywords = iTunesKeywords;
+        copy.iTunesSubtitle = iTunesSubtitle;
+        copy.iTunesAuthor = iTunesAuthor;
+        copy.iTunesDuration = iTunesDuration;
+        copy.iTunesExplicit = iTunesExplicit;
+        copy.iTunesBlock = iTunesBlock;
+        copy.mediaContent = mediaContent;
+        copy.feedBurnerOrigLink = feedBurnerOrigLink;
+        copy.wfwCommentRss = wfwCommentRss;
 
-		return copy;
-	}
+        return copy;
+    }
 
-	public Boolean getiTunesBlock() {
-		return iTunesBlock;
-	}
+    public Boolean getiTunesBlock() {
+        return iTunesBlock;
+    }
 
-	public void setiTunesBlock(final Boolean iTunesBlock) {
-		this.iTunesBlock = iTunesBlock;
-	}
+    public void setiTunesBlock(final Boolean iTunesBlock) {
+        this.iTunesBlock = iTunesBlock;
+    }
 
-	public RssMediaContent getMediaContent() {
-		return mediaContent;
-	}
+    public RssMediaContent getMediaContent() {
+        return mediaContent;
+    }
 
-	public void setMediaContent(final RssMediaContent mediaContent) {
-		this.mediaContent = mediaContent;
-	}
+    public void setMediaContent(final RssMediaContent mediaContent) {
+        this.mediaContent = mediaContent;
+    }
 
-	public String getFeedBurnerOrigLink() {
-		return feedBurnerOrigLink;
-	}
+    public String getFeedBurnerOrigLink() {
+        return feedBurnerOrigLink;
+    }
 
-	public void setFeedBurnerOrigLink(final String feedBurnerOrigLink) {
-		this.feedBurnerOrigLink = feedBurnerOrigLink;
-	}
+    public void setFeedBurnerOrigLink(final String feedBurnerOrigLink) {
+        this.feedBurnerOrigLink = feedBurnerOrigLink;
+    }
 
-	public String getWfwCommentRss() {
-		return wfwCommentRss;
-	}
+    public String getWfwCommentRss() {
+        return wfwCommentRss;
+    }
 
-	public void setWfwCommentRss(final String wfwCommentRss) {
-		this.wfwCommentRss = wfwCommentRss;
-	}
+    public void setWfwCommentRss(final String wfwCommentRss) {
+        this.wfwCommentRss = wfwCommentRss;
+    }
 
-	public Boolean getiTunesExplicit() {
-		return iTunesExplicit;
-	}
+    public Boolean getiTunesExplicit() {
+        return iTunesExplicit;
+    }
 
-	public void setiTunesExplicit(final Boolean iTunesExplicit) {
-		this.iTunesExplicit = iTunesExplicit;
-	}
+    public void setiTunesExplicit(final Boolean iTunesExplicit) {
+        this.iTunesExplicit = iTunesExplicit;
+    }
 
-	public String getiTunesDuration() {
-		return iTunesDuration;
-	}
 
-	public void setiTunesDuration(final String iTunesDuration) {
-		this.iTunesDuration = iTunesDuration;
-	}
+    public String getiTunesDuration() {
+        return iTunesDuration;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public void setiTunesDuration(final String iTunesDuration) {
+        this.iTunesDuration = iTunesDuration;
+    }
 
-	public void setComments(final String comments) {
-		this.comments = comments;
-	}
 
-	public String getCategory() {
-		return category;
-	}
+    public String getComments() {
+        return comments;
+    }
 
-	public void setCategory(final String category) {
-		this.category = category;
-	}
+    public void setComments(final String comments) {
+        this.comments = comments;
+    }
 
-	public void setPubDate(final Date pubDate) {
-		this.pubDate = pubDate;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public RssGuid getGuid() {
-		if (guid == null) {
-			guid = new RssGuid();
-		}
+    public void setCategory(final String category) {
+        this.category = category;
+    }
 
-		return guid;
-	}
+    public void setPubDate(final Date pubDate) {
+        this.pubDate = pubDate;
+    }
 
-	public void setGuid(final RssGuid guid) {
-		this.guid = guid;
-	}
+    public RssGuid getGuid() {
+        if (guid == null)
+            guid = new RssGuid();
 
-	public RssEnclosure getEnclosure() {
-		return enclosure;
-	}
+        return guid;
+    }
 
-	public void setEnclosure(final RssEnclosure enclosure) {
-		this.enclosure = enclosure;
-	}
+    public void setGuid(final RssGuid guid) {
+        this.guid = guid;
+    }
 
-	public String getiTunesSummary() {
-		return iTunesSummary;
-	}
+    public RssEnclosure getEnclosure() {
+        return enclosure;
+    }
 
-	public void setiTunesSummary(final String iTunesSummary) {
-		this.iTunesSummary = iTunesSummary;
-	}
+    public void setEnclosure(final RssEnclosure enclosure) {
+        this.enclosure = enclosure;
+    }
 
-	public String getiTunesKeywords() {
-		return iTunesKeywords;
-	}
+    public String getiTunesSummary() {
+        return iTunesSummary;
+    }
 
-	public void setiTunesKeywords(final String iTunesKeywords) {
-		this.iTunesKeywords = iTunesKeywords;
-	}
+    public void setiTunesSummary(final String iTunesSummary) {
+        this.iTunesSummary = iTunesSummary;
+    }
 
-	public String getiTunesSubtitle() {
-		return iTunesSubtitle;
-	}
+    public String getiTunesKeywords() {
+        return iTunesKeywords;
+    }
 
-	public void setiTunesSubtitle(final String iTunesSubtitle) {
-		this.iTunesSubtitle = iTunesSubtitle;
-	}
+    public void setiTunesKeywords(final String iTunesKeywords) {
+        this.iTunesKeywords = iTunesKeywords;
+    }
 
-	public String getiTunesAuthor() {
-		return iTunesAuthor;
-	}
+    public String getiTunesSubtitle() {
+        return iTunesSubtitle;
+    }
 
-	public void setiTunesAuthor(final String iTunesAuthor) {
-		this.iTunesAuthor = iTunesAuthor;
-	}
+    public void setiTunesSubtitle(final String iTunesSubtitle) {
+        this.iTunesSubtitle = iTunesSubtitle;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getiTunesAuthor() {
+        return iTunesAuthor;
+    }
 
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+    public void setiTunesAuthor(final String iTunesAuthor) {
+        this.iTunesAuthor = iTunesAuthor;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setTitle(final String title) {
-		this.title = title;
-	}
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-	public String getLink() {
-		return link;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
+    public void setTitle(final String title) {
+        this.title = title;
+    }
 
-	public String getPubDate() {
-		return FORMATTER.format(this.pubDate);
-	}
+    public String getLink() {
+        return link;
+    }
 
-	public void setPubDate(String date) {
-		// pad the date if necessary
-		while (!date.endsWith("00")) {
-			date += "0";
-		}
-		try {
-			this.pubDate = FORMATTER.parse(date.trim());
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public void setLink(String link) {
+        this.link = link;
+    }
 
-	public RssITunesImage getiTunesImage() {
-		return iTunesImage;
-	}
+    public String getPubDate() {
+        return FORMATTER.format(this.pubDate);
+    }
 
-	public void setiTunesImage(final RssITunesImage iTunesImage) {
-		this.iTunesImage = iTunesImage;
-	}
+    public void setPubDate(String date) {
+        // pad the date if necessary
+        while (!date.endsWith("00")) {
+            date += "0";
+        }
+        try {
+            this.pubDate = FORMATTER.parse(date.trim());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	// sort by date
-	public int compareTo(RssItem another) {
-		if (another == null) {
-			return 1;
-		}
-		// sort descending, most recent first
-		return another.pubDate.compareTo(pubDate);
-	}
+    public RssITunesImage getiTunesImage() {
+        return iTunesImage;
+    }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+    public void setiTunesImage(final RssITunesImage iTunesImage) {
+        this.iTunesImage = iTunesImage;
+    }
 
-		final RssItem rssItem = (RssItem) o;
+    // sort by date
+    public int compareTo(RssItem another) {
+        if (another == null) return 1;
+        // sort descending, most recent first
+        return another.pubDate.compareTo(pubDate);
+    }
 
-		if (category != null ? !category.equals(rssItem.category) : rssItem.category != null) {
-			return false;
-		}
-		if (comments != null ? !comments.equals(rssItem.comments) : rssItem.comments != null) {
-			return false;
-		}
-		if (description != null ? !description.equals(rssItem.description) : rssItem.description != null) {
-			return false;
-		}
-		if (enclosure != null ? !enclosure.equals(rssItem.enclosure) : rssItem.enclosure != null) {
-			return false;
-		}
-		if (feedBurnerOrigLink != null ? !feedBurnerOrigLink.equals(rssItem.feedBurnerOrigLink) : rssItem.feedBurnerOrigLink != null) {
-			return false;
-		}
-		if (guid != null ? !guid.equals(rssItem.guid) : rssItem.guid != null) {
-			return false;
-		}
-		if (iTunesAuthor != null ? !iTunesAuthor.equals(rssItem.iTunesAuthor) : rssItem.iTunesAuthor != null) {
-			return false;
-		}
-		if (iTunesBlock != null ? !iTunesBlock.equals(rssItem.iTunesBlock) : rssItem.iTunesBlock != null) {
-			return false;
-		}
-		if (iTunesDuration != null ? !iTunesDuration.equals(rssItem.iTunesDuration) : rssItem.iTunesDuration != null) {
-			return false;
-		}
-		if (iTunesExplicit != null ? !iTunesExplicit.equals(rssItem.iTunesExplicit) : rssItem.iTunesExplicit != null) {
-			return false;
-		}
-		if (iTunesImage != null ? !iTunesImage.equals(rssItem.iTunesImage) : rssItem.iTunesImage != null) {
-			return false;
-		}
-		if (!iTunesKeywords.equals(rssItem.iTunesKeywords)) {
-			return false;
-		}
-		if (iTunesSubtitle != null ? !iTunesSubtitle.equals(rssItem.iTunesSubtitle) : rssItem.iTunesSubtitle != null) {
-			return false;
-		}
-		if (iTunesSummary != null ? !iTunesSummary.equals(rssItem.iTunesSummary) : rssItem.iTunesSummary != null) {
-			return false;
-		}
-		if (link != null ? !link.equals(rssItem.link) : rssItem.link != null) {
-			return false;
-		}
-		if (mediaContent != null ? !mediaContent.equals(rssItem.mediaContent) : rssItem.mediaContent != null) {
-			return false;
-		}
-		if (pubDate != null ? !pubDate.equals(rssItem.pubDate) : rssItem.pubDate != null) {
-			return false;
-		}
-		if (title != null ? !title.equals(rssItem.title) : rssItem.title != null) {
-			return false;
-		}
-		if (wfwCommentRss != null ? !wfwCommentRss.equals(rssItem.wfwCommentRss) : rssItem.wfwCommentRss != null) {
-			return false;
-		}
+    public RssFeed getRssFeed() {
+        return rssFeed;
+    }
 
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = title != null ? title.hashCode() : 0;
-		result = 31 * result + (link != null ? link.hashCode() : 0);
-		result = 31 * result + (comments != null ? comments.hashCode() : 0);
-		result = 31 * result + (pubDate != null ? pubDate.hashCode() : 0);
-		result = 31 * result + (category != null ? category.hashCode() : 0);
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		result = 31 * result + (guid != null ? guid.hashCode() : 0);
-		result = 31 * result + (enclosure != null ? enclosure.hashCode() : 0);
-		result = 31 * result + (iTunesImage != null ? iTunesImage.hashCode() : 0);
-		result = 31 * result + (iTunesSummary != null ? iTunesSummary.hashCode() : 0);
-		result = 31 * result + (iTunesKeywords != null ? iTunesKeywords.hashCode() : 0);
-		result = 31 * result + (iTunesSubtitle != null ? iTunesSubtitle.hashCode() : 0);
-		result = 31 * result + (iTunesAuthor != null ? iTunesAuthor.hashCode() : 0);
-		result = 31 * result + (iTunesDuration != null ? iTunesDuration.hashCode() : 0);
-		result = 31 * result + (iTunesExplicit != null ? iTunesExplicit.hashCode() : 0);
-		result = 31 * result + (iTunesBlock != null ? iTunesBlock.hashCode() : 0);
-		result = 31 * result + (mediaContent != null ? mediaContent.hashCode() : 0);
-		result = 31 * result + (feedBurnerOrigLink != null ? feedBurnerOrigLink.hashCode() : 0);
-		result = 31 * result + (wfwCommentRss != null ? wfwCommentRss.hashCode() : 0);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder("Item{");
-		sb.append("title='").append(title).append('\'');
-		sb.append(", link=").append(link);
-		sb.append(", comments='").append(comments).append('\'');
-		sb.append(", pubDate=").append(pubDate);
-		sb.append(", category='").append(category).append('\'');
-		sb.append(", description='").append(description).append('\'');
-		sb.append(", guid=").append(guid);
-		sb.append(", enclosure=").append(enclosure);
-		sb.append(", RssITunesImage=").append(iTunesImage);
-		sb.append(", iTunesSummary='").append(iTunesSummary).append('\'');
-		sb.append(", iTunesKeywords=").append(iTunesKeywords);
-		sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
-		sb.append(", iTunesAuthor='").append(iTunesAuthor).append('\'');
-		sb.append(", iTunesDuration='").append(iTunesDuration).append('\'');
-		sb.append(", iTunesExplicit=").append(iTunesExplicit);
-		sb.append(", iTunesBlock=").append(iTunesBlock);
-		sb.append(", mediaContent=").append(mediaContent);
-		sb.append(", feedBurnerOrigLink='").append(feedBurnerOrigLink).append('\'');
-		sb.append(", wfwCommentRss='").append(wfwCommentRss).append('\'');
-		sb.append('}');
-		return sb.toString();
-	}
-
-	public RssFeed getRssFeed() {
-		return rssFeed;
-	}
-
-	public void setRssFeed(final RssFeed rssFeed) {
-		this.rssFeed = rssFeed;
-	}
+    public void setRssFeed(final RssFeed rssFeed) {
+        this.rssFeed = rssFeed;
+    }
 
 	@Override
 	public int describeContents() {

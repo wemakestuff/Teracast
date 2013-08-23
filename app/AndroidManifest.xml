@@ -24,6 +24,9 @@
 
 	    <service android:name=".service.RssFeedService" android:enabled="true" android:exported="false" />
 
+        <provider android:name="com.wemakestuff.podstuff.provider.FeedProvider"
+                  android:authorities="com.wemakestuff.podstuff.content" />
+
 	    <!-- Startup watcher, so we can start our service when the phone starts -->
 
 	    <activity

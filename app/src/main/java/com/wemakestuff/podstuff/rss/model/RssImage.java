@@ -1,30 +1,57 @@
 package com.wemakestuff.podstuff.rss.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.wemakestuff.podstuff.database.annotations.ContentType;
+import com.wemakestuff.podstuff.database.annotations.SortOrder;
+import com.wemakestuff.podstuff.database.annotations.UriPaths;
 
 @DatabaseTable(tableName = "rss_image")
-public class RssImage {
+@UriPaths({ RssImage.ENTITY_PL, RssImage.ENTITY_PL + "/#" })
+@ContentType(BaseData.MIME_TYPE_PFX + RssImage.ENTITY)
+@SortOrder(RssImage.URL + " DESC")
+public class RssImage extends BaseData implements Parcelable {
+    public static final String ENTITY = "feed";
+    public static final String ENTITY_PL = ENTITY + "s";
 
-	@DatabaseField(generatedId = true)
-	private int id;
+    public static final String URL = "url";
+    private static final String TITLE = "title";
+    private static final String LINK = "link";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
 
-	@DatabaseField
+	@DatabaseField(columnName = URL)
 	private String url;
 
-	@DatabaseField
+	@DatabaseField(columnName = TITLE)
 	private String title;
 
-	@DatabaseField
+	@DatabaseField(columnName = LINK)
 	private String link;
 
-	@DatabaseField
+	@DatabaseField(columnName = WIDTH)
 	private int    width;
 
-	@DatabaseField
+	@DatabaseField(columnName = HEIGHT)
 	private int    height;
 
-	public String getUrl() {
+    public RssImage() {
+        super();
+    }
+
+    public RssImage(Parcel source) {
+        id = source.readLong();
+        url = source.readString();
+        title = source.readString();
+        link = source.readString();
+        width = source.readInt();
+        height = source.readInt();
+    }
+
+    public String getUrl() {
 		return url;
 	}
 
@@ -102,4 +129,31 @@ public class RssImage {
 		sb.append('}');
 		return sb.toString();
 	}
+
+    public static final Creator<RssImage> CREATOR = new Creator<RssImage>() {
+        @Override
+        public RssImage createFromParcel(Parcel source) {
+            return new RssImage(source);
+        }
+
+        @Override
+        public RssImage[] newArray(int size) {
+            return new RssImage[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(url);
+        dest.writeString(link);
+        dest.writeInt(width);
+        dest.writeInt(height);
+
+    }
 }
