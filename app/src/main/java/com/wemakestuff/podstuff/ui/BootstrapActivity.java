@@ -6,6 +6,7 @@ import butterknife.Views;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.debug.hv.ViewServer;
+import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.BuildConfig;
 
@@ -21,6 +22,7 @@ public abstract class BootstrapActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Bundles.restoreInstanceState(this, savedInstanceState);
 		BootstrapApplication.getInstance().inject(this);
 
 		if (BuildConfig.DEBUG) {
@@ -64,5 +66,11 @@ public abstract class BootstrapActivity extends SherlockActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Bundles.restoreInstanceState(this, savedInstanceState);
 	}
 }
