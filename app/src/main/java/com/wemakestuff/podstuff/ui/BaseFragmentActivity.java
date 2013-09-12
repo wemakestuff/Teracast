@@ -8,7 +8,7 @@ import com.wemakestuff.podstuff.BootstrapApplication;
 /**
  * Base class for all Bootstrap Activities that need fragments.
  */
-public class BootstrapFragmentActivity extends SherlockFragmentActivity {
+public class BaseFragmentActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

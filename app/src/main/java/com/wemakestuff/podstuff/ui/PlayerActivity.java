@@ -7,19 +7,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.core.Constants;
-import com.wemakestuff.podstuff.media.event.PlayItemEvent;
-import com.wemakestuff.podstuff.media.event.ProvideMediaProgressEvent;
-import com.wemakestuff.podstuff.media.event.ProvideMediaServiceStateEvent;
-import com.wemakestuff.podstuff.media.event.RelativeSeekEvent;
-import com.wemakestuff.podstuff.media.event.RequestMediaServiceStateEvent;
-import com.wemakestuff.podstuff.media.event.SeekEvent;
-import com.wemakestuff.podstuff.media.event.ToggleEvent;
+import com.wemakestuff.podstuff.media.event.*;
 import com.wemakestuff.podstuff.provider.FeedProvider;
 import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.service.MediaService;
@@ -27,9 +21,7 @@ import com.wemakestuff.podstuff.util.ConversionUtils;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
-
-public class PlayerActivity extends BootstrapActivity {
+public class PlayerActivity extends BaseActivity {
     public static final String TAG = PlayerActivity.class.getSimpleName();
     protected RssItem      playingItem;
     @InjectView(R.id.iv_podcast_icon)
