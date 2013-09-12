@@ -6,10 +6,7 @@ import android.content.Context;
 import android.media.AudioManager;
 
 import com.squareup.otto.Bus;
-import com.wemakestuff.podstuff.authenticator.BootstrapAuthenticatorActivity;
-import com.wemakestuff.podstuff.authenticator.LogoutService;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
-import com.wemakestuff.podstuff.core.TimerService;
 import com.wemakestuff.podstuff.database.RssDatabase;
 import com.wemakestuff.podstuff.database.interfaces.DatabaseHelper;
 import com.wemakestuff.podstuff.provider.ContentManager;
@@ -21,18 +18,12 @@ import com.wemakestuff.podstuff.service.MusicIntentReceiver;
 import com.wemakestuff.podstuff.service.RssFeedService;
 import com.wemakestuff.podstuff.ui.BootstrapTimerActivity;
 import com.wemakestuff.podstuff.ui.CarouselActivity;
-import com.wemakestuff.podstuff.ui.CheckInsListFragment;
 import com.wemakestuff.podstuff.ui.FeedItemListActivity;
 import com.wemakestuff.podstuff.ui.FeedItemListAdapter;
 import com.wemakestuff.podstuff.ui.NewsActivity;
-import com.wemakestuff.podstuff.ui.NewsListFragment;
 import com.wemakestuff.podstuff.ui.PlayerActivity;
 import com.wemakestuff.podstuff.ui.UserActivity;
-import com.wemakestuff.podstuff.ui.UserListFragment;
 
-import java.security.Provider;
-
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;

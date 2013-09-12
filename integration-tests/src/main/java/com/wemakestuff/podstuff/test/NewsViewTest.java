@@ -6,7 +6,6 @@ import static com.wemakestuff.podstuff.core.Constants.Extra.NEWS_ITEM;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.wemakestuff.podstuff.core.News;
 import com.wemakestuff.podstuff.ui.CarouselActivity;
 
 

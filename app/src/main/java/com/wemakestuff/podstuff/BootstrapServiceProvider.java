@@ -3,9 +3,6 @@ package com.wemakestuff.podstuff;
 
 import android.accounts.AccountsException;
 import android.app.Activity;
-import com.wemakestuff.podstuff.authenticator.ApiKeyProvider;
-import com.wemakestuff.podstuff.core.BootstrapService;
-import com.wemakestuff.podstuff.core.UserAgentProvider;
 
 import javax.inject.Inject;
 import java.io.IOException;

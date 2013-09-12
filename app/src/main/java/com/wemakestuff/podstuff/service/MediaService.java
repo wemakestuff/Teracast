@@ -21,7 +21,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
-import com.wemakestuff.podstuff.core.Constants;
 import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
 import com.wemakestuff.podstuff.media.RemoteControlHelper;

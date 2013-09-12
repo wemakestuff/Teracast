@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.BootstrapApplication;
-import com.wemakestuff.podstuff.core.UserAgentProvider;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -60,9 +59,6 @@ public class HttpService extends IntentService {
 
 	@Inject
 	Bus bus;
-
-	@Inject
-	UserAgentProvider userAgentProvider;
 
 	public HttpService() {
 		super(TAG);

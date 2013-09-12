@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 import com.squareup.otto.Bus;
-import com.wemakestuff.podstuff.core.Constants;
 import com.wemakestuff.podstuff.media.event.*;
 
 import javax.inject.Inject;

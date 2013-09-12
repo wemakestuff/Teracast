@@ -27,7 +27,7 @@ import com.wemakestuff.podstuff.util.Ln;
 
 import javax.inject.Inject;
 
-public class FeedItemListActivity extends BootstrapListActivity {
+public class FeedItemListActivity extends BaseListActivity {
 	public static final String TAG = FeedItemListActivity.class.getSimpleName();
 	@Inject
 	Bus            bus;
