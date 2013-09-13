@@ -2,7 +2,11 @@
 
 <resources>
 
-	<style name="Theme.Bootstrap.Dark" parent="@style/Theme.Sherlock">
+	<style name="Theme.PodStuff.Light" parent="@style/Theme.Sherlock.Light">
+
+	</style>
+
+	<style name="Theme.PodStuff.Dark" parent="@style/Theme.Sherlock">
 		<item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
 		<item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
 		<item name="android:listViewStyle">@style/DarkListView</item>

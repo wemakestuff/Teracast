@@ -3,7 +3,6 @@ package com.wemakestuff.podstuff.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.db.SqliteAndroidDatabaseType;
 import com.j256.ormlite.field.FieldType;
@@ -12,14 +11,7 @@ import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableUtils;
 import com.wemakestuff.podstuff.database.interfaces.DatabaseHelper;
 import com.wemakestuff.podstuff.provider.FeedProvider;
-import com.wemakestuff.podstuff.rss.model.BaseData;
-import com.wemakestuff.podstuff.rss.model.RssEnclosure;
-import com.wemakestuff.podstuff.rss.model.RssFeed;
-import com.wemakestuff.podstuff.rss.model.RssGuid;
-import com.wemakestuff.podstuff.rss.model.RssITunesImage;
-import com.wemakestuff.podstuff.rss.model.RssImage;
-import com.wemakestuff.podstuff.rss.model.RssItem;
-import com.wemakestuff.podstuff.rss.model.RssMediaContent;
+import com.wemakestuff.podstuff.rss.model.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,32 +20,32 @@ import java.util.List;
 import java.util.Map;
 
 public class RssDatabase extends DatabaseHelper {
-    private static final String                                        TAG                = RssDatabase.class.getSimpleName();
-    private static final int                                           DATABASE_VERSION   = 1;
-    private static final String                                        DATABASE_NAME      = "podstuff.db";
-    private              HashMap<Table, Dao<? extends BaseData, Long>> tables             = null;
-    private              Dao<RssEnclosure, Long>                       rssEnclosureDao    = null;
-    private              Dao<RssFeed, Long>                            rssFeedDao         = null;
-    private              Dao<RssGuid, Long>                            rssGuidDao         = null;
-    private              Dao<RssImage, Long>                           rssImageDao        = null;
-    private              Dao<RssItem, Long>                            rssItemDao         = null;
-    private              Dao<RssITunesImage, Long>                     rssITunesImageDao  = null;
-    private              Dao<RssMediaContent, Long>                    rssMediaContentDao = null;
+	private static final String                                        TAG                = RssDatabase.class.getSimpleName();
+	private static final int                                           DATABASE_VERSION   = 1;
+	private static final String                                        DATABASE_NAME      = "podstuff.db";
+	private              HashMap<Table, Dao<? extends BaseData, Long>> tables             = null;
+	private              Dao<RssEnclosure, Long>                       rssEnclosureDao    = null;
+	private              Dao<RssFeed, Long>                            rssFeedDao         = null;
+	private              Dao<RssGuid, Long>                            rssGuidDao         = null;
+	private              Dao<RssImage, Long>                           rssImageDao        = null;
+	private              Dao<RssItem, Long>                            rssItemDao         = null;
+	private              Dao<RssiTunesImage, Long>                     rssITunesImageDao  = null;
+	private              Dao<RssMediaContent, Long>                    rssMediaContentDao = null;
 
-    // @formatter:off
-    private final Map<Class<? extends BaseData>, Dao<? extends BaseData, Long>>           daos         =
-            new HashMap<Class<? extends BaseData>, Dao<? extends BaseData, Long>>();
-    private final Map<Class<? extends BaseData>, DatabaseTableConfig<? extends BaseData>> tableConfigs =
-            new HashMap<Class<? extends BaseData>, DatabaseTableConfig<? extends BaseData>>();
+	// @formatter:off
+	private final Map<Class<? extends BaseData>, Dao<? extends BaseData, Long>>           daos         =
+			new HashMap<Class<? extends BaseData>, Dao<? extends BaseData, Long>>();
+	private final Map<Class<? extends BaseData>, DatabaseTableConfig<? extends BaseData>> tableConfigs =
+			new HashMap<Class<? extends BaseData>, DatabaseTableConfig<? extends BaseData>>();
 
-    public RssDatabase(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
+	public RssDatabase(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
 
-    @Override
-    public void onCreate(final SQLiteDatabase db, final ConnectionSource cs) {
-        Log.i(TAG, "Creating database");
-        createTables(db, cs);
+	@Override
+	public void onCreate(final SQLiteDatabase db, final ConnectionSource cs) {
+		Log.i(TAG, "Creating database");
+		createTables(db, cs);
 //        try {
 //            TableUtils.createTable(connectionSource, RssFeed.class);
 //            TableUtils.createTable(connectionSource, RssGuid.class);

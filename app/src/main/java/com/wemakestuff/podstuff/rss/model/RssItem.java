@@ -82,7 +82,7 @@ public class RssItem extends BaseData implements Comparable<RssItem>, Parcelable
     private RssEnclosure enclosure;
 
     @DatabaseField(columnName = ITUNES_IMAGE, canBeNull = true, foreign = true)
-    private RssITunesImage iTunesImage;
+    private RssiTunesImage iTunesImage;
 
     @DatabaseField(columnName = ITUNES_SUMMARY)
     private String iTunesSummary;
@@ -131,7 +131,7 @@ public class RssItem extends BaseData implements Comparable<RssItem>, Parcelable
 		description = in.readString();
 		guid = in.readParcelable(RssGuid.class.getClassLoader());
 		enclosure = in.readParcelable(RssEnclosure.class.getClassLoader());
-		iTunesImage = in.readParcelable(RssITunesImage.class.getClassLoader());
+		iTunesImage = in.readParcelable(RssiTunesImage.class.getClassLoader());
 		iTunesSummary = in.readString();
 		iTunesKeywords = in.readString();
 		iTunesAuthor = in.readString();
@@ -329,11 +329,11 @@ public class RssItem extends BaseData implements Comparable<RssItem>, Parcelable
         }
     }
 
-    public RssITunesImage getiTunesImage() {
+    public RssiTunesImage getiTunesImage() {
         return iTunesImage;
     }
 
-    public void setiTunesImage(final RssITunesImage iTunesImage) {
+    public void setiTunesImage(final RssiTunesImage iTunesImage) {
         this.iTunesImage = iTunesImage;
     }
 

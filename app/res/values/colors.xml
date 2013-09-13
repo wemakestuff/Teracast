@@ -37,4 +37,16 @@
 
 	<color name="background_selected">#1fb6ed</color>
 
+	<!-- Android Colors -->
+	<color name="light_blue">#33B5E5</color>
+	<color name="light_purple">#AA66CC</color>
+	<color name="light_green">#99CC00</color>
+	<color name="light_orange">#FFBB33</color>
+	<color name="light_red">#FF4444</color>
+	<color name="blue">#0099CC</color>
+	<color name="purple">#9933CC</color>
+	<color name="green">#669900</color>
+	<color name="orange">#FF8800</color>
+	<color name="red">#CC0000</color>
+
 </resources>

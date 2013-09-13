@@ -30,7 +30,7 @@ import javax.inject.Inject;
 public class FeedItemListActivity extends BaseListActivity {
 	public static final String TAG = FeedItemListActivity.class.getSimpleName();
 	@Inject
-	Bus            bus;
+	Bus            mBus;
 	@InjectView(R.id.rl_currently_playing)
 	RelativeLayout currentlyPlayingSection;
 	@InjectView(R.id.ib_currently_playing_podcast_icon)
@@ -116,14 +116,14 @@ public class FeedItemListActivity extends BaseListActivity {
 
 	@Override
 	protected void onDestroy() {
-		bus.unregister(this);
+		mBus.unregister(this);
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		bus.register(this);
+		mBus.register(this);
 	}
 
 	@Subscribe
@@ -169,6 +169,6 @@ public class FeedItemListActivity extends BaseListActivity {
 	 */
 	private void produceToggleEvent() {
 		Ln.d("%s - Sent Toggle Event", TAG);
-		bus.post(new ToggleEvent());
+		mBus.post(new ToggleEvent());
 	}
 }

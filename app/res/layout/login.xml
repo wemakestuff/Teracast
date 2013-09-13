@@ -1,8 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</LinearLayout>
+	<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/iv_icon"
+			android:layout_centerHorizontal="true"
+			android:src="@drawable/gravatar_icon"
+			android:layout_marginTop="@dimen/login_top_margins"
+			android:contentDescription="@string/app_name"
+			android:cropToPadding="false"
+			android:baselineAlignBottom="false"/>
+
+	<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/email_address"
+			android:id="@+id/et_email_address"
+			android:layout_centerHorizontal="true"
+			android:layout_marginLeft="@dimen/login_side_margins"
+			android:layout_marginRight="@dimen/login_side_margins"
+			android:layout_marginTop="@dimen/login_top_margins"
+			android:layout_below="@+id/iv_icon"/>
+
+	<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/password"
+			android:layout_below="@id/et_email_address"
+			android:id="@+id/et_password"
+			android:layout_marginLeft="@dimen/login_side_margins"
+			android:layout_marginRight="@dimen/login_side_margins"
+			android:layout_marginTop="@dimen/login_top_margins"/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/forgot_password"
+			android:id="@+id/tv_forgot_password"
+			android:layout_below="@+id/et_password"
+			android:layout_alignRight="@+id/et_password"
+			android:layout_marginTop="5dp"/>
+
+	<CheckBox
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="I accept the Terms of Use and Privacy Policy"
+			android:id="@+id/cb_terms"
+			android:layout_below="@+id/tv_forgot_password"
+			android:layout_marginLeft="@dimen/login_side_margins"
+			android:layout_marginRight="@dimen/login_side_margins"
+			android:checked="false"
+			android:layout_marginTop="@dimen/login_top_margins"/>
+
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/sign_in"
+			android:id="@+id/b_sign_in"
+			android:layout_centerHorizontal="true"
+			android:layout_alignParentTop="false"
+			android:layout_below="@+id/cb_terms"
+			android:layout_marginTop="@dimen/login_top_margins"/>
+</RelativeLayout>

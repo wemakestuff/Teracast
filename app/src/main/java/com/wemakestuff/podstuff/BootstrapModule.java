@@ -1,10 +1,8 @@
 package com.wemakestuff.podstuff;
 
-import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.media.AudioManager;
-
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
 import com.wemakestuff.podstuff.database.RssDatabase;
@@ -16,18 +14,11 @@ import com.wemakestuff.podstuff.service.HttpService;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.MusicIntentReceiver;
 import com.wemakestuff.podstuff.service.RssFeedService;
-import com.wemakestuff.podstuff.ui.BootstrapTimerActivity;
-import com.wemakestuff.podstuff.ui.CarouselActivity;
-import com.wemakestuff.podstuff.ui.FeedItemListActivity;
-import com.wemakestuff.podstuff.ui.FeedItemListAdapter;
-import com.wemakestuff.podstuff.ui.NewsActivity;
-import com.wemakestuff.podstuff.ui.PlayerActivity;
-import com.wemakestuff.podstuff.ui.UserActivity;
-
-import javax.inject.Singleton;
-
+import com.wemakestuff.podstuff.ui.*;
 import dagger.Module;
 import dagger.Provides;
+
+import javax.inject.Singleton;
 
 /**
  * Dagger module for setting up provides statements. Register all of your entry points below.
@@ -38,23 +29,16 @@ import dagger.Provides;
 
 				injects = {
 								  BootstrapApplication.class,
-								  BootstrapAuthenticatorActivity.class,
 								  FeedItemListActivity.class,
 								  FeedItemListAdapter.class,
-								  CarouselActivity.class,
-								  BootstrapTimerActivity.class,
-								  CheckInsListFragment.class,
-								  NewsActivity.class,
-								  NewsListFragment.class,
-								  UserActivity.class,
-								  UserListFragment.class,
-								  TimerService.class,
 								  PlayerActivity.class,
                                   MediaService.class,
                                   MusicIntentReceiver.class,
                                   HttpService.class,
 								  RssFeedService.class,
 								  RssFeed.class,
+								  LoginActivity.class,
+								  RegisterActivity.class,
                                   ContentManager.class
 
 				}
@@ -89,12 +73,6 @@ public class BootstrapModule {
     FeedProvider provideFeedProvider(final ContentResolver resolver) {
         return (FeedProvider) resolver.acquireContentProviderClient(FeedProvider.AUTHORITY).getLocalContentProvider();
     }
-
-	@Provides
-	@Singleton
-	LogoutService provideLogoutService(final Context context, final AccountManager accountManager) {
-		return new LogoutService(context, accountManager);
-	}
 
 	@Provides
 	AudioManager provideAudioManager(final Context context) {

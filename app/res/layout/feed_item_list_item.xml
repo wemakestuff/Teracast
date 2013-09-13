@@ -22,6 +22,14 @@
 			android:layout_toRightOf="@id/cb_select"
 			android:layout_centerVertical="true"/>
 
+	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/ib_play_pause"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:src="@drawable/ic_media_play"/>
+
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -44,14 +52,6 @@
 			android:layout_toLeftOf="@id/ib_play_pause"
 			android:ellipsize="end"
 			android:textSize="@dimen/text_size_small"/>
-
-	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/ib_play_pause"
-			android:layout_centerVertical="true"
-			android:layout_alignParentRight="true"
-			android:src="@drawable/ic_media_play"/>
 
 	<TextView
 			android:layout_width="wrap_content"

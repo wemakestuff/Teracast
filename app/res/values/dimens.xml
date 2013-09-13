@@ -10,8 +10,13 @@
 	<dimen name="image_button_padding">8dp</dimen>
 	<dimen name="image_button_margin">5dp</dimen>
 
+	<!-- Text Sizes -->
 	<dimen name="text_size_micro">12sp</dimen>
 	<dimen name="text_size_small">14sp</dimen>
 	<dimen name="text_size_medium">18sp</dimen>
 	<dimen name="text_size_large">22sp</dimen>
+
+	<!-- Login -->
+	<dimen name="login_side_margins">15dp</dimen>
+	<dimen name="login_top_margins">10dp</dimen>
 </resources>

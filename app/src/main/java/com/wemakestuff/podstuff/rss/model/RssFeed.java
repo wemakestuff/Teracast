@@ -3,7 +3,6 @@ package com.wemakestuff.podstuff.rss.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -15,14 +14,13 @@ import com.wemakestuff.podstuff.database.annotations.SortOrder;
 import com.wemakestuff.podstuff.database.annotations.UriPaths;
 import com.wemakestuff.podstuff.provider.FeedProvider;
 
+import javax.inject.Inject;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @DatabaseTable(tableName = "feeds")
 @UriPaths({ RssFeed.ENTITY_PL, RssFeed.ENTITY_PL + "/#" })
@@ -64,11 +62,11 @@ public class RssFeed extends BaseData implements Parcelable {
 //    @Inject
 //    Dao<RssFeed, Integer> rssFeedDao;
 //    @Inject
-//    Dao<RssITunesImage, Integer> iTunesImageDao;
+//    Dao<RssiTunesImage, Integer> iTunesImageDao;
 //    @Inject
 //    Dao<RssItem, Integer> rssItemDao;
 //    @Inject
-//    Dao<RssITunesImage, Integer> rssITunesImageDao;
+//    Dao<RssiTunesImage, Integer> rssITunesImageDao;
 //    @Inject
 //    Dao<RssMediaContent, Integer> rssMediaContentDao;
 //    @Inject
@@ -109,7 +107,7 @@ public class RssFeed extends BaseData implements Parcelable {
     private String iTunesAuthor;
 
     @DatabaseField(columnName = ITUNES_IMAGE, canBeNull = true, foreign = true, foreignAutoCreate = true)
-    private RssITunesImage iTunesImage;
+    private RssiTunesImage iTunesImage;
 
     @DatabaseField(columnName = ITUNES_EXPLICIT)
     private Boolean iTunesExplicit;
@@ -231,11 +229,11 @@ public class RssFeed extends BaseData implements Parcelable {
         this.iTunesAuthor = iTunesAuthor;
     }
 
-    public RssITunesImage getiTunesImage() {
+    public RssiTunesImage getiTunesImage() {
         return iTunesImage;
     }
 
-    public void setiTunesImage(final RssITunesImage iTunesImage) {
+    public void setiTunesImage(final RssiTunesImage iTunesImage) {
         this.iTunesImage = iTunesImage;
     }
 
@@ -486,7 +484,7 @@ public class RssFeed extends BaseData implements Parcelable {
         sb.append(", iTunesSubtitle='").append(iTunesSubtitle).append('\'');
         sb.append(", iTunesKeywords=").append(iTunesKeywords);
         sb.append(", iTunesAuthor='").append(iTunesAuthor).append('\'');
-        sb.append(", RssITunesImage=").append(iTunesImage);
+        sb.append(", RssiTunesImage=").append(iTunesImage);
         sb.append(", iTunesExplicit=").append(iTunesExplicit);
         sb.append(", iTunesBlock=").append(iTunesBlock);
         sb.append(", rssImage=").append(rssImage);

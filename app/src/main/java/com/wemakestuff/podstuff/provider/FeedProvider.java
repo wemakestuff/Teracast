@@ -2,44 +2,37 @@ package com.wemakestuff.podstuff.provider;
 
 import com.wemakestuff.podstuff.database.RssDatabase;
 import com.wemakestuff.podstuff.database.interfaces.DatabaseHelper;
-import com.wemakestuff.podstuff.rss.model.RssEnclosure;
-import com.wemakestuff.podstuff.rss.model.RssFeed;
-import com.wemakestuff.podstuff.rss.model.RssGuid;
-import com.wemakestuff.podstuff.rss.model.RssITunesImage;
-import com.wemakestuff.podstuff.rss.model.RssImage;
-import com.wemakestuff.podstuff.rss.model.RssItem;
-import com.wemakestuff.podstuff.rss.model.RssMediaContent;
+import com.wemakestuff.podstuff.rss.model.*;
 
 import javax.inject.Inject;
 
 public class FeedProvider extends AbstractFeedProvider {
-//    private static final UriMatcher mUriMatcher = buildUriMatcher();
-    private static final String     TAG         = FeedProvider.class.getSimpleName();
-    private RssDatabase mDatabase;
+	//    private static final UriMatcher mUriMatcher = buildUriMatcher();
+	private static final String TAG = FeedProvider.class.getSimpleName();
+	private RssDatabase mDatabase;
 
+	public static final String AUTHORITY = "com.wemakestuff.podstuff.content";
 
-    public static final String AUTHORITY = "com.wemakestuff.podstuff.content";
+	private static final String DATABASE_NAME    = "feeder.db";
+	private static final int    DATABASE_VERSION = 10;
 
-    private static final String DATABASE_NAME    = "feeder.db";
-    private static final int    DATABASE_VERSION = 10;
+	@SuppressWarnings("rawtypes")
+	public static final Class[] CLASSES = {RssEnclosure.class, RssFeed.class, RssGuid.class, RssImage.class, RssItem.class, RssiTunesImage.class, RssMediaContent.class};
 
-    @SuppressWarnings("rawtypes")
-    public static final Class[] CLASSES = {RssEnclosure.class, RssFeed.class, RssGuid.class, RssImage.class, RssItem.class, RssITunesImage.class, RssMediaContent.class};
+	private DatabaseHelper helper = null;
 
-    private DatabaseHelper helper = null;
+	@Inject
+	public FeedProvider() {
+		super();
+	}
 
-    @Inject
-    public FeedProvider() {
-        super();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean onCreate() {
-        helper = new RssDatabase(getContext());
-        super.setHelper(helper);
-        super.setAuthority(AUTHORITY);
-        super.initialize(CLASSES);
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean onCreate() {
+		helper = new RssDatabase(getContext());
+		super.setHelper(helper);
+		super.setAuthority(AUTHORITY);
+		super.initialize(CLASSES);
         return true;
     }
 

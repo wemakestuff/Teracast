@@ -4,59 +4,47 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.util.Log;
-
 import com.wemakestuff.podstuff.database.RssDatabase;
 import com.wemakestuff.podstuff.database.interfaces.DatabaseHelper;
-import com.wemakestuff.podstuff.rss.model.RssEnclosure;
-import com.wemakestuff.podstuff.rss.model.RssFeed;
-import com.wemakestuff.podstuff.rss.model.RssGuid;
-import com.wemakestuff.podstuff.rss.model.RssITunesImage;
-import com.wemakestuff.podstuff.rss.model.RssImage;
-import com.wemakestuff.podstuff.rss.model.RssItem;
-import com.wemakestuff.podstuff.rss.model.RssMediaContent;
-
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import com.wemakestuff.podstuff.rss.model.*;
 
 import javax.inject.Inject;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ContentManager {
-    public static final Uri ENCLOSURE_URI     = getUri(RssEnclosure.ENTITY_PL);
-    public static final Uri FEED_URI          = getUri(RssFeed.ENTITY_PL);
-    public static final Uri GUID_URI          = getUri(RssGuid.ENTITY_PL);
-    public static final Uri IMAGE_URI         = getUri(RssImage.ENTITY_PL);
-    public static final Uri ITEM_URI          = getUri(RssItem.ENTITY_PL);
-    public static final Uri ITUNES_IMAGE_URI  = getUri(RssITunesImage.ENTITY_PL);
-    public static final Uri MEDIA_CONTENT_URI = getUri(RssMediaContent.ENTITY_PL);
+	public static final Uri ENCLOSURE_URI     = getUri(RssEnclosure.ENTITY_PL);
+	public static final Uri FEED_URI          = getUri(RssFeed.ENTITY_PL);
+	public static final Uri GUID_URI          = getUri(RssGuid.ENTITY_PL);
+	public static final Uri IMAGE_URI         = getUri(RssImage.ENTITY_PL);
+	public static final Uri ITEM_URI          = getUri(RssItem.ENTITY_PL);
+	public static final Uri ITUNES_IMAGE_URI  = getUri(RssiTunesImage.ENTITY_PL);
+	public static final Uri MEDIA_CONTENT_URI = getUri(RssMediaContent.ENTITY_PL);
 
-    private static Map<ContentResolver, ContentManager> instances  = new HashMap<ContentResolver, ContentManager>();
-    private static SimpleDateFormat                     dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    DatabaseHelper helper;
+	private static Map<ContentResolver, ContentManager> instances  = new HashMap<ContentResolver, ContentManager>();
+	private static SimpleDateFormat                     dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	DatabaseHelper helper;
 
-    @Inject
-    FeedProvider provider;
+	@Inject
+	FeedProvider provider;
 
-    @Inject
-    RssDatabase database;
+	@Inject
+	RssDatabase database;
 
-    @Inject
-    public ContentManager(DatabaseHelper helper) {
-        this.helper = helper;
-        Log.i("ContentManager", helper == null ? "null" : "not null");
-        Log.i("ContentManager", provider == null ? "null" : "not null");
+	@Inject
+	public ContentManager(DatabaseHelper helper) {
+		this.helper = helper;
+		Log.i("ContentManager", helper == null ? "null" : "not null");
+		Log.i("ContentManager", provider == null ? "null" : "not null");
 
-    }
+	}
 
-    public static Uri getUri(String uriPath) {
-        return Uri.parse(ContentResolver.SCHEME_CONTENT + "://"
-                + FeedProvider.AUTHORITY + "/" + uriPath);
-    }
+	public static Uri getUri(String uriPath) {
+		return Uri.parse(ContentResolver.SCHEME_CONTENT + "://"
+		                 + FeedProvider.AUTHORITY + "/" + uriPath);
+	}
 
-    public static ContentValues getContentValues(RssEnclosure enclosure, String[] projection) {
+	public static ContentValues getContentValues(RssEnclosure enclosure, String[] projection) {
         ContentValues values = new ContentValues();
         Set<String> columns = new HashSet<String>(Arrays.asList(projection));
         if (columns.contains(RssEnclosure.URL))

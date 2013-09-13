@@ -21,12 +21,13 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.wemakestuff.podstuff.BootstrapApplication;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.core.Constants;
 import com.wemakestuff.podstuff.media.MediaButtonHelper;
 import com.wemakestuff.podstuff.media.RemoteControlClientCompat;
 import com.wemakestuff.podstuff.media.RemoteControlHelper;
 import com.wemakestuff.podstuff.media.event.*;
-import com.wemakestuff.podstuff.rss.model.RssITunesImage;
 import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.rss.model.RssiTunesImage;
 import com.wemakestuff.podstuff.ui.PlayerActivity;
 import com.wemakestuff.podstuff.util.ImageUtils;
 import com.wemakestuff.podstuff.util.Ln;
@@ -133,7 +134,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 				mRemoteControlClientCompat.setTransportControlFlags(RemoteControlClient.FLAG_KEY_MEDIA_PLAY | RemoteControlClient.FLAG_KEY_MEDIA_PAUSE | RemoteControlClient.FLAG_KEY_MEDIA_NEXT | RemoteControlClient.FLAG_KEY_MEDIA_STOP);
 
 				String largeIconPath = "";
-				RssITunesImage itunesImage = playingRssItem.getiTunesImage();
+				RssiTunesImage itunesImage = playingRssItem.getiTunesImage();
 				if (itunesImage != null) {
 					largeIconPath = itunesImage.getHref();
 				}
@@ -598,7 +599,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
 		}
 
 		String largeIconPath = "";
-		RssITunesImage itunesImage = playingRssItem.getiTunesImage();
+		RssiTunesImage itunesImage = playingRssItem.getiTunesImage();
 		if (itunesImage != null) {
 			largeIconPath = itunesImage.getHref();
 		}

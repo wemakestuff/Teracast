@@ -369,7 +369,7 @@ public class RssFeedSaxParser extends BaseFeedParser {
 		return new StartElementListener() {
 			@Override
 			public void start(final Attributes attributes) {
-				RssITunesImage image = new RssITunesImage();
+				RssiTunesImage image = new RssiTunesImage();
 				image.setHref(attributes.getValue(iTunes.HREF));
 				feed.setiTunesImage(image);
 			}
