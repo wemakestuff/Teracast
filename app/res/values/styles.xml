@@ -2,6 +2,16 @@
 
 <resources>
 
+	<style name="Widget.Styled"></style>
+
+	<style name="Widget.Styled.ActionButton"></style>
+
+	<style name="Widget.Styled.ActionButton.Overflow">
+		<item name="android:src">@drawable/ic_menu_moreoverflow_holo_light</item>
+		<item name="android:background">?attr/actionBarItemBackground</item>
+		<item name="android:contentDescription">@string/abs__action_menu_overflow_description</item>
+	</style>
+
 	<!-- List Views -->
 	<style name="ListView">
 		<item name="android:dividerHeight">2px</item>
@@ -32,12 +42,15 @@
 	<!-- Image Buttons -->
 	<style name="ImageButton">
 	</style>
+
 	<style name="DarkImageButton" parent="ImageButton">
 		<item name="android:background">@drawable/list_selector_holo_dark</item>
 	</style>
+
 	<style name="DarkImageButton" parent="ImageButton">
 		<item name="android:background">@drawable/list_selector_holo_light</item>
 	</style>
+
 	<style name="MediaButton">
 		<item name="android:layout_height">@dimen/image_button_height</item>
 		<item name="android:clickable">true</item>
@@ -51,10 +64,12 @@
 	<style name="NotificationText">
 		<item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
 	</style>
+
 	<style name="NotificationTitle">
 		<item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
 		<item name="android:textStyle">bold</item>
 	</style>
+
 	<style name="NotificationMediaButton">
 		<item name="android:background">@drawable/list_selector_holo_dark</item>
 		<item name="android:layout_height">@dimen/image_button_height</item>

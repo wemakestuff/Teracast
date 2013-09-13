@@ -4,9 +4,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<item
-			android:id="@+id/sign_in"
-			android:showAsAction="always"
-			android:title="@string/sign_in">
+			android:id="@+id/settings"
+			android:showAsAction="never"
+			android:title="@string/settings"
+			android:icon="@drawable/ic_menu_preferences">
+	</item>
+
+	<item
+			android:id="@+id/about"
+			android:showAsAction="never"
+			android:title="@string/about"
+			android:icon="@drawable/ic_action_info">
 	</item>
 
 </menu>

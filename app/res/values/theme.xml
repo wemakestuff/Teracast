@@ -4,6 +4,8 @@
 
 	<style name="Theme.PodStuff.Light" parent="@style/Theme.Sherlock.Light">
 		<item name="sdlDialogStyle">@style/DialogStyleLight</item>
+		<item name="actionOverflowButtonStyle">@style/Widget.Styled.ActionButton.Overflow</item>
+		<item name="android:actionOverflowButtonStyle">@style/Widget.Styled.ActionButton.Overflow</item>
 	</style>
 
 	<style name="Theme.PodStuff.Dark" parent="@style/Theme.Sherlock">

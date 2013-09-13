@@ -23,6 +23,8 @@
 
 	<!-- Titles -->
 	<string name="player">Player</string>
+	<string name="settings">Settings</string>
+	<string name="about">About</string>
 
 	<!-- Player Actions -->
 	<string name="stop">Stop</string>
