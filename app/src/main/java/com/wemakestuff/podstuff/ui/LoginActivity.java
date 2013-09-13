@@ -90,6 +90,8 @@ public class LoginActivity extends BaseFragmentActivity implements Validator.Val
 	@Override
 	public void onSuccess() {
 		Toast.makeText(this, "Successfully Validated!", Toast.LENGTH_LONG).show();
+		Intent intent = new Intent(this, PodcastsActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

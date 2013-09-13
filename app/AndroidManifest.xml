@@ -42,6 +42,7 @@
 	    </activity>
 
 	    <activity android:name=".ui.RegisterActivity" />
+	    <activity android:name=".ui.PodcastsActivity" />
 	    <activity android:name=".ui.PlayerActivity" />
 
 	    <receiver android:name=".service.MusicIntentReceiver" android:exported="true">

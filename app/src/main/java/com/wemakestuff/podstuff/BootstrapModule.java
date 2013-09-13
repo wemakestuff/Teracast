@@ -39,6 +39,7 @@ import javax.inject.Singleton;
 								  RssFeed.class,
 								  LoginActivity.class,
 								  RegisterActivity.class,
+								  PodcastsActivity.class,
                                   ContentManager.class
 
 				}

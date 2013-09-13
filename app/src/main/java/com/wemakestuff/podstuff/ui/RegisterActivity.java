@@ -1,10 +1,13 @@
 package com.wemakestuff.podstuff.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.mobsandgeeks.saripaar.Rule;
@@ -62,6 +65,13 @@ public class RegisterActivity extends BaseFragmentActivity implements Validator.
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.register, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
@@ -86,6 +96,8 @@ public class RegisterActivity extends BaseFragmentActivity implements Validator.
 	@Override
 	public void onSuccess() {
 		Toast.makeText(this, "Successfully Validated!", Toast.LENGTH_LONG).show();
+		Intent intent = new Intent(this, PodcastsActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
