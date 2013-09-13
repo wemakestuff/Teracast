@@ -73,6 +73,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
 	@OnClick(R.id.b_register)
 	void register() {
+		clearErrors();
 		mValidator.validate();
 	}
 
