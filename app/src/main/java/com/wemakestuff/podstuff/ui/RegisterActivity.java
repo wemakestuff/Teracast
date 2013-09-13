@@ -93,8 +93,6 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
 			((EditText) failedView).setError(message);
-		} else if (failedView instanceof CheckBox) {
-			((CheckBox) failedView).setError(message);
 		} else {
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 		}
@@ -103,5 +101,12 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 	@Override
 	public void onValidationCancelled() {
 		Toast.makeText(this, "Validation Cancelled", Toast.LENGTH_LONG).show();
+	}
+
+	private void clearErrors() {
+		firstName.setError(null);
+		lastName.setError(null);
+		emailAddress.setError(null);
+		password.setError(null);
 	}
 }

@@ -77,6 +77,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
 	@OnClick(R.id.b_sign_in)
 	void signIn() {
+		clearErrors();
 		mValidator.validate();
 	}
 
@@ -97,8 +98,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
 			((EditText) failedView).setError(message);
-		} else if (failedView instanceof CheckBox) {
-			((CheckBox) failedView).setError(message);
 		} else {
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 		}
@@ -107,5 +106,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 	@Override
 	public void onValidationCancelled() {
 		Toast.makeText(this, "Validation Cancelled", Toast.LENGTH_LONG).show();
+	}
+
+	private void clearErrors() {
+		emailAddress.setError(null);
+		password.setError(null);
 	}
 }
