@@ -3,7 +3,7 @@
 <resources>
 
 	<style name="Theme.PodStuff.Light" parent="@style/Theme.Sherlock.Light">
-
+		<item name="sdlDialogStyle">@style/DialogStyleLight</item>
 	</style>
 
 	<style name="Theme.PodStuff.Dark" parent="@style/Theme.Sherlock">

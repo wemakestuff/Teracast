@@ -18,10 +18,11 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.R;
+import eu.inmite.android.lib.dialogs.SimpleDialogFragment;
 
 import javax.inject.Inject;
 
-public class LoginActivity extends BaseActivity implements Validator.ValidationListener {
+public class LoginActivity extends BaseFragmentActivity implements Validator.ValidationListener {
 	@Inject
 	Bus mBus;
 	Validator mValidator;
@@ -98,6 +99,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
 			((EditText) failedView).setError(message);
+		} else if (failedView instanceof CheckBox) {
+			SimpleDialogFragment.createBuilder(this, getSupportFragmentManager()).setMessage(message).show();
 		} else {
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 		}

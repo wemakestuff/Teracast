@@ -12,10 +12,11 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.*;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.R;
+import eu.inmite.android.lib.dialogs.SimpleDialogFragment;
 
 import javax.inject.Inject;
 
-public class RegisterActivity extends BaseActivity implements Validator.ValidationListener {
+public class RegisterActivity extends BaseFragmentActivity implements Validator.ValidationListener {
 	@Inject
 	Bus mBus;
 	Validator mValidator;
@@ -94,6 +95,8 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 		if (failedView instanceof EditText) {
 			failedView.requestFocus();
 			((EditText) failedView).setError(message);
+		} else if (failedView instanceof CheckBox) {
+			SimpleDialogFragment.createBuilder(this, getSupportFragmentManager()).setMessage(message).show();
 		} else {
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 		}
