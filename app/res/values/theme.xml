@@ -6,6 +6,7 @@
 		<item name="sdlDialogStyle">@style/DialogStyleLight</item>
 		<item name="actionOverflowButtonStyle">@style/Widget.Styled.ActionButton.Overflow</item>
 		<item name="android:actionOverflowButtonStyle">@style/Widget.Styled.ActionButton.Overflow</item>
+		<item name="vpiTitlePageIndicatorStyle">@style/Widget.Styled.ViewPagerIndicator.Light</item>
 	</style>
 
 	<style name="Theme.PodStuff.Dark" parent="@style/Theme.Sherlock">

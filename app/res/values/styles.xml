@@ -2,6 +2,7 @@
 
 <resources>
 
+	<!-- Action Bar -->
 	<style name="Widget.Styled"></style>
 
 	<style name="Widget.Styled.ActionButton"></style>
@@ -10,6 +11,20 @@
 		<item name="android:src">@drawable/ic_menu_moreoverflow_holo_light</item>
 		<item name="android:background">?attr/actionBarItemBackground</item>
 		<item name="android:contentDescription">@string/abs__action_menu_overflow_description</item>
+	</style>
+
+	<!-- View Pager Indicator -->
+	<style name="Widget.Styled.ViewPagerIndicator"></style>
+
+	<style name="Widget.Styled.ViewPagerIndicator.Light">
+		<item name="android:background">@drawable/abs__ab_solid_light_holo</item>
+		<item name="footerColor">@color/blue</item>
+		<item name="footerLineHeight">1dp</item>
+		<item name="footerIndicatorHeight">3dp</item>
+		<item name="footerIndicatorStyle">underline</item>
+		<item name="android:textColor">@android:color/black</item>
+		<item name="selectedColor">@android:color/black</item>
+		<item name="selectedBold">true</item>
 	</style>
 
 	<!-- List Views -->

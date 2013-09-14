@@ -25,6 +25,10 @@
 	<string name="player">Player</string>
 	<string name="settings">Settings</string>
 	<string name="about">About</string>
+	<string name="add_podcast">Add Podcast</string>
+	<string name="all">All</string>
+	<string name="unlistened">Unlistened</string>
+	<string name="trending">Trending</string>
 
 	<!-- Player Actions -->
 	<string name="stop">Stop</string>
