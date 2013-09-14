@@ -2,7 +2,7 @@ package com.wemakestuff.podstuff.model;
 
 import java.util.List;
 
-public class Feed {
+public class Podcast {
 	String        name;
 	String        url;
 	Image         feedIcon;
@@ -54,25 +54,25 @@ public class Feed {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof Feed)) {
+		if (!(o instanceof Podcast)) {
 			return false;
 		}
 
-		final Feed feed = (Feed) o;
+		final Podcast podcast = (Podcast) o;
 
-		if (episodeList != null ? !episodeList.equals(feed.episodeList) : feed.episodeList != null) {
+		if (episodeList != null ? !episodeList.equals(podcast.episodeList) : podcast.episodeList != null) {
 			return false;
 		}
-		if (feedIcon != null ? !feedIcon.equals(feed.feedIcon) : feed.feedIcon != null) {
+		if (feedIcon != null ? !feedIcon.equals(podcast.feedIcon) : podcast.feedIcon != null) {
 			return false;
 		}
-		if (name != null ? !name.equals(feed.name) : feed.name != null) {
+		if (name != null ? !name.equals(podcast.name) : podcast.name != null) {
 			return false;
 		}
-		if (networkIcon != null ? !networkIcon.equals(feed.networkIcon) : feed.networkIcon != null) {
+		if (networkIcon != null ? !networkIcon.equals(podcast.networkIcon) : podcast.networkIcon != null) {
 			return false;
 		}
-		if (url != null ? !url.equals(feed.url) : feed.url != null) {
+		if (url != null ? !url.equals(podcast.url) : podcast.url != null) {
 			return false;
 		}
 
@@ -91,7 +91,7 @@ public class Feed {
 
 	@Override
 	public String toString() {
-		return "Feed{" +
+		return "Podcast{" +
 		       "name='" + name + '\'' +
 		       ", url='" + url + '\'' +
 		       ", feedIcon=" + feedIcon +
