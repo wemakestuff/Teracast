@@ -48,5 +48,7 @@
 	<color name="green">#669900</color>
 	<color name="orange">#FF8800</color>
 	<color name="red">#CC0000</color>
+	<color name="background_holo_light">#fff3f3f3</color>
+	<color name="bright_foreground_disabled_holo_light">#ffb2b2b2</color>
 
 </resources>

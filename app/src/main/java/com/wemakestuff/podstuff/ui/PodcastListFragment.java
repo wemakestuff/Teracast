@@ -9,7 +9,7 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-public class AllPodcastsFragment extends SherlockFragment implements TitlePagerItem {
+public class PodcastListFragment extends SherlockFragment implements TitlePagerItem {
 	@Inject
 	Bus mBus;
 

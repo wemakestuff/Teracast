@@ -2,21 +2,29 @@
 <resources>
 	<dimen name="feed_list_item_icon_height">80sp</dimen>
 
-	<dimen name="media_notification_podcast_icon_size">96dp</dimen>
+	<dimen name="media_notification_podcast_icon_size">96dip</dimen>
 
-	<dimen name="currently_playing_icon_width">48dp</dimen>
+	<dimen name="currently_playing_icon_width">48dip</dimen>
 
-	<dimen name="image_button_height">32dp</dimen>
-	<dimen name="image_button_padding">8dp</dimen>
-	<dimen name="image_button_margin">5dp</dimen>
+	<dimen name="image_button_height">32dip</dimen>
+	<dimen name="image_button_padding">8dip</dimen>
+	<dimen name="image_button_margin">5dip</dimen>
 
 	<!-- Text Sizes -->
-	<dimen name="text_size_micro">12sp</dimen>
+	<dimen name="text_size_micro">8sp</dimen>
+	<dimen name="text_size_mini">10sp</dimen>
+	<dimen name="text_size_tiny">12sp</dimen>
 	<dimen name="text_size_small">14sp</dimen>
 	<dimen name="text_size_medium">18sp</dimen>
 	<dimen name="text_size_large">22sp</dimen>
 
 	<!-- Login -->
-	<dimen name="login_side_margins">15dp</dimen>
-	<dimen name="login_top_margins">10dp</dimen>
+	<dimen name="login_side_margins">15dip</dimen>
+	<dimen name="login_top_margins">10dip</dimen>
+
+	<!-- Podcast List/Grid Items -->
+	<dimen name="podcast_list_item_spacing">5dip</dimen>
+	<dimen name="podcast_grid_item_height">128dip</dimen>
+	<dimen name="podcast_grid_item_width">256dip</dimen>
+	<dimen name="podcast_grid_item_details_height">48dip</dimen>
 </resources>

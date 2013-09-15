@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeight"
+                android:id="@+id/rl_list_item">
+
+	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+			android:id="@+id/ib_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:src="@drawable/ic_contact_picture"
+			android:layout_marginTop="@dimen/podcast_list_item_spacing"
+			android:layout_marginLeft="@dimen/podcast_list_item_spacing"
+			android:layout_marginBottom="@dimen/podcast_list_item_spacing"
+			android:background="@android:color/transparent"
+			/>
+
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="2"
+			android:id="@+id/tv_episode_count"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_margin="2dp"
+			android:singleLine="true"
+			android:textSize="@dimen/text_size_micro"
+			android:clickable="true"
+			android:background="#BEBEBE"
+			android:padding="2dp"/>
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/ll_item_details"
+			android:layout_toRightOf="@+id/ib_icon"
+			android:padding="@dimen/podcast_list_item_spacing"
+			android:layout_margin="@dimen/podcast_list_item_spacing"
+			>
+
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Startups for the Rest of Us"
+				android:textSize="@dimen/text_size_medium"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:id="@+id/tv_title"/>
+
+		<TextView
+				android:id="@+id/tv_description"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:text="I may be somewhat jaded I don't really keep a budget for real though one time in middle school. I may be somewhat jaded my other half you're going to be trained to my satisfaction nubile proper grammar, wildly attractive doesn't hurt full-contact no crazy chicks females I don't really keep a budget. The Game is probably a conspiracy I am a hoarder, but only of top shelf stuff wildly attractive doesn't hurt my other half no robots posing as real people."
+				android:textSize="@dimen/text_size_mini"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
