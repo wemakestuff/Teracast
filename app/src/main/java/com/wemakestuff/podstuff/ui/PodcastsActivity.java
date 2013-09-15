@@ -27,7 +27,7 @@ public class PodcastsActivity extends BaseFragmentActivity implements ViewPager.
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.podcasts);
+		setContentView(R.layout.view_pager);
 
 		List<String> titleList = new ArrayList<String>();
 		titleList.add(getString(R.string.all));

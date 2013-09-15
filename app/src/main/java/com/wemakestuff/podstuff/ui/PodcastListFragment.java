@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-public class PodcastListFragment extends SherlockFragment implements TitlePagerItem {
+public class PodcastListFragment extends SherlockListFragment implements TitlePagerItem {
 	@Inject
 	Bus mBus;
 
