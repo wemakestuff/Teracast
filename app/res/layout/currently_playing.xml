@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_currently_playing"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/actionbar_background"
+    android:minHeight="?android:attr/listPreferredItemHeight">
+
+    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
+        android:id="@+id/ib_icon"
+        android:layout_width="@dimen/currently_playing_icon_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/image_button_margin"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_contact_picture" />
+
+    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
+        android:id="@+id/ib_play"
+        style="@style/MediaButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_media_play" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ib_icon"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/ib_play"
+        android:layout_toRightOf="@id/ib_icon"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Episode 137 | Startup Feedback, Finding Better Consulting Gigs, and More Listener Questions"
+        android:textSize="@dimen/text_size_small" />
+
+    <TextView
+        android:id="@+id/tv_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_title"
+        android:layout_toLeftOf="@id/ib_play"
+        android:text="0:18:36/00:37:35"
+        android:textSize="@dimen/text_size_micro" />
+</RelativeLayout>
