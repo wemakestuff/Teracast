@@ -29,6 +29,7 @@
 	    <httprequest.version>3.0</httprequest.version>
 	    <icepick.version>2.0</icepick.version>
 	    <androiddialogs.version>1.0.1</androiddialogs.version>
+	    <menudrawer.version>3.0.0</menudrawer.version>
     </properties>
 
     <dependencies>
@@ -151,6 +152,12 @@
 		    <groupId>eu.inmite.android.lib</groupId>
 		    <artifactId>android-styled-dialogs</artifactId>
 		    <version>${androiddialogs.version}</version>
+		    <type>apklib</type>
+	    </dependency>
+	    <dependency>
+		    <groupId>net.simonvt.menudrawer</groupId>
+		    <artifactId>menudrawer</artifactId>
+		    <version>${menudrawer.version}</version>
 		    <type>apklib</type>
 	    </dependency>
     </dependencies>
