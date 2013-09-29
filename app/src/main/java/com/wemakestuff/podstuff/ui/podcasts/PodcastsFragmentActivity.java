@@ -29,7 +29,6 @@ public class PodcastsFragmentActivity extends BaseFragmentActivity {
         Bundles.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.view_pager);
         Views.inject(this);
-
         pager.setAdapter(new PodcastListPagerAdapter(this, getSupportFragmentManager()));
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);
