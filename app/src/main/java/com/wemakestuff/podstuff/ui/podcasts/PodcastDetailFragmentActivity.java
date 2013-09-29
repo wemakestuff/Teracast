@@ -9,7 +9,6 @@ import com.viewpagerindicator.TitlePageIndicator;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.ui.base.BaseFragmentActivity;
 import com.wemakestuff.podstuff.ui.widget.adapter.PodcastDetailPagerAdapter;
-import com.wemakestuff.podstuff.ui.widget.adapter.PodcastListPagerAdapter;
 import com.wemakestuff.podstuff.ui.widget.view.CurrentlyPlayingView;
 
 import butterknife.InjectView;
@@ -32,10 +31,7 @@ public class PodcastDetailFragmentActivity extends BaseFragmentActivity {
         Views.inject(this);
         pager.setAdapter(new PodcastDetailPagerAdapter(this, getSupportFragmentManager()));
         indicator.setViewPager(pager);
-
-        if (mPlayingView == null) {
-            mPlayingView = new CurrentlyPlayingView(this, currentlyPlayingView);
-        }
+        mPlayingView = new CurrentlyPlayingView(this, currentlyPlayingView);
     }
 
     @Override

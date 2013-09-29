@@ -32,10 +32,7 @@ public class PodcastsFragmentActivity extends BaseFragmentActivity {
         pager.setAdapter(new PodcastListPagerAdapter(this, getSupportFragmentManager()));
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);
-
-        if (mPlayingView == null) {
-            mPlayingView = new CurrentlyPlayingView(this, currentlyPlayingView);
-        }
+        mPlayingView = new CurrentlyPlayingView(this, currentlyPlayingView);
     }
 
     @Override
