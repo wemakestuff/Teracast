@@ -8,7 +8,7 @@ import com.wemakestuff.podstuff.model.api.EpisodeCategory;
 import com.wemakestuff.podstuff.model.navigation.EpisodeCategoryItem;
 import com.wemakestuff.podstuff.model.navigation.EpisodeItem;
 import com.wemakestuff.podstuff.model.navigation.Item;
-import com.wemakestuff.podstuff.model.navigation.OnEpisodeClickListener;
+import com.wemakestuff.podstuff.model.navigation.listener.OnEpisodeClickListener;
 import com.wemakestuff.podstuff.ui.base.BaseListActivity;
 import com.wemakestuff.podstuff.ui.widget.adapter.EpisodeAdapter;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ItemListActivity extends BaseListActivity implements OnEpisodeClickListener {
+public class EpisodeListActivity extends BaseListActivity implements OnEpisodeClickListener {
     EpisodeAdapter mAdapter;
 
     @Override

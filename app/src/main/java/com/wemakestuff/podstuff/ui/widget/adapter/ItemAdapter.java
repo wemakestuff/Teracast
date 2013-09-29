@@ -10,11 +10,11 @@ import com.wemakestuff.podstuff.util.ListUtils;
 
 import java.util.List;
 
-public class EpisodeAdapter extends BaseAdapter {
+public class ItemAdapter extends BaseAdapter {
     Context mContext;
     List<Item> mItemList;
 
-    public EpisodeAdapter(Context mContext, List<Item> mItemList) {
+    public ItemAdapter(Context mContext, List<Item> mItemList) {
         this.mContext = mContext;
         this.mItemList = mItemList;
     }

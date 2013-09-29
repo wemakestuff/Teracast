@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.model.navigation;
+package com.wemakestuff.podstuff.model.navigation.listener;
 
 import com.wemakestuff.podstuff.model.api.Episode;
 
