@@ -17,10 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class PodcastsPagerAdapter extends FragmentPagerAdapter {
+public class PodcastDetailPagerAdapter extends FragmentPagerAdapter {
     Context mContext;
 
-    public PodcastsPagerAdapter(Context mContext, FragmentManager fragmentManager) {
+    public PodcastDetailPagerAdapter(Context mContext, FragmentManager fragmentManager) {
         super(fragmentManager);
         this.mContext = mContext;
     }

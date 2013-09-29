@@ -1,20 +1,20 @@
-package com.wemakestuff.podstuff.ui.widget;
+package com.wemakestuff.podstuff.ui.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.ImageButton;
 
-public class FocusableCheckBox extends CheckBox {
-	public FocusableCheckBox(Context context) {
+public class FocusableImageButton extends ImageButton {
+	public FocusableImageButton(Context context) {
 		super(context);
 	}
 
-	public FocusableCheckBox(Context context, AttributeSet attrs) {
+	public FocusableImageButton(Context context, AttributeSet attrs) {
 		super(context,attrs);
 	}
 
-	public FocusableCheckBox(Context context, AttributeSet attrs, int defStyle) {
+	public FocusableImageButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 

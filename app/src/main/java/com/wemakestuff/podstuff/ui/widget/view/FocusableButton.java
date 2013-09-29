@@ -1,4 +1,4 @@
-package com.wemakestuff.podstuff.ui.widget;
+package com.wemakestuff.podstuff.ui.widget.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
