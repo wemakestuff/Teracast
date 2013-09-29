@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.model.api.Episode;
+import com.wemakestuff.podstuff.model.navigation.listener.OnEpisodeClickListener;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
