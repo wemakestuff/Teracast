@@ -6,6 +6,17 @@ public class Podcast {
     String description;
     String imageUrl;
     String iconUrl;
+    Network network;
+
+    public Podcast(String title, String url, String description, String imageUrl, String iconUrl, Network network) {
+        this.title = title;
+        this.url = url;
+        this.description = description;
+        this.imageUrl = imageUrl;
+
+        this.iconUrl = iconUrl;
+        this.network = network;
+    }
 
     public Podcast(String title, String url, String description, String imageUrl, String iconUrl) {
 
@@ -24,6 +35,7 @@ public class Podcast {
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", iconUrl='" + iconUrl + '\'' +
+                ", network=" + network +
                 '}';
     }
 
@@ -40,6 +52,8 @@ public class Podcast {
             return false;
         if (imageUrl != null ? !imageUrl.equals(podcast.imageUrl) : podcast.imageUrl != null)
             return false;
+        if (network != null ? !network.equals(podcast.network) : podcast.network != null)
+            return false;
         if (title != null ? !title.equals(podcast.title) : podcast.title != null) return false;
         if (url != null ? !url.equals(podcast.url) : podcast.url != null) return false;
 
@@ -53,7 +67,17 @@ public class Podcast {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
         result = 31 * result + (iconUrl != null ? iconUrl.hashCode() : 0);
+        result = 31 * result + (network != null ? network.hashCode() : 0);
         return result;
+    }
+
+    public Network getNetwork() {
+
+        return network;
+    }
+
+    public void setNetwork(Network network) {
+        this.network = network;
     }
 
     public String getTitle() {

@@ -56,20 +56,6 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:  // This is the home button in the top left corner of the screen.
-				// Dont call finish! Because activity could have been started by an outside activity and the home button would not operated as expected!
-				Intent homeIntent = new Intent(this, FeedItemListActivity.class);
-				homeIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(homeIntent);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
 	protected void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		Bundles.restoreInstanceState(this, savedInstanceState);
