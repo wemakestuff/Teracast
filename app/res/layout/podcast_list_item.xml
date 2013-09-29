@@ -7,13 +7,15 @@
 
     <com.wemakestuff.podstuff.ui.widget.FocusableImageButton
         android:id="@+id/ib_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/podcast_list_item_spacing"
         android:layout_marginLeft="@dimen/podcast_list_item_spacing"
         android:layout_marginTop="@dimen/podcast_list_item_spacing"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_contact_picture" />
+        android:src="@drawable/ic_contact_picture"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
 
     <com.wemakestuff.podstuff.ui.widget.FocusableImageButton
         android:id="@+id/ib_play"
