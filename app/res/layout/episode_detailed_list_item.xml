@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="@dimen/podcast_list_item_spacing">
 
-    <com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
         android:id="@+id/ib_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:textSize="@dimen/text_size_small"
         android:layout_toRightOf="@+id/ib_icon" />
 
-    <com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
         android:id="@+id/ib_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         android:layout_below="@+id/tv_subtitle"
         android:visibility="gone">
 
-        <com.wemakestuff.podstuff.ui.widget.FocusableButton
+        <com.wemakestuff.podstuff.ui.widget.view.FocusableButton
             android:id="@+id/b_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

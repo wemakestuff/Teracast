@@ -5,7 +5,7 @@
                 android:minHeight="?android:attr/listPreferredItemHeight"
                 android:background="@drawable/actionbar_background">
 
-	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+	<com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
 			android:layout_width="@dimen/currently_playing_icon_width"
 			android:layout_height="wrap_content"
 			android:id="@+id/ib_currently_playing_podcast_icon"
@@ -15,7 +15,7 @@
 			android:layout_margin="@dimen/image_button_margin"
 			android:layout_centerVertical="true"/>
 
-	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+	<com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/ib_currently_playing_play_pause"

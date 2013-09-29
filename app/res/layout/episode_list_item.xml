@@ -27,7 +27,7 @@
         android:text="Mike and Rob answer listener questions on getting paid before you build, dealing with entrpreneurial angst, figuring out how much to charge and more. They also give updates on AuditShark and Drip."
         android:textSize="@dimen/text_size_small" />
 
-    <com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
         android:id="@+id/ib_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_below="@+id/tv_subtitle"
         android:visibility="gone">
 
-        <com.wemakestuff.podstuff.ui.widget.FocusableButton
+        <com.wemakestuff.podstuff.ui.widget.view.FocusableButton
             android:id="@+id/b_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

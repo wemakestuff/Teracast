@@ -1,39 +1,15 @@
 package com.wemakestuff.podstuff.ui.base;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.github.frankiesardo.icepick.bundle.Bundles;
-import com.github.kevinsawicki.wishlist.ViewUtils;
 import com.wemakestuff.podstuff.Injector;
-import com.wemakestuff.podstuff.R;
 
-import java.util.List;
-
-import butterknife.InjectView;
 import butterknife.Views;
 
-public abstract class BaseFragment<E> extends SherlockListFragment {
-    protected List<E> mItems;
-    @InjectView(R.id.pb_loading)
-    protected ProgressBar mProgressBar;
-    @InjectView(android.R.id.empty)
-    protected TextView mEmptyView;
-
-    public List<E> getItems() {
-        return mItems;
-    }
-
-    public void setItems(List<E> mItems) {
-        this.mItems = mItems;
-    }
-
+public abstract class BaseFragment extends SherlockFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,41 +26,10 @@ public abstract class BaseFragment<E> extends SherlockListFragment {
 
     public void showProgressBar() {
         getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
-        if (mProgressBar.getVisibility() != View.VISIBLE) {
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
     }
 
     public void hideProgressBar() {
         getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
-        if (mProgressBar.getVisibility() != View.GONE) {
-            mProgressBar.setVisibility(View.GONE);
-        }
-    }
-
-    private BaseFragment<E> fadeIn(final View view, final boolean animate) {
-        if (view != null)
-            if (animate)
-                view.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                        android.R.anim.fade_in));
-            else
-                view.clearAnimation();
-        return this;
-    }
-
-    private BaseFragment<E> show(final View view) {
-        ViewUtils.setGone(view, false);
-        return this;
-    }
-
-    private BaseFragment<E> hide(final View view) {
-        ViewUtils.setGone(view, true);
-        return this;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.item_list, null);
     }
 
     @Override
@@ -97,31 +42,6 @@ public abstract class BaseFragment<E> extends SherlockListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Views.inject(this, view);
-        getListView().setFastScrollEnabled(true);
-    }
-
-    /**
-     * Set empty text on list fragment
-     *
-     * @param message
-     * @return this fragment
-     */
-    protected BaseFragment<E> setEmptyText(final String message) {
-        if (mEmptyView != null)
-            mEmptyView.setText(message);
-        return this;
-    }
-
-    /**
-     * Set empty text on list fragment
-     *
-     * @param resId
-     * @return this fragment
-     */
-    protected BaseFragment<E> setEmptyText(final int resId) {
-        if (mEmptyView != null)
-            mEmptyView.setText(resId);
-        return this;
     }
 
     /**

@@ -23,7 +23,7 @@
         android:theme="@style/Theme.PodStuff.Light">
 
         <activity
-            android:name=".ui.podcasts.PodcastsFragmentActivity"
+            android:name=".ui.podcasts.PodcastDetailFragmentActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,14 +6,14 @@
                 android:descendantFocusability="blocksDescendants"
                 style="@style/ListItem">
 
-	<com.wemakestuff.podstuff.ui.widget.FocusableCheckBox
+	<com.wemakestuff.podstuff.ui.widget.view.FocusableCheckBox
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/cb_select"
 			android:layout_alignParentLeft="true"
 			android:layout_centerVertical="true"/>
 
-	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+	<com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
 			android:layout_width="@dimen/feed_list_item_icon_height"
 			android:layout_height="@dimen/feed_list_item_icon_height"
 			android:padding="4dp"
@@ -56,7 +56,7 @@
 			android:ellipsize="end"
 			android:textSize="@dimen/text_size_small"/>
 
-	<com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+	<com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/ib_play_pause"
