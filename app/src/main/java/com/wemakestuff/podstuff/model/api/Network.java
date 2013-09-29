@@ -1,13 +1,39 @@
 package com.wemakestuff.podstuff.model.api;
 
-public class Network {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Network implements Parcelable {
+    public static final Parcelable.Creator<Network> CREATOR
+            = new Parcelable.Creator<Network>() {
+        public Network createFromParcel(Parcel in) {
+            return new Network(in);
+        }
+
+        public Network[] newArray(int size) {
+            return new Network[size];
+        }
+    };
     String title;
     String description;
 
-    public Network(String title, String description) {
+    private Network(Parcel in) {
+        title = in.readString();
+        description = in.readString();
+    }
 
+    public Network(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(title);
+        out.writeString(description);
     }
 
     @Override

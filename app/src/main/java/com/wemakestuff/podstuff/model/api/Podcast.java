@@ -1,6 +1,19 @@
 package com.wemakestuff.podstuff.model.api;
 
-public class Podcast {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Podcast implements Parcelable {
+    public static final Parcelable.Creator<Podcast> CREATOR
+            = new Parcelable.Creator<Podcast>() {
+        public Podcast createFromParcel(Parcel in) {
+            return new Podcast(in);
+        }
+
+        public Podcast[] newArray(int size) {
+            return new Podcast[size];
+        }
+    };
     String title;
     String url;
     String description;
@@ -8,23 +21,43 @@ public class Podcast {
     String iconUrl;
     Network network;
 
+    private Podcast(Parcel in) {
+        title = in.readString();
+        url = in.readString();
+        description = in.readString();
+        imageUrl = in.readString();
+        iconUrl = in.readString();
+        network = Network.CREATOR.createFromParcel(in);
+    }
+
     public Podcast(String title, String url, String description, String imageUrl, String iconUrl, Network network) {
         this.title = title;
         this.url = url;
         this.description = description;
         this.imageUrl = imageUrl;
-
         this.iconUrl = iconUrl;
         this.network = network;
     }
 
     public Podcast(String title, String url, String description, String imageUrl, String iconUrl) {
-
         this.title = title;
         this.url = url;
         this.description = description;
         this.imageUrl = imageUrl;
         this.iconUrl = iconUrl;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(title);
+        out.writeString(url);
+        out.writeString(description);
+        out.writeString(imageUrl);
+        out.writeString(iconUrl);
+        out.writeParcelable(network, flags);
     }
 
     @Override

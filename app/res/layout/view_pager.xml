@@ -10,9 +10,18 @@
         android:layout_height="wrap_content"
         android:padding="10dip" />
 
+    <include
+        android:id="@+id/rl_currently_playing"
+        layout="@layout/currently_playing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_pages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tpi_indicator" />
+        android:layout_below="@+id/tpi_indicator"
+        android:layout_above="@id/rl_currently_playing"/>
+
 </RelativeLayout>

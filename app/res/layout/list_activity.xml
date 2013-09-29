@@ -6,7 +6,7 @@
                 android:descendantFocusability="blocksDescendants">
 
 	<include
-			layout="@layout/currently_playing_item"
+			layout="@layout/currently_playing"
 			android:id="@+id/rl_currently_playing"
 			android:layout_alignParentBottom="true"
 			android:layout_width="match_parent"

@@ -1,14 +1,36 @@
 package com.wemakestuff.podstuff.model.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Episode {
+public class Episode implements Parcelable {
+    public static final Parcelable.Creator<Episode> CREATOR
+            = new Parcelable.Creator<Episode>() {
+        public Episode createFromParcel(Parcel in) {
+            return new Episode(in);
+        }
+
+        public Episode[] newArray(int size) {
+            return new Episode[size];
+        }
+    };
     String title;
     String description;
     Date releaseDate;
     String url;
     String iconUrl;
     Long length;
+
+    private Episode(Parcel in) {
+        title = in.readString();
+        description = in.readString();
+        releaseDate = new Date(in.readLong());
+        url = in.readString();
+        iconUrl = in.readString();
+        length = in.readLong();
+    }
 
     public Episode(String title, String description, Date releaseDate, String url, String iconUrl, Long length) {
         this.title = title;
@@ -17,6 +39,19 @@ public class Episode {
         this.url = url;
         this.iconUrl = iconUrl;
         this.length = length;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(title);
+        out.writeString(description);
+        out.writeLong(releaseDate.getTime());
+        out.writeString(url);
+        out.writeString(iconUrl);
+        out.writeLong(length);
     }
 
     @Override

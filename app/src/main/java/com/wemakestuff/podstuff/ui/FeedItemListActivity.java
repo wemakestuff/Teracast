@@ -35,13 +35,13 @@ public class FeedItemListActivity extends BaseListActivity {
 	Bus            mBus;
 	@InjectView(R.id.rl_currently_playing)
 	RelativeLayout currentlyPlayingSection;
-	@InjectView(R.id.ib_currently_playing_podcast_icon)
+	@InjectView(R.id.ib_icon)
 	ImageButton    currentlyPlayingPodcastIcon;
-	@InjectView(R.id.tv_currently_playing_episode_title)
+	@InjectView(R.id.tv_title)
 	TextView       currentlyPlayingEpisodeTitle;
-	@InjectView(R.id.tv_currently_playing_length)
+	@InjectView(R.id.tv_length)
 	TextView       currentlyPlayingLength;
-	@InjectView(R.id.ib_currently_playing_play_pause)
+	@InjectView(R.id.ib_play)
 	ImageButton    currentlyPlayingPlayPause;
 	RssFeed parsedFeed;
 	Episode mCurrentlyPlayingItem;
