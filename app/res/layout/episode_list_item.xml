@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/podcast_list_item_spacing">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/ib_more"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Episode 151 | Getting Paid Before You Build, Dealing with Entrpreneurial Angst, Figuring Out How Much to Charge and More Listener Questions"
+        android:textSize="@dimen/text_size_medium" />
+
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_toLeftOf="@+id/ib_more"
+        android:ellipsize="marquee"
+        android:maxLines="2"
+        android:text="Mike and Rob answer listener questions on getting paid before you build, dealing with entrpreneurial angst, figuring out how much to charge and more. They also give updates on AuditShark and Drip."
+        android:textSize="@dimen/text_size_small" />
+
+    <com.wemakestuff.podstuff.ui.widget.FocusableImageButton
+        android:id="@+id/ib_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/podcast_list_item_spacing"
+        android:src="@drawable/ic_action_overflow"
+        android:layout_marginTop="5dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_subtitle"
+        android:visibility="gone">
+
+        <com.wemakestuff.podstuff.ui.widget.FocusableButton
+            android:id="@+id/b_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/ic_action_playback_play"
+            android:padding="@dimen/podcast_list_item_spacing"
+            android:text="Play"
+            android:textSize="@dimen/text_size_small" />
+    </LinearLayout>
+
+</RelativeLayout>

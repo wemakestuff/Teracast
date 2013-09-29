@@ -1,14 +1,14 @@
 package com.wemakestuff.podstuff.media.event;
 
-import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.model.api.Episode;
 
 /**
  * Marker class for Otto.
  */
 public class PlayItemEvent {
-	public RssItem rssItem;
+    public Episode episode;
 
-	public PlayItemEvent(RssItem rssItem) {
-		this.rssItem = rssItem;
-	}
+    public PlayItemEvent(Episode episode) {
+        this.episode = episode;
+    }
 }

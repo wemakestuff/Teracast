@@ -18,6 +18,7 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.ui.base.BaseFragmentActivity;
 import eu.inmite.android.lib.dialogs.SimpleDialogFragment;
 
 import javax.inject.Inject;

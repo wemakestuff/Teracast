@@ -1,17 +1,17 @@
 package com.wemakestuff.podstuff.media.event;
 
-import com.wemakestuff.podstuff.rss.model.RssItem;
+import com.wemakestuff.podstuff.model.api.Episode;
 import com.wemakestuff.podstuff.service.MediaService;
 
 /**
  * Marker class for Otto.
  */
 public class ProvideMediaServiceStateEvent {
-	public MediaService.State state;
-	public RssItem            rssItem;
+    public MediaService.State state;
+    public Episode episode;
 
-	public ProvideMediaServiceStateEvent(MediaService.State state, RssItem rssItem) {
-		this.state = state;
-		this.rssItem = rssItem;
-	}
+    public ProvideMediaServiceStateEvent(MediaService.State state, Episode episode) {
+        this.state = state;
+        this.episode = episode;
+    }
 }

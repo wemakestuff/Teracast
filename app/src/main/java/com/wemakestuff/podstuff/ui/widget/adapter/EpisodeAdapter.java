@@ -1,7 +1,41 @@
 package com.wemakestuff.podstuff.ui.widget.adapter;
 
-/**
- * Created by David on 9/29/13.
- */
-public class EpisodeAdapter {
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+
+import com.wemakestuff.podstuff.model.navigation.Item;
+import com.wemakestuff.podstuff.util.ListUtils;
+
+import java.util.List;
+
+public class EpisodeAdapter extends BaseAdapter {
+    Context mContext;
+    List<Item> mItemList;
+
+    public EpisodeAdapter(Context mContext, List<Item> mItemList) {
+        this.mContext = mContext;
+        this.mItemList = mItemList;
+    }
+
+    @Override
+    public int getCount() {
+        return ListUtils.getCount(mItemList);
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return ListUtils.getItem(mItemList, position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return ((Item) getItem(position)).getView(mContext, convertView, parent);
+    }
 }

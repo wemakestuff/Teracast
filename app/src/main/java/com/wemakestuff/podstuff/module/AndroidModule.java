@@ -7,10 +7,13 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.view.inputmethod.InputMethodManager;
-import com.wemakestuff.podstuff.BootstrapApplication;
+
+import com.wemakestuff.podstuff.BaseApplication;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -29,7 +32,7 @@ public class AndroidModule {
 	@Provides
 	@Singleton
 	Context provideAppContext() {
-		return BootstrapApplication.getInstance().getApplicationContext();
+		return BaseApplication.getInstance().getApplicationContext();
 	}
 
 	@Provides
@@ -81,4 +84,8 @@ public class AndroidModule {
 		return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 
+    @Provides
+    AudioManager provideAudioManager(final Context context) {
+        return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+    }
 }

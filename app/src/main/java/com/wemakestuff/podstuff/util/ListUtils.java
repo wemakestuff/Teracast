@@ -3,6 +3,18 @@ package com.wemakestuff.podstuff.util;
 import java.util.List;
 
 public class ListUtils {
+    public static Object getItem(List<?> list, int position) {
+        if (!isOutOfBounds(list, position))
+            return list.get(position);
+        return null;
+    }
+
+    public static int getCount(List<?> list) {
+        if (list == null)
+            return 0;
+        return list.size();
+    }
+
 	public static boolean isEmpty(List<?> list) {
 		if (list == null)
 			return true;

@@ -65,4 +65,11 @@
 
 	</RelativeLayout>
 
+	<ImageView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/iv_image"
+			android:layout_below="@+id/tv_episode_count"
+			android:layout_alignParentTop="true"
+			android:layout_above="@id/rl_item_details"/>
 </RelativeLayout>

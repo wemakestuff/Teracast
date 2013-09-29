@@ -1,23 +1,12 @@
 package com.wemakestuff.podstuff.module;
 
-import com.squareup.otto.Bus;
-import com.wemakestuff.podstuff.BaseApplication;
-import com.wemakestuff.podstuff.bus.MainThreadBus;
-import com.wemakestuff.podstuff.ui.ItemListActivity;
+import com.wemakestuff.podstuff.service.MediaService;
 
 import dagger.Module;
-import dagger.Provides;
-
-import javax.inject.Singleton;
 
 /**
  * Dagger module for setting up provides statements. Register all of your entry points below.
  */
-@Module(complete = false, injects = {BaseApplication.class, ItemListActivity.class}, library = true)
+@Module(complete = false, injects = {MediaService.class}, library = true)
 public class ServiceModule {
-	@Singleton
-	@Provides
-	Bus provideOttoBus() {
-		return new MainThreadBus(new Bus());
-	}
 }

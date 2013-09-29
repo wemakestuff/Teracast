@@ -12,7 +12,8 @@ import butterknife.InjectView;
 import butterknife.Views;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
-import com.wemakestuff.podstuff.BootstrapApplication;
+import com.wemakestuff.podstuff.BaseApplication;
+import com.wemakestuff.podstuff.Injector;
 import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.media.event.PlayItemEvent;
 import com.wemakestuff.podstuff.rss.model.RssEnclosure;
@@ -33,7 +34,7 @@ public class FeedItemListAdapter extends BaseAdapter {
 	public FeedItemListAdapter(LayoutInflater mInflater, RssFeed mFeed) {
 		this.mInflater = mInflater;
 		this.mFeed = mFeed;
-		BootstrapApplication.getInstance().inject(this);
+        Injector.inject(this);
 		mInflater.getContext().startService(new Intent(mInflater.getContext(), MediaService.class));
 	}
 
@@ -111,7 +112,7 @@ public class FeedItemListAdapter extends BaseAdapter {
 	 * Posts a {@link com.wemakestuff.podstuff.media.event.PlayItemEvent} message to the {@link com.squareup.otto.Bus}
 	 */
 	private void producePlayItemEvent(RssItem rssItem) {
-		bus.post(new PlayItemEvent(rssItem));
+		bus.post(new PlayItemEvent(null));
 	}
 
 	static class ViewHolder {

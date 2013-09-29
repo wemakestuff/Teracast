@@ -16,12 +16,14 @@ import com.wemakestuff.podstuff.R;
 import com.wemakestuff.podstuff.media.event.ProvideMediaProgressEvent;
 import com.wemakestuff.podstuff.media.event.ProvideMediaServiceStateEvent;
 import com.wemakestuff.podstuff.media.event.ToggleEvent;
+import com.wemakestuff.podstuff.model.api.Episode;
 import com.wemakestuff.podstuff.provider.ContentManager;
 import com.wemakestuff.podstuff.rss.event.ProvideRssFeedEvent;
 import com.wemakestuff.podstuff.rss.model.RssFeed;
 import com.wemakestuff.podstuff.rss.model.RssItem;
 import com.wemakestuff.podstuff.service.MediaService;
 import com.wemakestuff.podstuff.service.RssFeedService;
+import com.wemakestuff.podstuff.ui.base.BaseListActivity;
 import com.wemakestuff.podstuff.util.ConversionUtils;
 import com.wemakestuff.podstuff.util.Ln;
 
@@ -42,7 +44,7 @@ public class FeedItemListActivity extends BaseListActivity {
 	@InjectView(R.id.ib_currently_playing_play_pause)
 	ImageButton    currentlyPlayingPlayPause;
 	RssFeed parsedFeed;
-	RssItem mCurrentlyPlayingItem;
+	Episode mCurrentlyPlayingItem;
 	MediaService.State mMediaServiceState = MediaService.State.Stopped;
 	Integer mCurrentlyPlayingProgress;
 	Integer mCurrentlyPlayingLength;
@@ -144,7 +146,7 @@ public class FeedItemListActivity extends BaseListActivity {
 	@Subscribe
 	public void onProvideMediaServiceStateEvent(ProvideMediaServiceStateEvent mediaServiceStateEvent) {
 		mMediaServiceState = mediaServiceStateEvent.state;
-		mCurrentlyPlayingItem = mediaServiceStateEvent.rssItem;
+		mCurrentlyPlayingItem = mediaServiceStateEvent.episode;
 		if (mMediaServiceState != null && mCurrentlyPlayingItem != null) {
 			Ln.d("%s - Got Media Service State of %s for %s", TAG, mMediaServiceState.toString(), mCurrentlyPlayingItem.getTitle());
 		}

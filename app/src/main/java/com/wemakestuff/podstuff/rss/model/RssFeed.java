@@ -8,7 +8,8 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.wemakestuff.podstuff.BootstrapApplication;
+import com.wemakestuff.podstuff.BaseApplication;
+import com.wemakestuff.podstuff.Injector;
 import com.wemakestuff.podstuff.database.annotations.ContentType;
 import com.wemakestuff.podstuff.database.annotations.SortOrder;
 import com.wemakestuff.podstuff.database.annotations.UriPaths;
@@ -142,7 +143,7 @@ public class RssFeed extends BaseData implements Parcelable {
     private List<RssItem> RssItems = new ArrayList<RssItem>();
 
     public RssFeed() {
-        BootstrapApplication.getInstance().inject(this);
+        Injector.inject(this);
     }
 
     public static String getTag() {

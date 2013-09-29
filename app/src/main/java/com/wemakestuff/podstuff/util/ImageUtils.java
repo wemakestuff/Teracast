@@ -2,14 +2,10 @@ package com.wemakestuff.podstuff.util;
 
 import android.graphics.*;
 import android.widget.ImageView;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.graphics.Color.WHITE;
@@ -19,21 +15,6 @@ import static android.graphics.PorterDuff.Mode.DST_IN;
  * Image utilities
  */
 public class ImageUtils {
-
-	public static Bitmap getBitmapFromURL(String src) {
-		try {
-			URL url = new URL(src);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setDoInput(true);
-			connection.connect();
-			InputStream input = connection.getInputStream();
-			Bitmap myBitmap = BitmapFactory.decodeStream(input);
-			return myBitmap;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	/**
 	 * Get a bitmap from the image path
@@ -55,9 +36,6 @@ public class ImageUtils {
 	 * @return bitmap or null if read fails
 	 */
 	public static Bitmap getBitmap(final String imagePath, int sampleSize) {
-		if (StringUtils.isEmpty(imagePath))
-			return null;
-
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inDither = false;
 		options.inSampleSize = sampleSize;
@@ -66,7 +44,7 @@ public class ImageUtils {
 		try {
 			file = new RandomAccessFile(imagePath, "r");
 			return BitmapFactory.decodeFileDescriptor(file.getFD(), null,
-															 options);
+			                                          options);
 		} catch (IOException e) {
 			Ln.d(e, "Could not get cached bitmap.");
 			return null;
@@ -160,7 +138,8 @@ public class ImageUtils {
 	}
 
 	/**
-	 * Load a {@link Bitmap} from the given path and set it on the given {@link android.widget.ImageView}
+	 * Load a {@link Bitmap} from the given path and set it on the given
+	 * {@link android.widget.ImageView}
 	 *
 	 * @param imagePath
 	 * @param view
@@ -170,7 +149,8 @@ public class ImageUtils {
 	}
 
 	/**
-	 * Load a {@link Bitmap} from the given {@link File} and set it on the given {@link ImageView}
+	 * Load a {@link Bitmap} from the given {@link File} and set it on the given
+	 * {@link ImageView}
 	 *
 	 * @param image
 	 * @param view
@@ -201,7 +181,7 @@ public class ImageUtils {
 		Bitmap clipped = Bitmap.createBitmap(width, height, ARGB_8888);
 		Canvas canvas = new Canvas(clipped);
 		canvas.drawRoundRect(new RectF(0, 0, width, height), radius, radius,
-									paint);
+		                     paint);
 		paint.setXfermode(new PorterDuffXfermode(DST_IN));
 
 		Bitmap rounded = Bitmap.createBitmap(width, height, ARGB_8888);

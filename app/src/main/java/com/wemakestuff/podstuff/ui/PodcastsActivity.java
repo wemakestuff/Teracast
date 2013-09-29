@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.squareup.otto.Bus;
 import com.viewpagerindicator.TitlePageIndicator;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.ui.base.BaseFragmentActivity;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class PodcastsActivity extends BaseFragmentActivity implements ViewPager.
 		titleList.add(getString(R.string.trending));
 
 		List<String> fragmentList = new ArrayList<String>();
-		fragmentList.add(AllPodcastsFragment.class.getName());
-		fragmentList.add(AllPodcastsFragment.class.getName());
-		fragmentList.add(AllPodcastsFragment.class.getName());
+		//fragmentList.add(AllPodcastsFragment.class.getName());
+		//fragmentList.add(AllPodcastsFragment.class.getName());
+		//fragmentList.add(AllPodcastsFragment.class.getName());
 
 		mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), this, titleList, fragmentList);
 		mPager.setAdapter(mAdapter);

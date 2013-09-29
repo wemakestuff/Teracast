@@ -5,8 +5,11 @@ package com.wemakestuff.podstuff;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
+
 import com.github.kevinsawicki.http.HttpRequest;
 import com.wemakestuff.podstuff.module.RootModule;
+import com.wemakestuff.podstuff.service.MediaService;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.FROYO;
@@ -62,7 +65,8 @@ public class BaseApplication extends Application {
 
 		// Perform injection
 		Injector.init(getRootModule(), this);
-
+        Intent intent = new Intent(this, MediaService.class);
+        startService(intent);
 	}
 
 	private Object getRootModule() {
