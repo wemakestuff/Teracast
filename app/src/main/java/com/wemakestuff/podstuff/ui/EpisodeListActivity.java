@@ -83,7 +83,7 @@ public class EpisodeListActivity extends BaseListActivity implements OnEpisodeCl
     }
 
     @Override
-    public void onEpisodeClick(Episode episode, Action action) {
+    public void onEpisodeClick(EpisodeItem episodeItem, Action action) {
 
     }
 }

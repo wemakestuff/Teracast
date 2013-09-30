@@ -25,6 +25,14 @@ public class PodcastItem implements Item {
         this.mListener = mListener;
     }
 
+    public Podcast getPodcast() {
+        return mPodcast;
+    }
+
+    public void setPodcast(Podcast mPodcast) {
+        this.mPodcast = mPodcast;
+    }
+
     @Override
     public View getView(Context context, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -66,14 +74,14 @@ public class PodcastItem implements Item {
         @OnClick(R.id.ib_icon)
         public void onIconClick(ImageButton button) {
             if (mListener != null) {
-                mListener.onPodcastClick(mPodcast, OnPodcastClickListener.Action.ICON);
+                mListener.onPodcastClick(PodcastItem.this, OnPodcastClickListener.Action.ICON);
             }
         }
 
         @OnClick(R.id.ib_play)
         public void onPlayClick(ImageButton button) {
             if (mListener != null) {
-                mListener.onPodcastClick(mPodcast, OnPodcastClickListener.Action.PLAY);
+                mListener.onPodcastClick(PodcastItem.this, OnPodcastClickListener.Action.PLAY);
             }
         }
     }

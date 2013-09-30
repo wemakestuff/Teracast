@@ -3,4 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="@dimen/text_size_large"
-    android:id="@+id/tv_title" />
+    android:id="@+id/tv_title"
+    android:clickable="false"
+    android:focusable="false"/>

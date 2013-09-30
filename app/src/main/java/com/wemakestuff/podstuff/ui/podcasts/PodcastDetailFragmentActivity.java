@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.widget.RelativeLayout;
 
+import com.github.frankiesardo.icepick.annotation.Icicle;
 import com.github.frankiesardo.icepick.bundle.Bundles;
 import com.viewpagerindicator.TitlePageIndicator;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.core.Constants;
+import com.wemakestuff.podstuff.model.api.Podcast;
 import com.wemakestuff.podstuff.ui.base.BaseFragmentActivity;
 import com.wemakestuff.podstuff.ui.widget.adapter.PodcastDetailPagerAdapter;
 import com.wemakestuff.podstuff.ui.widget.view.CurrentlyPlayingView;
@@ -15,6 +18,8 @@ import butterknife.InjectView;
 import butterknife.Views;
 
 public class PodcastDetailFragmentActivity extends BaseFragmentActivity {
+    @Icicle
+    Podcast mPodcast;
     @InjectView(R.id.tpi_indicator)
     TitlePageIndicator indicator;
     @InjectView(R.id.vp_pages)
@@ -29,7 +34,12 @@ public class PodcastDetailFragmentActivity extends BaseFragmentActivity {
         Bundles.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.view_pager);
         Views.inject(this);
-        pager.setAdapter(new PodcastDetailPagerAdapter(this, getSupportFragmentManager()));
+
+        if (getIntent().hasExtra(Constants.Intent.EXTRA_PODCAST)) {
+            mPodcast = getIntent().getParcelableExtra(Constants.Intent.EXTRA_PODCAST);
+        }
+
+        pager.setAdapter(new PodcastDetailPagerAdapter(this, getSupportFragmentManager(), mPodcast));
         indicator.setViewPager(pager);
         mPlayingView = new CurrentlyPlayingView(this, currentlyPlayingView);
     }

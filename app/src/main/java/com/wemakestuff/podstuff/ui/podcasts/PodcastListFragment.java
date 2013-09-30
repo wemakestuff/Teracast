@@ -3,18 +3,17 @@ package com.wemakestuff.podstuff.ui.podcasts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.core.Constants;
 import com.wemakestuff.podstuff.media.event.PlayItemEvent;
-import com.wemakestuff.podstuff.model.api.Episode;
-import com.wemakestuff.podstuff.model.api.Podcast;
 import com.wemakestuff.podstuff.model.navigation.Item;
+import com.wemakestuff.podstuff.model.navigation.PodcastItem;
 import com.wemakestuff.podstuff.model.navigation.listener.OnPodcastClickListener;
 import com.wemakestuff.podstuff.ui.base.BaseListFragment;
 import com.wemakestuff.podstuff.ui.widget.adapter.ItemAdapter;
-
-import java.util.Date;
+import com.wemakestuff.podstuff.ui.widget.adapter.PodcastListPagerAdapter;
 
 import javax.inject.Inject;
 
@@ -26,6 +25,21 @@ public class PodcastListFragment extends BaseListFragment<Item> implements OnPod
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setListAdapter(getAdapter());
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Subtract one to account for the header.
+                onPodcastClick((PodcastItem) getItems().get(position - 1), Action.ITEM);
+            }
+        });
+
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                onPodcastClick((PodcastItem) getItems().get(position - 1), Action.LONG_ITEM);
+                return true;
+            }
+        });
         hideProgressBar();
     }
 
@@ -40,17 +54,22 @@ public class PodcastListFragment extends BaseListFragment<Item> implements OnPod
     }
 
     @Override
-    public void onPodcastClick(Podcast podcast, Action action) {
+    public void onPodcastClick(PodcastItem podcastItem, Action action) {
+        Intent intent;
         switch (action) {
+            case ITEM:
+                intent = new Intent(getActivity(), PodcastDetailFragmentActivity.class);
+                intent.putExtra(Constants.Intent.EXTRA_PODCAST, podcastItem.getPodcast());
+                startActivity(intent);
+                break;
             case ICON:
-                Intent intent = new Intent(getActivity(), PodcastDetailFragmentActivity.class);
-                intent.putExtra(Constants.Intent.EXTRA_PODCAST, podcast);
+                intent = new Intent(getActivity(), PodcastDetailFragmentActivity.class);
+                intent.putExtra(Constants.Intent.EXTRA_PODCAST, podcastItem.getPodcast());
                 startActivity(intent);
                 break;
             case PLAY:
-                mBus.post(new PlayItemEvent(new Episode("Episode 83 | HitTail & AuditShark: Integration Marketing, Logo Design, Survey Analysis and Leaky Funnels", "Mike and Rob discuss Integration Marketing, Logo Design, Survey Analysis and Leaky Funnels.<img src=\"http://feeds.feedburner.com/~r/StartupsForTheRestOfUs/~4/9oVMEIXh-1w\" height=\"1\" width=\"1\"/>", new Date(System.currentTimeMillis()), "http://www.project98.com/podcast/startups-for-the-rest-of-us-083.mp3", "http://www.startupsfortherestofus.com/wp-content/uploads/sftrou_144x144.jpg", 44236023L)));
+                mBus.post(new PlayItemEvent(PodcastListPagerAdapter.getEpisodes().get(0)));
                 break;
         }
-
     }
 }

@@ -1,11 +1,12 @@
 package com.wemakestuff.podstuff.model.navigation.listener;
 
-import com.wemakestuff.podstuff.model.api.Podcast;
+
+import com.wemakestuff.podstuff.model.navigation.PodcastItem;
 
 public interface OnPodcastClickListener {
     public enum Action {
-        PLAY, ICON
+        PLAY, ICON, ITEM, LONG_ITEM
     }
 
-    public void onPodcastClick(Podcast podcast, Action action);
+    public void onPodcastClick(PodcastItem podcastItem, Action action);
 }

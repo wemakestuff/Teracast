@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_list_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:padding="@dimen/podcast_list_item_spacing">
 
@@ -32,11 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:padding="@dimen/podcast_list_item_spacing"
-        android:src="@drawable/ic_action_overflow"
-        android:layout_marginTop="5dp" />
+        android:src="@drawable/ic_action_overflow" />
 
     <LinearLayout
         android:id="@+id/ll_more"

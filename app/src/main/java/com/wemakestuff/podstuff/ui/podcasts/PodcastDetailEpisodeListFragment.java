@@ -1,24 +1,38 @@
 package com.wemakestuff.podstuff.ui.podcasts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.wemakestuff.podstuff.R;
+import com.wemakestuff.podstuff.media.event.PlayItemEvent;
 import com.wemakestuff.podstuff.model.api.Episode;
 import com.wemakestuff.podstuff.model.api.Podcast;
+import com.wemakestuff.podstuff.model.navigation.EpisodeItem;
 import com.wemakestuff.podstuff.model.navigation.Item;
 import com.wemakestuff.podstuff.model.navigation.listener.OnEpisodeClickListener;
 import com.wemakestuff.podstuff.ui.base.BaseListFragment;
 import com.wemakestuff.podstuff.ui.widget.adapter.ItemAdapter;
+import com.wemakestuff.podstuff.ui.widget.adapter.PodcastListPagerAdapter;
+import com.wemakestuff.podstuff.util.Ln;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.InjectView;
 import butterknife.Views;
 
 public class PodcastDetailEpisodeListFragment extends BaseListFragment<Item> implements OnEpisodeClickListener {
+    @Inject
+    Bus mBus;
     Podcast mPodcast;
 
     public Podcast getPodcast() {
@@ -27,6 +41,12 @@ public class PodcastDetailEpisodeListFragment extends BaseListFragment<Item> imp
 
     public void setPodcast(Podcast mPodcast) {
         this.mPodcast = mPodcast;
+        List<Item> episodeList = new ArrayList<Item>();
+        for (Episode episode : PodcastListPagerAdapter.getEpisodes()) {
+            Ln.d(episode.getTitle());
+            episodeList.add(new EpisodeItem(episode, this));
+        }
+        mItems = episodeList;
     }
 
     @Override
@@ -45,7 +65,23 @@ public class PodcastDetailEpisodeListFragment extends BaseListFragment<Item> imp
         holder.title.setText(mPodcast.getTitle());
         holder.description.setText(mPodcast.getDescription());
         Picasso.with(getActivity()).load(mPodcast.getImageUrl()).into(holder.icon);
-        getListView().addHeaderView(headerView);
+        getListView().addHeaderView(headerView, null, false);
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Subtract one to account for the header.
+                onEpisodeClick((EpisodeItem) getItems().get(position - 1), Action.ITEM);
+            }
+        });
+
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                onEpisodeClick((EpisodeItem) getItems().get(position - 1), Action.LONG_ITEM);
+                return true;
+            }
+        });
 
         setListAdapter(getAdapter());
         hideProgressBar();
@@ -62,8 +98,24 @@ public class PodcastDetailEpisodeListFragment extends BaseListFragment<Item> imp
     }
 
     @Override
-    public void onEpisodeClick(Episode episode, Action action) {
-
+    public void onEpisodeClick(EpisodeItem episodeItem, Action action) {
+        Intent intent;
+        switch (action) {
+            case ITEM:
+                mBus.post(new PlayItemEvent(episodeItem.getEpisode()));
+                break;
+            case LONG_ITEM:
+                episodeItem.toggleMore();
+                break;
+            case PLAY:
+                mBus.post(new PlayItemEvent(episodeItem.getEpisode()));
+                break;
+            case MORE_PLAY:
+                mBus.post(new PlayItemEvent(episodeItem.getEpisode()));
+                break;
+            case MORE:
+                break;
+        }
     }
 
     class HeaderViewHolder {

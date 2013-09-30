@@ -23,7 +23,7 @@
         android:theme="@style/Theme.PodStuff.Light">
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.podcasts.PodcastsFragmentActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +51,6 @@
             android:exported="false" />
 
         <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.podcasts.PodcastsFragmentActivity" />
         <activity android:name=".ui.podcasts.PodcastDetailFragmentActivity" />
         <activity android:name=".ui.PlayerActivity" />
 

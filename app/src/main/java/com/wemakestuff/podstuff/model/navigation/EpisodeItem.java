@@ -21,35 +21,50 @@ public class EpisodeItem implements Item {
     OnEpisodeClickListener mListener;
     Context mContext;
     Episode mEpisode;
+    ViewHolder mHolder;
 
     public EpisodeItem(Episode mEpisode, OnEpisodeClickListener mListener) {
         this.mEpisode = mEpisode;
         this.mListener = mListener;
     }
 
+    public Episode getEpisode() {
+        return mEpisode;
+    }
+
     @Override
     public View getView(Context context, View convertView, ViewGroup parent) {
         this.mContext = context;
-        ViewHolder holder = null;
+        mHolder = null;
 
         if (convertView != null) {
             Object tempView = convertView.getTag();
 
             if (tempView instanceof ViewHolder) {
-                holder = (ViewHolder) tempView;
+                mHolder = (ViewHolder) tempView;
             }
         }
 
-        if (holder == null) {
+        if (mHolder == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.episode_list_item, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
+            mHolder = new ViewHolder(convertView);
+            convertView.setTag(mHolder);
         }
 
-        holder.title.setText(mEpisode.getTitle());
-        holder.subtitle.setText(mEpisode.getDescription());
+        mHolder.title.setText(mEpisode.getTitle());
+        mHolder.subtitle.setText(mEpisode.getDescription());
 
         return convertView;
+    }
+
+    public void toggleMore() {
+        if (mHolder != null) {
+            if (mHolder.moreLayout.getVisibility() == View.GONE) {
+                mHolder.moreLayout.setVisibility(View.VISIBLE);
+            } else {
+                mHolder.moreLayout.setVisibility(View.GONE);
+            }
+        }
     }
 
     class ViewHolder {
@@ -69,22 +84,17 @@ public class EpisodeItem implements Item {
         }
 
         @OnClick(R.id.ib_more)
-        public void onMore(ImageButton button) {
+        public void onMore() {
             if (mListener != null) {
-                mListener.onEpisodeClick(mEpisode, OnEpisodeClickListener.Action.MORE);
+                mListener.onEpisodeClick(EpisodeItem.this, OnEpisodeClickListener.Action.MORE);
             }
-
-            if (moreLayout.getVisibility() == View.GONE) {
-                moreLayout.setVisibility(View.VISIBLE);
-            } else {
-                moreLayout.setVisibility(View.GONE);
-            }
+            toggleMore();
         }
 
         @OnClick(R.id.b_play)
-        public void onPlay(Button button) {
+        public void onPlay() {
             if (mListener != null) {
-                mListener.onEpisodeClick(mEpisode, OnEpisodeClickListener.Action.MORE_PLAY);
+                mListener.onEpisodeClick(EpisodeItem.this, OnEpisodeClickListener.Action.MORE_PLAY);
             }
         }
     }
