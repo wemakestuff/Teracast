@@ -88,42 +88,32 @@ public class LoginActivity extends BaseFragmentActivity implements Validator.Val
     @OnClick(R.id.b_sign_in)
     void signIn() {
         clearErrors();
-        mValidator.validate();
+        mValidator.validateAsync();
+    }
+
+    private void clearErrors() {
+        emailAddress.setError(null);
+        password.setError(null);
     }
 
     @Override
-    public void preValidation() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void onSuccess() {
+    public void onValidationSucceeded() {
         Toast.makeText(this, "Successfully Validated!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, PodcastsFragmentActivity.class);
         startActivity(intent);
     }
 
     @Override
-    public void onFailure(final View failedView, final Rule<?> failedRule) {
-        String message = failedRule.getFailureMessage();
+    public void onValidationFailed(View view, Rule<?> rule) {
+        String message = rule.getFailureMessage();
 
-        if (failedView instanceof EditText) {
-            failedView.requestFocus();
-            ((EditText) failedView).setError(message);
-        } else if (failedView instanceof CheckBox) {
+        if (view instanceof EditText) {
+            view.requestFocus();
+            ((EditText) view).setError(message);
+        } else if (view instanceof CheckBox) {
             SimpleDialogFragment.createBuilder(this, getSupportFragmentManager()).setMessage(message).show();
         } else {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onValidationCancelled() {
-        Toast.makeText(this, "Validation Cancelled", Toast.LENGTH_LONG).show();
-    }
-
-    private void clearErrors() {
-        emailAddress.setError(null);
-        password.setError(null);
     }
 }

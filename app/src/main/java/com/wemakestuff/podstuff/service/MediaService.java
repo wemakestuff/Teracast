@@ -586,7 +586,6 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
             case Preparing:
                 smallIcon = R.drawable.stat_sys_download;
                 contentInfo = getString(R.string.loading);
-
                 break;
             case Paused:
                 smallIcon = R.drawable.ic_media_pause;
@@ -617,11 +616,9 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
         bigNotificationView.setImageViewResource(R.id.ib_play_pause, smallIcon);
 
         return new NotificationCompat.Builder(this)
-                .setContentTitle(playingEpisode.getTitle())
+                .setContentTitle("Startups For The Rest Of Us")
                 .setSmallIcon(smallIcon)
-                        //.setLargeIcon(ImageUtils.getBitmapFromURL("http://www.startupsfortherestofus.com/wp-content/uploads/sftrou_300x300.jpg"))
-                .setContentText(playingEpisode.getDescription())
-                .setContent(bigNotificationView)
+                .setContentText(playingEpisode.getTitle())
                 .setContentInfo(contentInfo)
                 .setAutoCancel(false)
                 .setOnlyAlertOnce(true)
