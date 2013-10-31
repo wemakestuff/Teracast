@@ -40,6 +40,11 @@
             <version>${android.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
+            <version>r7</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
@@ -160,6 +165,11 @@
 		    <version>${menudrawer.version}</version>
 		    <type>apklib</type>
 	    </dependency>
+        <dependency>
+            <groupId>com.mobsandgeeks</groupId>
+            <artifactId>android-saripaar</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
