@@ -53,7 +53,7 @@
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.podcasts.PodcastDetailFragmentActivity" />
         <activity android:name=".ui.podcasts.PodcastsFragmentActivity" />
-        <activity android:name=".ui.PlayerActivity" />
+        <activity android:name=".ui.PlayerActivity" android:launchMode="singleTop" />
 
         <receiver
             android:name=".service.MusicIntentReceiver"

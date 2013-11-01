@@ -577,11 +577,10 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
      */
     private Notification getNotification() {
         final Intent intent = new Intent(this, PlayerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-        int smallIcon = R.drawable.ic_media_pause;
-        String contentInfo = getString(R.string.paused);
+        int smallIcon;
+        String contentInfo;
 
         switch (mState) {
             case Preparing:
