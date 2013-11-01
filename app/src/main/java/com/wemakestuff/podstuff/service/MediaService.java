@@ -151,7 +151,6 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
                 mRemoteControlClientCompat.editMetadata(true).putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "Startups For the Rest of Us")
                         .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, playingEpisode.getTitle())
                         .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, playingEpisode.getLength())
-                        .putBitmap(RemoteControlClientCompat.MetadataEditorCompat.METADATA_KEY_ARTWORK, ImageUtils.getBitmap(playingEpisode.getIconUrl()))
                         .apply();
 
                 // starts preparing the media player in the background. When it's done, it will call
@@ -188,8 +187,8 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     private void playPreviousMedia() {
-        //TODO: Get the previous item in the queue and play it.
-        playMedia(playingEpisode);
+        //TODO: Get the previous item in the queue and play it. For now, just rewind fully.
+        processSeekRequest(0);
     }
 
     private void processTogglePlaybackRequest() {
@@ -246,7 +245,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     private void processNextRequest() {
-        playMedia(null);
+        //TODO: Implement this. Nothing to do at the moment.
     }
 
     private void processStopRequest() {
@@ -578,6 +577,7 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
      */
     private Notification getNotification() {
         final Intent intent = new Intent(this, PlayerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         int smallIcon = R.drawable.ic_media_pause;
@@ -616,39 +616,39 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
         bigNotificationView.setTextViewText(R.id.tv_episode_title, playingEpisode.getTitle());
         bigNotificationView.setImageViewResource(R.id.ib_play_pause, smallIcon);
 
-        Intent playPauseIntent1 = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
-        playPauseIntent1.setAction(Intent.ACTION_MEDIA_BUTTON);
-        KeyEvent playPauseEvent1 = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-        playPauseIntent1.putExtra(Intent.EXTRA_KEY_EVENT, playPauseEvent1);
-        PendingIntent playPausePendingIntent1 = PendingIntent.getBroadcast(this, 0, playPauseIntent1, 0);
-        bigNotificationView.setOnClickPendingIntent(R.id.ib_play_pause, playPausePendingIntent1);
+        Intent playPauseIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
+        playPauseIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
+        KeyEvent playPauseEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+        playPauseIntent.putExtra(Intent.EXTRA_KEY_EVENT, playPauseEvent);
+        PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(this, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, playPauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        bigNotificationView.setOnClickPendingIntent(R.id.ib_play_pause, playPausePendingIntent);
 
         Intent fastForwardIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
         fastForwardIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
         KeyEvent fastForwardEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD);
         fastForwardIntent.putExtra(Intent.EXTRA_KEY_EVENT, fastForwardEvent);
-        PendingIntent fastForwardPendingIntent = PendingIntent.getBroadcast(this, 0, fastForwardIntent, 0);
+        PendingIntent fastForwardPendingIntent = PendingIntent.getBroadcast(this, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, fastForwardIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         bigNotificationView.setOnClickPendingIntent(R.id.ib_fast_forward, fastForwardPendingIntent);
 
         Intent rewindIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
         rewindIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
         KeyEvent rewindEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_REWIND);
         rewindIntent.putExtra(Intent.EXTRA_KEY_EVENT, rewindEvent);
-        PendingIntent rewindPendingIntent = PendingIntent.getBroadcast(this, 0, rewindIntent, 0);
+        PendingIntent rewindPendingIntent = PendingIntent.getBroadcast(this, KeyEvent.KEYCODE_MEDIA_REWIND, rewindIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         bigNotificationView.setOnClickPendingIntent(R.id.ib_rewind, rewindPendingIntent);
 
         Intent previousIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
         previousIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
         KeyEvent previousEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
         previousIntent.putExtra(Intent.EXTRA_KEY_EVENT, previousEvent);
-        PendingIntent previousPendingIntent = PendingIntent.getBroadcast(this, 0, previousIntent, 0);
+        PendingIntent previousPendingIntent = PendingIntent.getBroadcast(this, KeyEvent.KEYCODE_MEDIA_PREVIOUS, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         bigNotificationView.setOnClickPendingIntent(R.id.ib_previous, previousPendingIntent);
 
         Intent nextIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
         nextIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
         KeyEvent nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
         nextIntent.putExtra(Intent.EXTRA_KEY_EVENT, nextEvent);
-        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 0, nextIntent, 0);
+        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, KeyEvent.KEYCODE_MEDIA_NEXT, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         bigNotificationView.setOnClickPendingIntent(R.id.ib_next, nextPendingIntent);
 
         return new NotificationCompat.Builder(this)
