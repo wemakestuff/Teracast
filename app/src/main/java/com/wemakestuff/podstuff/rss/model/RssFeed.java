@@ -8,7 +8,6 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.wemakestuff.podstuff.BaseApplication;
 import com.wemakestuff.podstuff.Injector;
 import com.wemakestuff.podstuff.database.annotations.ContentType;
 import com.wemakestuff.podstuff.database.annotations.SortOrder;
@@ -108,7 +107,7 @@ public class RssFeed extends BaseData implements Parcelable {
     private String iTunesAuthor;
 
     @DatabaseField(columnName = ITUNES_IMAGE, canBeNull = true, foreign = true, foreignAutoCreate = true)
-    private RssiTunesImage iTunesImage;
+    private RssITunesImage iTunesImage;
 
     @DatabaseField(columnName = ITUNES_EXPLICIT)
     private Boolean iTunesExplicit;
@@ -230,11 +229,11 @@ public class RssFeed extends BaseData implements Parcelable {
         this.iTunesAuthor = iTunesAuthor;
     }
 
-    public RssiTunesImage getiTunesImage() {
+    public RssITunesImage getiTunesImage() {
         return iTunesImage;
     }
 
-    public void setiTunesImage(final RssiTunesImage iTunesImage) {
+    public void setiTunesImage(final RssITunesImage iTunesImage) {
         this.iTunesImage = iTunesImage;
     }
 

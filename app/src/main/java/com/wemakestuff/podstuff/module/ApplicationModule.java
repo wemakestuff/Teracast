@@ -3,6 +3,7 @@ package com.wemakestuff.podstuff.module;
 import com.squareup.otto.Bus;
 import com.wemakestuff.podstuff.BaseApplication;
 import com.wemakestuff.podstuff.bus.MainThreadBus;
+import com.wemakestuff.podstuff.service.MusicIntentReceiver;
 import com.wemakestuff.podstuff.ui.EpisodeListActivity;
 import com.wemakestuff.podstuff.ui.LoginActivity;
 import com.wemakestuff.podstuff.ui.PlayerActivity;
@@ -22,7 +23,7 @@ import dagger.Provides;
 /**
  * Dagger module for setting up provides statements. Register all of your entry points below.
  */
-@Module(complete = false, injects = {BaseApplication.class, LoginActivity.class, RegisterActivity.class, EpisodeListActivity.class, CurrentlyPlayingView.class, PodcastsFragmentActivity.class, PodcastListFragment.class, PodcastDetailFragmentActivity.class, PodcastDetailFragment.class, PodcastDetailEpisodeListFragment.class, PlayerActivity.class}, library = true)
+@Module(complete = false, injects = {BaseApplication.class, LoginActivity.class, RegisterActivity.class, EpisodeListActivity.class, CurrentlyPlayingView.class, PodcastsFragmentActivity.class, PodcastListFragment.class, PodcastDetailFragmentActivity.class, PodcastDetailFragment.class, PodcastDetailEpisodeListFragment.class, PlayerActivity.class, MusicIntentReceiver.class}, library = true)
 public class ApplicationModule {
     @Singleton
     @Provides

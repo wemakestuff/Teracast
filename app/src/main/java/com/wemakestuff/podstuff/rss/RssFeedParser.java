@@ -385,7 +385,7 @@ public class RssFeedParser {
 		return new StartElementListener() {
 			@Override
 			public void start(final Attributes attributes) {
-				RssiTunesImage image = new RssiTunesImage();
+				RssITunesImage image = new RssITunesImage();
 				image.setHref(attributes.getValue(iTunes.HREF));
 				feed.setiTunesImage(image);
 			}

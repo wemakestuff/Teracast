@@ -29,7 +29,7 @@ public class RssDatabase extends DatabaseHelper {
 	private              Dao<RssGuid, Long>                            rssGuidDao         = null;
 	private              Dao<RssImage, Long>                           rssImageDao        = null;
 	private              Dao<RssItem, Long>                            rssItemDao         = null;
-	private              Dao<RssiTunesImage, Long>                     rssITunesImageDao  = null;
+	private              Dao<RssITunesImage, Long>                     rssITunesImageDao  = null;
 	private              Dao<RssMediaContent, Long>                    rssMediaContentDao = null;
 
 	// @formatter:off

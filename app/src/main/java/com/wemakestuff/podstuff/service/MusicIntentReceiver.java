@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 import com.squareup.otto.Bus;
+import com.wemakestuff.podstuff.Injector;
 import com.wemakestuff.podstuff.core.Constants;
 import com.wemakestuff.podstuff.media.event.*;
 
@@ -39,9 +40,13 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 	@Inject
 	protected Bus BUS;
 
-	@Override
+    public MusicIntentReceiver() {
+        super();
+        Injector.inject(this);
+    }
+
+    @Override
 	public void onReceive(Context context, Intent intent) {
-		BUS.register(this);
 		if (intent.getAction().equals(android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
 			producePausePlaybackEvent();
 		} else if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
@@ -54,7 +59,7 @@ public class MusicIntentReceiver extends BroadcastReceiver {
 			} else if (state == 1) {
 				produceHeadsetPluggedInEvent();
 			}
-		} else if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)) {
+		} else if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON) || intent.getAction().equals(Constants.Intent.ACTION_MEDIA_BUTTON)) {
 			KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
 			if (keyEvent.getAction() != KeyEvent.ACTION_DOWN) {
 				return;

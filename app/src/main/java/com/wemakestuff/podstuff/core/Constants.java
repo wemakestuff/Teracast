@@ -97,12 +97,13 @@ public class Constants {
         /**
          * Action prefix for all intents created
          */
-        public static final String INTENT_PREFIX = "com.wemakestuff.podstuff.intent.";
+        public static final String INTENT_PREFIX = "com.wemakestuff.podstuff";
         /**
          * Value used to transfer Rss Items.
          */
-        public static final String RSS_ITEM = INTENT_PREFIX + "RssItem";
-        public static final String EXTRA_PODCAST = INTENT_PREFIX + "Podcast";
+        public static final String RSS_ITEM = INTENT_PREFIX + ".intent.RssItem";
+        public static final String EXTRA_PODCAST = INTENT_PREFIX + ".intent.Podcast";
+        public static final String ACTION_MEDIA_BUTTON = INTENT_PREFIX + ".action.MEDIA_BUTTON";
 
         private Intent() {
         }

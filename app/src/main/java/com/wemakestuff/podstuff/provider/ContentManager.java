@@ -18,7 +18,7 @@ public class ContentManager {
 	public static final Uri GUID_URI          = getUri(RssGuid.ENTITY_PL);
 	public static final Uri IMAGE_URI         = getUri(RssImage.ENTITY_PL);
 	public static final Uri ITEM_URI          = getUri(RssItem.ENTITY_PL);
-	public static final Uri ITUNES_IMAGE_URI  = getUri(RssiTunesImage.ENTITY_PL);
+	public static final Uri ITUNES_IMAGE_URI  = getUri(RssITunesImage.ENTITY_PL);
 	public static final Uri MEDIA_CONTENT_URI = getUri(RssMediaContent.ENTITY_PL);
 
 	private static Map<ContentResolver, ContentManager> instances  = new HashMap<ContentResolver, ContentManager>();

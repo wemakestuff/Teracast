@@ -9,10 +9,10 @@ import com.wemakestuff.podstuff.database.annotations.SortOrder;
 import com.wemakestuff.podstuff.database.annotations.UriPaths;
 
 @DatabaseTable(tableName = "itunes_image")
-@UriPaths({ RssiTunesImage.ENTITY_PL, RssiTunesImage.ENTITY_PL + "/#" })
-@ContentType(BaseData.MIME_TYPE_PFX + RssiTunesImage.ENTITY)
-@SortOrder(RssiTunesImage.HREF + " DESC")
-public class RssiTunesImage extends BaseData implements Parcelable {
+@UriPaths({ RssITunesImage.ENTITY_PL, RssITunesImage.ENTITY_PL + "/#" })
+@ContentType(BaseData.MIME_TYPE_PFX + RssITunesImage.ENTITY)
+@SortOrder(RssITunesImage.HREF + " DESC")
+public class RssITunesImage extends BaseData implements Parcelable {
     public static final String ENTITY    = "feed";
     public static final String ENTITY_PL = ENTITY + "s";
 
@@ -21,10 +21,10 @@ public class RssiTunesImage extends BaseData implements Parcelable {
 	@DatabaseField(columnName = HREF)
 	private String href;
 
-	public RssiTunesImage() {
+	public RssITunesImage() {
 	}
 
-	private RssiTunesImage(Parcel in) {
+	private RssITunesImage(Parcel in) {
 		id = in.readLong();
 		href = in.readString();
 	}
@@ -54,7 +54,7 @@ public class RssiTunesImage extends BaseData implements Parcelable {
 			return false;
 		}
 
-		final RssiTunesImage that = (RssiTunesImage) o;
+		final RssITunesImage that = (RssITunesImage) o;
 
 		if (href != null ? !href.equals(that.href) : that.href != null) {
 			return false;
@@ -79,13 +79,13 @@ public class RssiTunesImage extends BaseData implements Parcelable {
 		out.writeString(href);
 	}
 
-    public static final Parcelable.Creator<RssiTunesImage> CREATOR = new Parcelable.Creator<RssiTunesImage>() {
-        public RssiTunesImage createFromParcel(Parcel in) {
-            return new RssiTunesImage(in);
+    public static final Parcelable.Creator<RssITunesImage> CREATOR = new Parcelable.Creator<RssITunesImage>() {
+        public RssITunesImage createFromParcel(Parcel in) {
+            return new RssITunesImage(in);
         }
 
-        public RssiTunesImage[] newArray(int size) {
-            return new RssiTunesImage[size];
+        public RssITunesImage[] newArray(int size) {
+            return new RssITunesImage[size];
         }
     };
 

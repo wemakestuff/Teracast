@@ -16,6 +16,7 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.view.KeyEvent;
 import android.widget.RemoteViews;
 
 import com.squareup.otto.Bus;
@@ -615,11 +616,47 @@ public class MediaService extends Service implements MediaPlayer.OnCompletionLis
         bigNotificationView.setTextViewText(R.id.tv_episode_title, playingEpisode.getTitle());
         bigNotificationView.setImageViewResource(R.id.ib_play_pause, smallIcon);
 
+        Intent playPauseIntent1 = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
+        playPauseIntent1.setAction(Intent.ACTION_MEDIA_BUTTON);
+        KeyEvent playPauseEvent1 = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+        playPauseIntent1.putExtra(Intent.EXTRA_KEY_EVENT, playPauseEvent1);
+        PendingIntent playPausePendingIntent1 = PendingIntent.getBroadcast(this, 0, playPauseIntent1, 0);
+        bigNotificationView.setOnClickPendingIntent(R.id.ib_play_pause, playPausePendingIntent1);
+
+        Intent fastForwardIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
+        fastForwardIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
+        KeyEvent fastForwardEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD);
+        fastForwardIntent.putExtra(Intent.EXTRA_KEY_EVENT, fastForwardEvent);
+        PendingIntent fastForwardPendingIntent = PendingIntent.getBroadcast(this, 0, fastForwardIntent, 0);
+        bigNotificationView.setOnClickPendingIntent(R.id.ib_fast_forward, fastForwardPendingIntent);
+
+        Intent rewindIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
+        rewindIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
+        KeyEvent rewindEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_REWIND);
+        rewindIntent.putExtra(Intent.EXTRA_KEY_EVENT, rewindEvent);
+        PendingIntent rewindPendingIntent = PendingIntent.getBroadcast(this, 0, rewindIntent, 0);
+        bigNotificationView.setOnClickPendingIntent(R.id.ib_rewind, rewindPendingIntent);
+
+        Intent previousIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
+        previousIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
+        KeyEvent previousEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+        previousIntent.putExtra(Intent.EXTRA_KEY_EVENT, previousEvent);
+        PendingIntent previousPendingIntent = PendingIntent.getBroadcast(this, 0, previousIntent, 0);
+        bigNotificationView.setOnClickPendingIntent(R.id.ib_previous, previousPendingIntent);
+
+        Intent nextIntent = new Intent(Constants.Intent.ACTION_MEDIA_BUTTON);
+        nextIntent.setAction(Intent.ACTION_MEDIA_BUTTON);
+        KeyEvent nextEvent = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
+        nextIntent.putExtra(Intent.EXTRA_KEY_EVENT, nextEvent);
+        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 0, nextIntent, 0);
+        bigNotificationView.setOnClickPendingIntent(R.id.ib_next, nextPendingIntent);
+
         return new NotificationCompat.Builder(this)
                 .setContentTitle("Startups For The Rest Of Us")
                 .setSmallIcon(smallIcon)
                 .setContentText(playingEpisode.getTitle())
                 .setContentInfo(contentInfo)
+                .setContent(bigNotificationView)
                 .setAutoCancel(false)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)

@@ -64,6 +64,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.intent.action.HEADSET_PLUG" />
+                <action android:name="com.wemakestuff.podstuff.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 

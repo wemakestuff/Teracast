@@ -17,7 +17,7 @@ public class FeedProvider extends AbstractFeedProvider {
 	private static final int    DATABASE_VERSION = 10;
 
 	@SuppressWarnings("rawtypes")
-	public static final Class[] CLASSES = {RssEnclosure.class, RssFeed.class, RssGuid.class, RssImage.class, RssItem.class, RssiTunesImage.class, RssMediaContent.class};
+	public static final Class[] CLASSES = {RssEnclosure.class, RssFeed.class, RssGuid.class, RssImage.class, RssItem.class, RssITunesImage.class, RssMediaContent.class};
 
 	private DatabaseHelper helper = null;
 

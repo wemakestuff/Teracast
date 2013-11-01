@@ -11,7 +11,7 @@ public enum Table {
     GUID(RssGuid.class),
     IMAGE(RssImage.class),
     ITEM(RssItem.class),
-	ITUNES_IMAGE(RssiTunesImage.class),
+	ITUNES_IMAGE(RssITunesImage.class),
 	MEDIA_CONTENT(RssMediaContent.class);
 
 	private final Class<? extends BaseData> clazz;
