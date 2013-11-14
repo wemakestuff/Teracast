@@ -1,13 +1,13 @@
-# PodStuff App
+# Teracast App
 
-This repository contains the source code for the [PodStuff](https://github.com/wemakestuff/PodStuff)
+This repository contains the source code for the [Teracast](https://github.com/wemakestuff/Teracast)
 
-Please see the [issues](https://github.com/wemakestuff/PodStuff/issues) section
+Please see the [issues](https://github.com/wemakestuff/Teracast/issues) section
 to report any bugs or feature requests and to see the list of known issues.
 
 ## About
 
-The PodStuff application is a Podcasting application for Android that doesn't suck.
+The Teracast application is a Podcasting application for Android that doesn't suck.
 
 ## License
 
@@ -47,20 +47,20 @@ After satisfying those requirements, the build is pretty simple:
 You might find that your device doesn't let you install your build if you
 already have the version from the Android Market installed.  This is standard
 Android security as it it won't let you directly replace an app that's been
-signed with a different key.  Manually uninstall PodStuff from your device and
+signed with a different key.  Manually uninstall Teracast from your device and
 you will then be able to install your own built version.
 
 ## Acknowledgements
 
-PodStuff is the result of spending countless hours frustrated with sub-par Podcasting applications
+Teracast is the result of spending countless hours frustrated with sub-par Podcasting applications
 on Android.
 
-PodStuff is a result of a template project I've developed over the years as well as
+Teracast is a result of a template project I've developed over the years as well as
 a combination of a lot of great work that the [GitHub Gaug.es](http://www.github.com/github/gauges-android)
 app and [GitHub Android](http://www.github.com/github/android) app showcased. Some fo the
 code in this project is based on the GitHub Gaug.es and GitHub Android app.
 
-PodStuff is built on the awesome [Parse.com API](http://www.parse.com/)
+Teracast is built on the awesome [Parse.com API](http://www.parse.com/)
 and uses many great open-source libraries from the Android dev community:
 
 * [android-bootstrap](https://github.com/donnfelker/android-bootstrap) for providing
@@ -88,7 +88,7 @@ and uses many great open-source libraries from the Android dev community:
 ## Contributing
 
 Please fork this repository and contribute back using
-[pull requests](https://github.com/wemakestuff/PodStuff/pulls).
+[pull requests](https://github.com/wemakestuff/Teracast/pulls).
 
 Any contributions, large or small, major features, bug fixes, additional
 language translations, unit/integration tests are welcomed and appreciated
