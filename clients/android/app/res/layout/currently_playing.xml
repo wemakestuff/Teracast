@@ -5,7 +5,7 @@
     android:background="@drawable/actionbar_background"
     android:minHeight="?android:attr/listPreferredItemHeight">
 
-    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
+    <com.wemakestuff.teracast.ui.widget.view.FocusableImageButton
         android:id="@+id/ib_icon"
         android:layout_width="@dimen/currently_playing_icon_width"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_margin="@dimen/image_button_margin"
         android:adjustViewBounds="true" />
 
-    <com.wemakestuff.podstuff.ui.widget.view.FocusableImageButton
+    <com.wemakestuff.teracast.ui.widget.view.FocusableImageButton
         android:id="@+id/ib_play"
         style="@style/MediaButton"
         android:layout_width="wrap_content"

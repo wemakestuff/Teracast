@@ -6,15 +6,15 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>com-wemakestuff-podstuff</artifactId>
+    <artifactId>com-wemakestuff-teracast</artifactId>
     <packaging>apk</packaging>
-    <name>PodStuff app</name>
-    <url>https://github.com.wemakestuff.podstuff</url>
+    <name>teracast app</name>
+    <url>https://github.com.wemakestuff.teracast</url>
 
     <parent>
         <version>1.0</version>
-        <groupId>com.wemakestuff.podstuff</groupId>
-        <artifactId>com-wemakestuff-podstuff-parent</artifactId>
+        <groupId>com.wemakestuff.teracast</groupId>
+        <artifactId>com-wemakestuff-teracast-parent</artifactId>
     </parent>
 
     <properties>

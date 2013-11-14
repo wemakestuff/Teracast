@@ -8,6 +8,6 @@
 		<uses-library android:name="android.test.runner"/>
 	</application>
 
-	<instrumentation android:label="PodStuff - Integration Tests" android:name="android.test.InstrumentationTestRunner" android:targetPackage="com.wemakestuff.podstuff"/>
+	<instrumentation android:label="PodStuff - Integration Tests" android:name="android.test.InstrumentationTestRunner" android:targetPackage="com.wemakestuff.teracast"/>
 
 </manifest>

@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <version>1.0</version>
-    <groupId>com.wemakestuff.podstuff</groupId>
-    <artifactId>com-wemakestuff-podstuff-parent</artifactId>
-    <name>PodStuff parent</name>
+    <groupId>com.wemakestuff.teracast</groupId>
+    <artifactId>com-wemakestuff-teracast-parent</artifactId>
+    <name>teracast parent</name>
     <packaging>pom</packaging>
 
     <issueManagement>
-        <url>https://github.com.wemakestuff.podstuff/issues</url>
+        <url>https://github.com.wemakestuff.teracast/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
@@ -24,9 +24,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com.wemakestuff.podstuff</url>
-        <connection>scm:git:git://github.com.wemakestuff.podstuff.git</connection>
-        <developerConnection>scm:git:git@github.com.wemakestuff.podstuff.git</developerConnection>
+        <url>https://github.com.wemakestuff.teracast</url>
+        <connection>scm:git:git://github.com.wemakestuff.teracast.git</connection>
+        <developerConnection>scm:git:git@github.com.wemakestuff.teracast.git</developerConnection>
     </scm>
 
     <developers>
