@@ -46,3 +46,6 @@ local.properties
 .project
 project.properties
 .settings
+
+# MySQL Workbench
+*.mwb.bak
