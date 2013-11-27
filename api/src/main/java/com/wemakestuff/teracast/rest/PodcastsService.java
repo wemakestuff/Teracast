@@ -48,7 +48,7 @@ public class PodcastsService
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @JsonView(Podcast.Views.DefaultView.class)
+    @JsonView(Views.PodcastView.class)
     public List<Podcast> listAllPodcasts()
     {
         return podcastRepository.findAllOrderedByName();
@@ -57,7 +57,7 @@ public class PodcastsService
     @GET
     @Path("/{podcastId:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    @JsonView(Podcast.Views.DetailedView.class)
+    @JsonView(Views.PodcastDetailView.class)
     public Podcast getPodcast(@PathParam("podcastId") long podcastId)
     {
         Podcast podcast = podcastRepository.findById(podcastId);
@@ -65,6 +65,7 @@ public class PodcastsService
         {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
+        log.fine("Num Episodes " + podcast.getEpisodeList().size());
         return podcast;
     }
 
