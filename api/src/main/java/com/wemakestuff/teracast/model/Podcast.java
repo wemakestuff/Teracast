@@ -69,15 +69,95 @@ public class Podcast implements Serializable
     @NotNull
     @JsonView(Views.DefaultView.class)
     @OneToOne(mappedBy = "podcast")
-    @JoinColumn(name="podcast_id")
-    private PodcastIcon podcastIcon;
-    
+    @JoinColumn(name = "podcast_id")
+    private PodcastIcon  podcastIcon;
+
     @JsonView(Views.DetailedView.class)
     @OneToMany(mappedBy = "podcast")
     private Set<Episode> episodeList;
-    
+
     @JsonView(Views.DetailedView.class)
     @ManyToMany(mappedBy = "podcastList", targetEntity = User.class)
-    private Set<User> userList;
+    private Set<User>    userList;
+
+    public Long getPodcastId()
+    {
+        return podcastId;
+    }
+
+    public void setPodcastId(Long podcastId)
+    {
+        this.podcastId = podcastId;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getSlug()
+    {
+        return slug;
+    }
+
+    public void setSlug(String slug)
+    {
+        this.slug = slug;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public String getWebAddress()
+    {
+        return webAddress;
+    }
+
+    public void setWebAddress(String webAddress)
+    {
+        this.webAddress = webAddress;
+    }
+
+    public PodcastIcon getPodcastIcon()
+    {
+        return podcastIcon;
+    }
+
+    public void setPodcastIcon(PodcastIcon podcastIcon)
+    {
+        this.podcastIcon = podcastIcon;
+    }
+
+    public Set<Episode> getEpisodeList()
+    {
+        return episodeList;
+    }
+
+    public void setEpisodeList(Set<Episode> episodeList)
+    {
+        this.episodeList = episodeList;
+    }
+
+    public Set<User> getUserList()
+    {
+        return userList;
+    }
+
+    public void setUserList(Set<User> userList)
+    {
+        this.userList = userList;
+    }
 
 }
