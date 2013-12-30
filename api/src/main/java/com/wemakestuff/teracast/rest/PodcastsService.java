@@ -1,5 +1,7 @@
 package com.wemakestuff.teracast.rest;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.sun.syndication.feed.synd.SyndEnclosure;
+import com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
 import com.wemakestuff.teracast.data.PodcastRepository;
 import com.wemakestuff.teracast.model.Episode;
 import com.wemakestuff.teracast.model.Podcast;
@@ -101,6 +109,51 @@ public class PodcastsService
         }
 
         return builder.build();
+    }
+    
+    @GET
+    @Path("/add/{podcastUrl}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addPodcast(@PathParam("podcastUrl") String podcastUrl) throws IllegalArgumentException, FeedException, IOException {
+    	System.out.println("Got podcast URL: " + podcastUrl);
+    	
+    	URL url = new URL(podcastUrl);
+    	SyndFeedInput input = new SyndFeedInput();
+    	SyndFeed feed = input.build(new XmlReader(url));
+
+    	StringBuilder episodeUrls = new StringBuilder();
+    	for (Object entry : feed.getEntries()) {
+    	    if (!(entry instanceof SyndEntryImpl)) {
+    	        // Throw an error?
+    	    }
+    	    SyndEntryImpl episode = (SyndEntryImpl) entry;
+    	    /*
+    	    System.out.println("Episode: { "
+    	                + ", 'title' : " + episode.getTitle()
+    	                + ", 'description' : " + episode.getDescription()
+    	                + " }");
+    	    */
+    	    for (Object possibleEnclosure : episode.getEnclosures()) {
+    	        if (!(possibleEnclosure instanceof SyndEnclosure)) {
+    	            // Throw an error?
+    	        }
+
+    	        SyndEnclosure enclosure = (SyndEnclosure) possibleEnclosure;
+    	        /*
+    	        System.out.println("\tEnclosure: { " 
+    	                + ", 'type' : " + enclosure.getType() 
+    	                + ", 'length' : " + enclosure.getLength()
+    	                + ", 'url' : " + enclosure.getUrl()
+    	                + " }");
+    	        */
+    	        
+    	        episodeUrls.append("Episode - PubDate: " + episode.getPublishedDate() + ", URL: " + enclosure.getUrl() + "\n");
+    	        
+    	        
+    	    }
+    	}
+    	
+    	return Response.ok().entity(episodeUrls.toString()).build();
     }
 
     @POST
